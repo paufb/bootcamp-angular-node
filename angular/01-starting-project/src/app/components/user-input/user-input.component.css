@@ -1,0 +1,95 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: rgb(39, 112, 95);
+  border-radius: .5rem;
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  border-radius: .5rem;
+  background-color: #f2f2f2;
+  border: .125rem solid #91d4c4;
+  padding: .5rem;
+
+  &.ng-invalid.ng-touched  {
+    border-color: #ff9999;
+  }
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2rem;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    --height: 2lh;
+    height: var(--height);
+    padding: .25rem .75rem;
+    border-radius: calc(var(--height) / 2);
+    cursor: pointer;
+    border: .0625rem solid lightgray;
+    transition: scale .05s;
+
+    &[disabled] {
+      cursor: not-allowed;
+      filter: grayscale(.7) brightness(.75);
+    }
+
+    svg {
+      height: 1lh;
+      width: auto;
+    }
+
+    &.reset-btn,
+    &.random-btn {
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+    }
+
+    &:active {
+      scale: .95;
+    }
+  }
+}
+
+.btn-grad {
+  display: block;
+  background-image: linear-gradient(to right, #348F50 0%, #56B4D3  51%, #348F50  100%);
+  transition: .5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #91d4c4;
+
+  &:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+  }
+}

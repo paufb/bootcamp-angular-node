@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Investment Value</th>
+      <th>Interest (Year)</th>
+      <th>Total Interest</th>
+      <th>Inverted Capital</th>
+    </tr>
+  </thead>
+  <tbody @fadeIn>
+    @for (annualDataEntry of annualData(); track annualDataEntry.year) {
+      <tr>
+        <td>{{ annualDataEntry.year }}</td>
+        <td>{{ annualDataEntry.valueEndOfYear | currency }}</td>
+        <td>{{ annualDataEntry.interest | currency }}</td>
+        <td>{{ annualDataEntry.totalInterest | currency }}</td>
+        <td>{{ annualDataEntry.annualInvestment | currency }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

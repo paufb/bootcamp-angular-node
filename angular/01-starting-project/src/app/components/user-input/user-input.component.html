@@ -1,0 +1,68 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <div>
+      <label for="initial-investment">Initial investment</label>
+      <input
+        type="number"
+        min="0"
+        id="initial-investment"
+        name="initial-investment"
+        formControlName="initialInvestment"
+      />
+    </div>
+    <div>
+      <label for="annual-investment">Annual investment</label>
+      <input
+        type="number"
+        min="0"
+        id="annual-investment"
+        name="annual-investment"
+        formControlName="annualInvestment"
+      />
+    </div>
+    <div>
+      <label for="expected-return">Expected return</label>
+      <input
+        type="number"
+        id="expected-return"
+        name="expected-return"
+        formControlName="expectedReturn"
+      />
+    </div>
+    <div>
+      <label for="duration">Duration</label>
+      <input
+        type="number"
+        min="0"
+        id="duration"
+        name="duration"
+        formControlName="duration"
+      />
+    </div>
+  </fieldset>
+  <div class="actions">
+    <button
+      (click)="onReset()"
+      class="reset-btn"
+      type="button"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg>
+      Reset
+    </button>
+    <button
+      (click)="onRandom()"
+      class="random-btn"
+      type="button"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M560-160v-80h104L537-367l57-57 126 126v-102h80v240H560Zm-344 0-56-56 504-504H560v-80h240v240h-80v-104L216-160Zm151-377L160-744l56-56 207 207-56 56Z"/></svg>
+      Random
+    </button>
+    <button
+      [disabled]="!formGroup.valid"
+      class="calculate-btn btn-grad"
+      type="submit"
+    >
+      Calculate
+    </button>
+  </div>
+</form>

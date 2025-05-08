@@ -1,0 +1,10 @@
+<app-header />
+<app-user-input
+  (reset)="onReset()"
+  (random)="onRandom()"
+  (calculate)="onCalculate($event)"
+  [investmentQuery]="investmentQuery"
+/>
+@if (annualData) {
+  <app-investment-results [annualData]="annualData" />
+}
