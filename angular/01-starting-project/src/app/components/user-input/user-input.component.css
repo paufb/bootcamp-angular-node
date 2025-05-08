@@ -4,6 +4,7 @@
   padding: 2rem;
   background-color: rgb(39, 112, 95);
   border-radius: .5rem;
+  overflow: hidden;
 }
 
 label {
@@ -34,7 +35,26 @@ fieldset {
     display: flex;
     flex-direction: column;
     gap: .25rem;
+    min-width: 0;
   }
+}
+
+@media (max-width: 25rem) {
+  :host {
+    padding: 1rem;
+  }
+
+  fieldset {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 form {
@@ -45,6 +65,8 @@ form {
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
   justify-content: space-between;
 
   button {
