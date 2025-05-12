@@ -1,0 +1,19 @@
+<ul>
+  <li>
+    <label for="hero-id">Id.</label>
+    <input
+      type="number"
+      id="hero-id"
+      disabled
+      [value]="hero.id"
+    />
+  </li>
+  <li>
+    <label for="hero-name">Name</label>
+    <input
+      type="text"
+      id="hero-name"
+      [(ngModel)]="hero.name"
+    />
+  </li>
+</ul>

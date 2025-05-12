@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+ul {
+  display: table;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  --gap: 1rem;
+  display: table-row;
+
+  & label,
+  & input {
+    display: table-cell;
+    color: #435960;
+  }
+
+  & input {
+    border: .0625rem solid #bebebe;
+    border-radius: .25rem;
+    padding: .25rem;
+  }
+
+  &:first-of-type label,
+  &:first-of-type input {
+    margin-bottom: calc(var(--gap) / 2);
+  }
+
+  &:not(:first-of-type, :last-of-type) label,
+  &:not(:first-of-type, :last-of-type) input {
+    margin-top: calc(var(--gap) / 2);
+    margin-bottom: calc(var(--gap) / 2);
+  }
+
+  &:last-of-type label,
+  &:last-of-type input {
+    margin-top: calc(var(--gap) / 2);
+  }
+
+  & label {
+    padding-right: .5rem;
+  }
+}

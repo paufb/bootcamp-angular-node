@@ -8,6 +8,6 @@
     </li>
   }
 </ul>
-@if (selectedHero()) {
-  Selected hero: {{selectedHero()?.name}}
+@if (selectedHero) {
+  <app-hero-detail [hero]="selectedHero" />
 }

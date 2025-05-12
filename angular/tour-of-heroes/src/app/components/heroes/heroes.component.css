@@ -1,29 +1,55 @@
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: .5rem;
 }
 
 button {
+  --badge-background: #404f61;
+  --name-background: #eeeeee;
+  --transition-duration: .1s;
   background: none;
+  padding: 0;
   border: none;
   cursor: pointer;
+  transition: transform var(--transition-duration),
+              scale var(--transition-duration);
+
+  span {
+    display: inline-block;
+    transition: background-color var(--transition-duration);
+  }
+
+  & .badge {
+    color: white;
+    background-color: var(--badge-background);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+
+  & .name {
+    background-color: var(--name-background);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  }
+
+  &:hover {
+    transform: translateX(5%);
+  }
+
+  &:active {
+    scale: .95;
+
+    & .name {
+      color: white;
+      background-color: var(--badge-background);  
+    }
+  }
 }
 
 .name,
 .badge {
   --border-radius: .25rem;
   padding: .5rem;
-}
-
-.badge {
-  color: white;
-  background-color: #404f61;
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-
-.name {
-  background-color: #eeeeee;
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
