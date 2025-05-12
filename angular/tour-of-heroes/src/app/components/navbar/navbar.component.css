@@ -1,0 +1,20 @@
+nav {
+  display: flex;
+  gap: .5rem;
+}
+
+a {
+  --transition-duration: .1s;
+  color: black;
+  text-decoration: none;
+  padding: .5rem 1rem;
+  background-color: #eee;
+  border-radius: .25rem;
+  transition: all var(--transition-duration);
+
+  &:active {
+    color: white;
+    background-color: #404f61;
+    scale: .95;
+  }
+}

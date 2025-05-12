@@ -1,13 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
 h2 {
   color: #A80000;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
+  margin: 0;
 }
 
 .clear-btn {
   color: #333;
   background-color: #eee;
-  margin-bottom: 12px;
   padding: .5rem;
   border-radius: .25rem;
   cursor: pointer;
@@ -15,4 +22,10 @@ h2 {
   &:hover {
     background-color: #cccccc;
   }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
