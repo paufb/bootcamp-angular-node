@@ -5,8 +5,8 @@ import { HeroDetailComponent } from './components/hero-detail/hero-detail.compon
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'heroes', component: HeroesComponent },
+  { path: 'dashboard', component: DashboardComponent, data: { animation: 'fromLeft' } },
+  { path: 'heroes', component: HeroesComponent, data: { animation: 'fromRight' } },
   { path: 'heroes/:id', component: HeroDetailComponent },
   { path: '**', redirectTo: '/dashboard', pathMatch: 'full' }
 ];

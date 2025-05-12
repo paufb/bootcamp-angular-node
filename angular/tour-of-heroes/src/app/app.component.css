@@ -7,8 +7,17 @@ main {
   background-color: white;
   padding: 1rem;
   border-radius: .5rem;
+  overflow: hidden;
 }
 
 h1 {
   margin: 0;
+}
+
+div {
+  display: grid;
+   & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+   }
 }

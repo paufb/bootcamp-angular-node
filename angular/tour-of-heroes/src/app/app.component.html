@@ -1,8 +1,8 @@
 <main>
   <h1>{{title}}</h1>
   <app-navbar />
-  <div>
-    <router-outlet />
+  <div [@routeAnimations]="getRouteAnimation(outlet)">
+    <router-outlet #outlet="outlet" />
   </div>
   <app-messages />
 </main>
