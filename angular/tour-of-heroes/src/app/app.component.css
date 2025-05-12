@@ -1,4 +1,7 @@
 main {
   max-width: 70rem;
   margin: 0 auto;
+  background-color: white;
+  padding: 1rem;
+  border-radius: .5rem;
 }
