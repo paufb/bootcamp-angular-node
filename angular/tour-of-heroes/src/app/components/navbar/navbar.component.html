@@ -1,4 +1,12 @@
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>  
+  @for (anchor of anchors; track $index) {
+    <a
+      routerLink="{{anchor.href}}"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page"
+    >
+      {{anchor.name}}
+    </a>
+  }
 </nav>

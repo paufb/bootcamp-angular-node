@@ -7,16 +7,15 @@ ul {
   gap: .5rem;
 }
 
-button {
+a {
   --badge-background: #404f61;
   --name-background: #eeeeee;
   --transition-duration: .1s;
   background: none;
+  color: inherit;
   padding: 0;
   border: none;
-  cursor: pointer;
-  transition: transform var(--transition-duration),
-              scale var(--transition-duration);
+  transition: all var(--transition-duration);
 
   span {
     display: inline-block;

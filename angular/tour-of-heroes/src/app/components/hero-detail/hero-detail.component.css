@@ -1,6 +1,8 @@
 :host {
-  display: block;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 ul {
@@ -43,5 +45,32 @@ li {
 
   & label {
     padding-right: .5rem;
+  }
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  cursor: pointer;
+  border: none;
+  padding: .5rem;
+  background-color: #eee;
+  border-radius: .25rem;
+  transition: all .1s;
+
+  svg {
+    width: auto;
+    height: 1lh;
+  }
+
+  &:active {
+    color: white;
+    background-color: #404f61;
+    scale: .95;
+
+    svg {
+      fill: white;
+    }
   }
 }
