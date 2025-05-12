@@ -1,5 +1,5 @@
 <ul>
-  @for (hero of HEROES; track hero.id) {
+  @for (hero of heroes; track hero.id) {
     <li>
       <button type="button" (click)="onSelectHero(hero)">
         <span class="badge">{{hero.id}}</span>
