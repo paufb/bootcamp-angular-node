@@ -7,6 +7,14 @@
   max-width: var(--app-max-width);
 }
 
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .5rem;
+  padding: .5rem;
+}
+
 .create-post {
   position: absolute;
   inset: auto 1rem 1rem auto;

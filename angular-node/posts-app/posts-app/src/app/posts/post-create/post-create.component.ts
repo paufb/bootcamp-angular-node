@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { PostService } from '../shared/post.service';
 import { Post } from '../shared/post.interface';
+import { CreatePostDTO } from '../shared/create-post-dto.interface';
 
 @Component({
   selector: 'app-post-create',
@@ -23,8 +24,8 @@ export class PostCreateComponent {
 
   protected onSubmit(): void {
     if (!this.formGroup.valid) return;
-    const post: Post = this.formGroup.value as Post;
-    this.postService.createPost(post)
+    const dto: CreatePostDTO = this.formGroup.value as CreatePostDTO;
+    this.postService.createPost(dto)
       .subscribe(_ => this.location.back());
   }
 }

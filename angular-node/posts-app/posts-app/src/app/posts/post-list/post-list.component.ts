@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { PostService } from '../shared/post.service';
@@ -9,7 +11,7 @@ import { Post } from '../shared/post.interface';
 
 @Component({
   selector: 'app-post-list',
-  imports: [MatButtonModule, MatCardModule, MatIconModule, RouterModule],
+  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, RouterModule],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css'
 })
