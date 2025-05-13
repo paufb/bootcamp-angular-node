@@ -1,0 +1,16 @@
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content auto;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+mat-toolbar {
+  z-index: 2;
+  box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
+}
+
+mat-sidenav-content {
+  background-color: white;
+}
