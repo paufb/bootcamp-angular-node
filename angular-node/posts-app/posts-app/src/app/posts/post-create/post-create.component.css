@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  margin: 0 auto;
+  padding: var(--app-padding);
+  max-width: var(--app-max-width);
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr;
+  gap: 1rem;
+
+  .actions {
+    text-align: end;
+  }
+}

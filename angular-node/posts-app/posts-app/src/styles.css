@@ -1,3 +1,8 @@
+:root {
+  --app-max-width: 60rem;
+  --app-padding: 1rem;
+}
+
 html,
 body {
   height: 100%;
