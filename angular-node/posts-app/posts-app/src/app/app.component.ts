@@ -14,5 +14,5 @@ import { SidenavComponent } from './shared/sidenav/sidenav.component';
 })
 export class AppComponent {
   protected isSidenavCollapsed = signal(true);
-  protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '4rem' : '15rem');
+  protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '3.5rem' : '15rem');
 }

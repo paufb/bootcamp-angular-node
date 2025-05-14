@@ -1,6 +1,8 @@
 :root {
   --app-max-width: 60rem;
   --app-padding: 1rem;
+  --app-box-shadow: rgba(149, 157, 165, .2) 0 8px 24px;
+  --app-sidenav-transition: .4s cubic-bezier(.25, .8, .25, 1);
 }
 
 html,

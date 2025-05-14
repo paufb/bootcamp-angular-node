@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  padding: var(--app-padding);
+}
+
+mat-card {
+  margin: 0 auto;
+  max-width: var(--app-max-width);
+  display: grid;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: max-content;
+  margin: 0 auto;
+
+  app-profile-picture {
+    align-self: center;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    .profile-name {
+      font-size: 1.25rem;
+    }
+
+    .user-name {
+      color: #717c85;
+    }
+  }
+}

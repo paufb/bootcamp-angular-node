@@ -1,1 +1,30 @@
-<p>sidenav works!</p>
+<mat-nav-list>
+  <a
+    class="profile-anchor"
+    [class.expanded]="!isCollapsed()"
+    mat-list-item
+    [activated]="router.url === `/user/${this.currentUser().userName}`"
+    [routerLink]="`/user/${this.currentUser().userName}`"
+  >
+    <div class="profile" [class.collapsed]="isCollapsed()">
+      <app-profile-picture width="100%" height="auto" />
+      <div
+        class="profile-info"
+        [class.expanded]="!isCollapsed()"
+      >
+        <span class="profile-name">{{currentUser().profileName}}</span>
+        <span class="user-name">{{`@${currentUser().userName}`}}</span>
+      </div>
+    </div>
+  </a>
+  @for (item of navListItems; track item.href) {
+    <a
+      mat-list-item
+      [activated]="item.href === router.url"
+      [routerLink]="item.href"
+    >
+      <mat-icon matListItemIcon>{{item.matIcon}}</mat-icon>
+      <span matListItemTitle>{{item.title}}</span>
+    </a>
+  }
+</mat-nav-list>

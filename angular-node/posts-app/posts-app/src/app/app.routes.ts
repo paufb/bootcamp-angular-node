@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { PostCreateComponent } from './posts/post-create/post-create.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
 
 export const routes: Routes = [
-  { path: '', component: PostListComponent },
-  { path: 'posts/new', component: PostCreateComponent }
+  { path: '', loadComponent: () => import('./posts/post-list/post-list.component').then(m => m.PostListComponent) },
+  { path: 'user/:userName', loadComponent: () => import('./users/user-profile/user-profile.component').then(m => m.UserProfileComponent) },
+  { path: 'posts/new', loadComponent: () => import('./posts/post-create/post-create.component').then(m => m.PostCreateComponent) }
 ];
