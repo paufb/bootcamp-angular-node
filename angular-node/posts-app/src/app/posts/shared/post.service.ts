@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CreatePostDTO } from './create-post-dto.interface';
 import { Post } from './post.interface';
 
@@ -7,27 +8,14 @@ import { Post } from './post.interface';
   providedIn: 'root'
 })
 export class PostService {
-  private readonly posts: Post[] = Array(5).fill(null).map((_, index) => ({
-    id: index,
-    createdAt: new Date(index),
-    title: `Post title ${index}`,
-    body: `Post body ${index}`
-  }));
+  private readonly url = 'http://localhost:3000/api/posts';
+  private readonly httpClient = inject(HttpClient);
 
   getPosts(): Observable<Post[]> {
-    const postsSortedByCreationDateDesc = this.posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    return of(postsSortedByCreationDateDesc);
+    return this.httpClient.get<Post[]>(this.url);
   }
 
   createPost(dto: CreatePostDTO): Observable<Post> {
-    const date = new Date();
-    const post: Post = {
-      id: date.valueOf(),
-      createdAt: date,
-      title: dto.title,
-      body: dto.body
-    };
-    this.posts.push(post);
-    return of(post);
+    return this.httpClient.post<Post>(this.url, dto);
   }
 }

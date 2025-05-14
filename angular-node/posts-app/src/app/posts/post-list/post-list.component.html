@@ -1,22 +1,26 @@
-@for (post of posts(); track post.id) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        {{post.title}}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{post.body}}
-      </p>
-    </mat-card-content>
-    <div class="card-footer">
-      <mat-chip disableRipple highlighted>{{post.createdAt | date}}</mat-chip>
-      <button mat-icon-button>
-        <mat-icon>thumb_up</mat-icon>
-      </button>
-    </div>
-  </mat-card>
+@if (posts$ | async; as posts) {
+  @for (post of posts; track post.id) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{post.title}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{post.body}}
+        </p>
+      </mat-card-content>
+      <div class="card-footer">
+        <mat-chip disableRipple highlighted>{{post.createdAt | date}}</mat-chip>
+        <button mat-icon-button>
+          <mat-icon>thumb_up</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  }
+} @else {
+  <mat-spinner diameter="50" />
 }
 <a
   class="create-post"

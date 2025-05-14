@@ -7,6 +7,11 @@
   max-width: var(--app-max-width);
 }
 
+mat-spinner {
+  margin-top: 3rem;
+  justify-self: center;
+}
+
 .card-footer {
   display: flex;
   align-items: center;
