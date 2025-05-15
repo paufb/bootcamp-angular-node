@@ -1,35 +1,27 @@
 import express, { Request, Response } from 'express';
-import { Post } from './models/post.interface';
-import { User } from './models/user.interface';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import path from 'path';
+import postRoutes from './routes/postRoutes';
+import userRoutes from './routes/userRoutes'
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.EXPRESS_PORT ?? 3000;
+const MONGODB_DB_URI = process.env.MONGODB_DB_URI ?? '';
 
-const posts: Post[] = Array.from({ length: 5 }).map((_, index) => ({
-  id: index,
-  createdAt: new Date(index),
-  title: `Post title ${index}`,
-  body: `Post body ${index}`
-}));
+mongoose.connect(MONGODB_DB_URI);
 
-const users: User[] = Array.from({ length: 5 }).map((_, index) => ({
-  id: index,
-  profileName: `ProfileName${index}`,
-  userName: `username${index}`
-}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/api/posts', (req: Request, res: Response) => {
-  let result = posts;
-  if (req.query.user) result = result.map((post, index) => ({ ...post, user: users[index] }));
-  res.json(result);
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
+
+app.use(express.static(path.join(__dirname, '..', 'browser')));
+app.use('*path', (_req: Request, res: Response) => {
+  res.sendFile(path.resolve('browser/index.html'));
 });
 
-app.use(express.static(`${__dirname}/../browser/`, {}));
-
-app.use('*name', (_req: Request, res: Response) => {
-  res.sendFile(`${__dirname}/../browser/index.html`);
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
