@@ -18,19 +18,17 @@ const users: User[] = Array.from({ length: 5 }).map((_, index) => ({
   userName: `username${index}`
 }));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Header', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  next();
-});
-
 app.get('/api/posts', (req: Request, res: Response) => {
   let result = posts;
   if (req.query.user) result = result.map((post, index) => ({ ...post, user: users[index] }));
   res.json(result);
 });
 
+app.use(express.static(`${__dirname}/../browser/`, {}));
+
+app.use('*name', (_req: Request, res: Response) => {
+  res.sendFile(`${__dirname}/../browser/index.html`);
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
