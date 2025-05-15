@@ -6,14 +6,15 @@ import { User } from './user.interface';
   providedIn: 'root'
 })
 export class UserService {
-  private user = signal<User>({
+  private readonly _user = signal<User>({
     id: 1,
     profileName: 'My Profile Name',
     userName: 'myusername'
   });
+  readonly user = this._user.asReadonly();
 
   getCurrentUser(): Signal<User> {
-    return this.user.asReadonly();
+    return this.user;
   }
 
   getUserByUserName(userName: string): Observable<User> {

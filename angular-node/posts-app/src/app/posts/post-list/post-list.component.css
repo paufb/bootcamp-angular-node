@@ -1,10 +1,28 @@
 :host {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin: 0 auto;
   padding: var(--app-padding);
   max-width: var(--app-max-width);
+}
+
+app-profile-picture {
+  margin-right: .5rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .profile-name {
+    font-size: 1.25rem;
+  }
+
+  .user-name {
+    color: #717c85;
+  }
 }
 
 mat-spinner {

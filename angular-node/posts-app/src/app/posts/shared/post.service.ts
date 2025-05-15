@@ -11,8 +11,11 @@ export class PostService {
   private readonly url = 'http://localhost:3000/api/posts';
   private readonly httpClient = inject(HttpClient);
 
-  getPosts(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>(this.url);
+  getPosts(options?: { includeUser?: boolean; }): Observable<Post[]> {
+    const { includeUser = false } = options ?? {};
+    const url = new URL(this.url);
+    if (includeUser) url.searchParams.append('user', 'true');
+    return this.httpClient.get<Post[]>(url.toString());
   }
 
   createPost(dto: CreatePostDTO): Observable<Post> {
