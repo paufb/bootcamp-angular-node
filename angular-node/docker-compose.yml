@@ -1,0 +1,18 @@
+services:
+  mongodb:
+    image: mongo:8.0.9
+#    volumes:
+#      - /path/to/my/volume/:/data/db/
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+  express:
+    build: ./
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017/myapp
+    depends_on:
+      - mongodb
