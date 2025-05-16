@@ -15,5 +15,7 @@ services:
     environment:
       EXPRESS_PORT: 3000
       MONGODB_DB_URI: mongodb://root:root@mongodb:27017/myapp?authSource=admin
+      JWT_COOKIE_NAME: access_token
+      JWT_SECRET: my-jwt-secret
     depends_on:
       - mongodb
