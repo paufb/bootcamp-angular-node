@@ -8,7 +8,9 @@
     "serve": "node dist/app.ts"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.18",
     "express": "^5.1.0",
     "ts-node": "^10.9.2",
@@ -16,6 +18,8 @@
   },
   "dependencies": {
     "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.3"
   }
 }

@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
-import { hash } from '../utils/cryptoUtils';
+import { hash, verify } from '../utils/cryptoUtils';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true, select: false }
-}, { timestamps: true });
+}, {
+  timestamps: true,
+  methods: {
+    verifyPassword(password: string): Promise<boolean> {
+      return verify(password, this.password);
+    }
+  }
+});
 
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
