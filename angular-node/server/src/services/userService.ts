@@ -3,6 +3,7 @@ import { User } from '../models/user'
 interface CreateUserDTO {
   name: string;
   username: string;
+  password: string;
 }
 
 const createUser = async (userData: CreateUserDTO) => {

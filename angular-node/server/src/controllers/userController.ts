@@ -16,10 +16,10 @@ const getUserByUsername = async (req: Request, res: Response) => {
 }
 
 const createUser = async (req: Request, res: Response) => {
-  const { name, username } = req.body;
+  const { name, username, password } = req.body;
   try {
-    const newUser = await userService.createUser({ name, username });
-    res.status(200).json(newUser);
+    const newUser = await userService.createUser({ name, username, password });
+    res.status(200).json({ username: newUser.username });
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
   }
