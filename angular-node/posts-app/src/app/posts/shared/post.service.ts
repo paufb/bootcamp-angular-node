@@ -8,14 +8,14 @@ import { Post } from './post.interface';
   providedIn: 'root'
 })
 export class PostService {
-  private readonly url = 'http://localhost:3000/api/posts';
+  private readonly url = '/api/posts';
   private readonly httpClient = inject(HttpClient);
 
   getPosts(options?: { includeUser?: boolean; }): Observable<Post[]> {
     const { includeUser = false } = options ?? {};
-    const url = new URL(this.url);
-    if (includeUser) url.searchParams.append('user', 'true');
-    return this.httpClient.get<Post[]>(url.toString());
+    let url = this.url;
+    if (includeUser) url = `${url}?user=true`;
+    return this.httpClient.get<Post[]>(url);
   }
 
   createPost(dto: CreatePostDTO): Observable<Post> {

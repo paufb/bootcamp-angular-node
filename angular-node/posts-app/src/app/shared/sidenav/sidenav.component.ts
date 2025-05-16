@@ -20,6 +20,6 @@ export class SidenavComponent {
   protected readonly router = inject(Router);
   protected readonly currentUser = this.userService.getCurrentUser();
   protected navListItems = [
-    { href: '/', title: 'Home', matIcon: 'home' }
+    { href: '/posts', title: 'Home', matIcon: 'home' }
   ];
 }

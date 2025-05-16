@@ -1,0 +1,13 @@
+<mat-toolbar class="mat-elevation-z3">
+  <button mat-icon-button (click)="isSidenavCollapsed.set(!isSidenavCollapsed())">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+    <app-sidenav [isCollapsed]="isSidenavCollapsed()" />
+  </mat-sidenav>
+  <mat-sidenav-content [style.margin-left]="sidenavWidth()">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

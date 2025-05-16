@@ -1,18 +1,10 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { SidenavComponent } from './shared/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule, RouterOutlet, SidenavComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  protected isSidenavCollapsed = signal(true);
-  protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '3.5rem' : '15rem');
-}
+export class AppComponent {}

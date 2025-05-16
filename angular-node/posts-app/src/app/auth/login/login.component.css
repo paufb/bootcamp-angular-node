@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100dvw;
+  height: 100dvh;
+}
+
+form {
+  flex-grow: 1;
+  max-width: 25rem;
+}
+
+mat-card-header {
+  margin-bottom: 1rem;
+
+  mat-card-subtitle {
+    font-weight: normal;
+  }
+}
+
+mat-card-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fcc;
+  margin: 0 1rem 1.25rem;
+  padding: 0 1rem;
+  border-radius: .25rem;
+}
+
+mat-card-actions {
+  padding: 0 1rem 1rem 1rem;
+  gap: 1rem;
+}
+
+button[type="submit"] {
+  width: 100%;
+}

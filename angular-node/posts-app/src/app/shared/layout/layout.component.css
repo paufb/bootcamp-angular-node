@@ -1,0 +1,19 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content auto;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+mat-toolbar {
+  z-index: 2;
+  padding-left: 8px;
+  box-shadow: var(--app-box-shadow);
+}
+
+mat-sidenav {
+  box-shadow: var(--app-box-shadow);
+  border-radius: 0;
+  transition: width var(--app-sidenav-transition) !important;
+}
