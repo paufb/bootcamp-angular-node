@@ -10,7 +10,7 @@ const getPosts = async (req: Request, res: Response) => {
 const createPost = async (req: Request, res: Response) => {
   const { title, body } = req.body;
   try {
-    const newPost = await postService.createPost({ title, body });
+    const newPost = await postService.createPost({ title, body, user: req.userId });
     res.status(200).json(newPost);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
