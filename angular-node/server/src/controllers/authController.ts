@@ -20,6 +20,12 @@ const authenticateUser = async (req: Request, res: Response) => {
   }
 }
 
+const logUserOut = async (req: Request, res: Response) => {
+  res.clearCookie(JWT_COOKIE_NAME);
+  res.sendStatus(204);
+}
+
 export default {
-  authenticateUser
+  authenticateUser,
+  logUserOut
 };
