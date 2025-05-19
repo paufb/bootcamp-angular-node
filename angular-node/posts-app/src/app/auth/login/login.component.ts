@@ -35,8 +35,8 @@ export class LoginComponent {
     const password = this.formGroup.get('password')!.value!;
     this.authService.logIn(username, password)
       .subscribe({
-        next: response => this.router.navigate(['']),
-        error: err => this.message.set('Invalid credentials')
+        error: err => this.message.set('Invalid credentials'),
+        complete: () => this.router.navigate([''])
       });
   }
 }

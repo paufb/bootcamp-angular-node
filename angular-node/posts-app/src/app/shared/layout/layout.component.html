@@ -2,6 +2,9 @@
   <button mat-icon-button (click)="isSidenavCollapsed.set(!isSidenavCollapsed())">
     <mat-icon>menu</mat-icon>
   </button>
+  <button mat-icon-button (click)="onLogOut()">
+    <mat-icon>logout</mat-icon>
+  </button>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
