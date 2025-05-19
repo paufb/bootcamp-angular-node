@@ -1,9 +1,10 @@
-import { User } from '../../users/shared/user.interface';
+import { IUser } from '../../users/shared/user.interface';
 
-export interface Post {
-  id: number;
-  createdAt: Date;
+export interface IPost {
+  _id: string;
   title: string;
   body: string;
-  user?: User;
+  createdAt: Date;
+  updatedAt: Date;
+  user?: IUser;
 }

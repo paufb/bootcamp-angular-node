@@ -1,23 +1,16 @@
-import { Injectable, Signal, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { User } from './user.interface';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IUser } from './user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly _user = signal<User>({
-    id: 1,
-    profileName: 'My Profile Name',
-    userName: 'myusername'
-  });
-  readonly user = this._user.asReadonly();
+  private readonly URL = '/api/users';
+  private readonly httpClient = inject(HttpClient);
 
-  getCurrentUser(): Signal<User> {
-    return this.user;
-  }
-
-  getUserByUserName(userName: string): Observable<User> {
-    return of(this.user());
+  getUser(username: string): Observable<IUser> {
+    return this.httpClient.get<IUser>(`${this.URL}/${username}`);
   }
 }

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, OnInit, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnInit {
+export class AuthService {
   private readonly URL = '/api/auth';
   private readonly LOCAL_STORAGE_ITEM_KEY = 'user_details';
   private readonly httpClient = inject(HttpClient);
@@ -13,7 +13,7 @@ export class AuthService implements OnInit {
   readonly username = this._username.asReadonly();
   readonly isLoggedIn = computed(() => !!this.getLocalStorageItem() || !!this._username());
 
-  ngOnInit(): void {
+  constructor() {
     const localStorageItem = this.getLocalStorageItem();
     if (localStorageItem)
       this._username.set(localStorageItem.username);

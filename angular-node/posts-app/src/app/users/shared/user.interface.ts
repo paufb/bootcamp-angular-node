@@ -1,5 +1,5 @@
-export interface User {
-  id: number;
-  profileName: string;
-  userName: string;
+export interface IUser {
+  _id: string;
+  name: string;
+  username: string;
 }

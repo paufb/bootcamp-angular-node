@@ -14,21 +14,19 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./shared/layout/layout.component').then(m => m.LayoutComponent),
+    canActivateChild: [canActivateUserGuard],
     children: [
       {
         path: 'posts',
         loadComponent: () => import('./posts/post-list/post-list.component').then(m => m.PostListComponent),
-        canActivate: [canActivateUserGuard]
       },
       {
-        path: 'user/:userName',
+        path: 'user/:username',
         loadComponent: () => import('./users/user-profile/user-profile.component').then(m => m.UserProfileComponent),
-        canActivate: [canActivateUserGuard]
       },
       {
         path: 'posts/new',
         loadComponent: () => import('./posts/post-create/post-create.component').then(m => m.PostCreateComponent),
-        canActivate: [canActivateUserGuard]
       }
     ]
   }  

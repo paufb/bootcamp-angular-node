@@ -14,6 +14,17 @@ mat-toolbar {
   box-shadow: var(--app-box-shadow);
 }
 
+.session-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: initial;
+
+  .username {
+    color: #717c85;
+  }
+}
+
 mat-sidenav {
   box-shadow: var(--app-box-shadow);
   border-radius: 0;

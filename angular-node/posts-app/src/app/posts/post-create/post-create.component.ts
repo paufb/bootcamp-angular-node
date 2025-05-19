@@ -5,7 +5,6 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { PostService } from '../shared/post.service';
-import { Post } from '../shared/post.interface';
 import { CreatePostDTO } from '../shared/create-post-dto.interface';
 
 @Component({

@@ -2,9 +2,12 @@
   <button mat-icon-button (click)="isSidenavCollapsed.set(!isSidenavCollapsed())">
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-icon-button (click)="onLogOut()">
-    <mat-icon>logout</mat-icon>
-  </button>
+  <div class="session-actions">
+    <span>Signed in as <span class="username">{{`@${username()}`}}</span></span>
+    <button mat-icon-button (click)="onLogOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">

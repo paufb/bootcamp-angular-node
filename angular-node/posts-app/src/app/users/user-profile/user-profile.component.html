@@ -1,17 +1,21 @@
 <mat-card>
   <mat-card-content>
-    <div class="profile-header">
-      <app-profile-picture width="7.5rem" height="7.5rem" />
-      <div>
-        <span class="profile-name">{{user.profileName}}</span>
-        <span class="user-name">{{`@${user.userName}`}}</span>
+    @if (user$ | async; as user) {
+      <div class="profile-header">
+        <app-profile-picture width="7.5rem" height="7.5rem" />
+        <div>
+          <span class="profile-name">{{user.name}}</span>
+          <span class="user-name">{{`@${user.username}`}}</span>
+        </div>
       </div>
-    </div>
-    <div>
-      <button mat-fab extended>
-        <mat-icon>lock</mat-icon>
-        Change Password
-      </button>
-    </div>
+      <div>
+        <button mat-fab extended>
+          <mat-icon>lock</mat-icon>
+          Change Password
+        </button>
+      </div>
+    } @else {
+      <mat-spinner diameter="50" />
+    }
   </mat-card-content>
 </mat-card>

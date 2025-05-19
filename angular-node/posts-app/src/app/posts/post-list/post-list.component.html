@@ -1,11 +1,11 @@
 @if (posts$ | async; as posts) {
-  @for (post of posts; track post.id) {
+  @for (post of posts; track post._id) {
     <mat-card>
       <mat-card-header>
         <app-profile-picture />
         <div class="user-info">
-          <span class="profile-name">{{post.user?.profileName}}</span>
-          <span class="user-name">{{`@${post.user?.userName}`}}</span>
+          <span class="profile-name">{{post.user?.name}}</span>
+          <span class="user-name">{{`@${post.user?.username}`}}</span>
         </div>
       </mat-card-header>
       <mat-card-content>

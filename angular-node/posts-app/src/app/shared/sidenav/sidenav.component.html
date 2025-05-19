@@ -3,19 +3,24 @@
     class="profile-anchor"
     [class.expanded]="!isCollapsed()"
     mat-list-item
-    [activated]="router.url === `/user/${this.currentUser().userName}`"
-    [routerLink]="`/user/${this.currentUser().userName}`"
+    [activated]="router.url === `/user/${username()}`"
+    [routerLink]="`/user/${username()}`"
+    [style.pointerEvents]="!username()"
   >
-    <div class="profile" [class.collapsed]="isCollapsed()">
-      <app-profile-picture width="100%" height="auto" />
-      <div
-        class="profile-info"
-        [class.expanded]="!isCollapsed()"
-      >
-        <span class="profile-name">{{currentUser().profileName}}</span>
-        <span class="user-name">{{`@${currentUser().userName}`}}</span>
+    @if (currentUser$ | async; as currentUser) {
+      <div class="profile" [class.collapsed]="isCollapsed()">
+        <app-profile-picture width="100%" height="auto" />
+        <div
+          class="profile-info"
+          [class.expanded]="!isCollapsed()"
+        >
+          <span class="profile-name">{{currentUser.name}}</span>
+          <span class="user-name">{{`@${currentUser.username}`}}</span>
+        </div>
       </div>
-    </div>
+    } @else {
+      <mat-spinner diameter="25"></mat-spinner>
+    }
   </a>
   @for (item of navListItems; track item.href) {
     <a
