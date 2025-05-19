@@ -7,38 +7,16 @@
   max-width: var(--app-max-width);
 }
 
-app-profile-picture {
-  margin-right: .5rem;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  .profile-name {
-    font-size: 1.25rem;
-  }
-
-  .user-name {
-    color: #717c85;
-  }
-}
-
 mat-spinner {
   margin-top: 3rem;
   justify-self: center;
 }
 
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: .5rem;
-  padding: .5rem;
-}
-
 .create-post {
   position: absolute;
   inset: auto 1rem 1rem auto;
+
+  mat-icon {
+    margin: 0;
+  }
 }

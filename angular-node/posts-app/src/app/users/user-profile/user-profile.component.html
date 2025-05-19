@@ -5,7 +5,7 @@
         <app-profile-picture width="7.5rem" height="7.5rem" />
         <div>
           <span class="profile-name">{{user.name}}</span>
-          <span class="user-name">{{`@${user.username}`}}</span>
+          <span class="username">{{`@${user.username}`}}</span>
         </div>
       </div>
       <div>
@@ -19,3 +19,16 @@
     }
   </mat-card-content>
 </mat-card>
+@if (userPosts$ | async; as userPosts) {
+  @if (userPosts.length === 0) {
+    <div class="no-posts">
+      <span class="username">{{`@${(user$ | async)?.username}`}}</span> hasn't posted anything yet...
+    </div>
+  } @else {
+    @for (post of userPosts; track post._id) {
+      <app-post-card [post]="post" />
+    }
+  }
+} @else {
+  <mat-spinner diameter="50" />
+}

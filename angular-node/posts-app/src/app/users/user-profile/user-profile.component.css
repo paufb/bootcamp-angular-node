@@ -1,12 +1,9 @@
 :host {
-  display: block;
-  padding: var(--app-padding);
-}
-
-mat-card {
-  margin: 0 auto;
-  max-width: var(--app-max-width);
   display: grid;
+  gap: 1rem;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: var(--app-padding);
 }
 
 mat-card-content {
@@ -41,9 +38,13 @@ mat-card-content {
     .profile-name {
       font-size: 1.25rem;
     }
-
-    .user-name {
-      color: #717c85;
-    }
   }
+}
+
+.username {
+  color: #717c85;
+}
+
+.no-posts {
+  font-size: large;
 }

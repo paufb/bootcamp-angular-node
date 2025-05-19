@@ -1,25 +1,6 @@
 @if (posts$ | async; as posts) {
   @for (post of posts; track post._id) {
-    <mat-card>
-      <mat-card-header>
-        <app-profile-picture />
-        <div class="user-info">
-          <span class="profile-name">{{post.user?.name}}</span>
-          <span class="user-name">{{`@${post.user?.username}`}}</span>
-        </div>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{post.body}}
-        </p>
-      </mat-card-content>
-      <div class="card-footer">
-        <mat-chip disableRipple highlighted>{{post.createdAt | date}}</mat-chip>
-        <button mat-icon-button>
-          <mat-icon>thumb_up</mat-icon>
-        </button>
-      </div>
-    </mat-card>
+    <app-post-card [post]="post" />
   }
 } @else {
   <mat-spinner diameter="50" />
@@ -27,7 +8,7 @@
 <a
   class="create-post"
   routerLink="/posts/new"
-  mat-flat-button
+  mat-fab extended
 >
-  +
+  <mat-icon>add</mat-icon>
 </a>

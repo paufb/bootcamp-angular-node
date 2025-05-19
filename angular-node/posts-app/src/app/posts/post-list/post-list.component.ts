@@ -1,19 +1,17 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Observable } from 'rxjs';
+import { PostCardComponent } from '../shared/post-card/post-card.component';
 import { PostService } from '../shared/post.service';
 import { IPost } from '../shared/post.interface';
-import { ProfilePictureComponent } from '../../shared/profile-picture/profile-picture.component';
 
 @Component({
   selector: 'app-post-list',
-  imports: [AsyncPipe, DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatProgressSpinner, ProfilePictureComponent, RouterModule],
+  imports: [AsyncPipe, MatButtonModule, MatIconModule, MatProgressSpinner, PostCardComponent, RouterModule],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css'
 })

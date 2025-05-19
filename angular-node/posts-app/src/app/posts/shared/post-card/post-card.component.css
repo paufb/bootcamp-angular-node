@@ -1,0 +1,25 @@
+app-profile-picture {
+  margin-right: .5rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .profile-name {
+    font-size: 1.25rem;
+  }
+
+  .user-name {
+    color: #717c85;
+  }
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .5rem;
+  padding: .5rem;
+}
