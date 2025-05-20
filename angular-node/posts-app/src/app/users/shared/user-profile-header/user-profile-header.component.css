@@ -1,0 +1,77 @@
+:host {
+  --padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.background {
+  position: relative;
+  background-color: lightblue;
+  height: max(7.5rem, 25dvh);
+  border-radius: 12px;
+}
+
+.root-profile-picture {
+  position: absolute;
+  inset: auto auto 0 var(--padding);
+  transform: translateY(50%);
+}
+
+.actions {
+  padding-right: var(--padding);
+  align-self: end;
+}
+
+.content {
+  padding: 0 var(--padding);
+}
+
+.user-info {
+  display: grid;
+
+  & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    .profile-name {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.username {
+  color: #717c85;
+}
+
+.placeholder {
+  --color: #ccc;
+  background: linear-gradient(90deg, var(--color) 25%, white 50%, var(--color) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 2s infinite linear;
+
+  &.text {
+    display: block;
+    height: 1lh;
+  }
+
+  &.profile-picture {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+
+  }
+  &.profile-name { width: 80px; }
+  &.username { width: 60px; }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
