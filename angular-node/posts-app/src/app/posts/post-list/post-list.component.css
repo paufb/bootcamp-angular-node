@@ -1,10 +1,16 @@
 :host {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
   margin: 0 auto;
   padding: var(--app-padding);
   max-width: var(--app-max-width);
+}
+
+.posts,
+.skeleton {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  display: grid;
+  gap: 1rem;
 }
 
 mat-spinner {

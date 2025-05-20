@@ -8,12 +8,14 @@ import { PostCardSkeletonComponent } from '../shared/post-card-skeleton/post-car
 import { PostCardComponent } from '../shared/post-card/post-card.component';
 import { PostService } from '../shared/post.service';
 import { IPost } from '../shared/post.interface';
+import { fadeIn, fadeOut } from '../../shared/animations';
 
 @Component({
   selector: 'app-post-list',
   imports: [AsyncPipe, MatButtonModule, MatIconModule, PostCardComponent, PostCardSkeletonComponent, RouterModule],
   templateUrl: './post-list.component.html',
-  styleUrl: './post-list.component.css'
+  styleUrl: './post-list.component.css',
+  animations: [fadeIn, fadeOut]
 })
 export class PostListComponent implements OnInit {
   private postService = inject(PostService);
