@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IUser } from '../shared/user.interface';
 import { UserService } from '../shared/user.service';
+import { PostCardSkeletonComponent } from "../../posts/shared/post-card-skeleton/post-card-skeleton.component";
 import { PostCardComponent } from '../../posts/shared/post-card/post-card.component';
 import { IPost } from '../../posts/shared/post.interface';
 import { PostService } from '../../posts/shared/post.service';
@@ -15,7 +16,7 @@ import { ProfilePictureComponent } from '../../shared/profile-picture/profile-pi
 
 @Component({
   selector: 'app-user-profile',
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatIconModule, MatProgressSpinnerModule, PostCardComponent, ProfilePictureComponent],
+  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatIconModule, MatProgressSpinnerModule, PostCardComponent, PostCardSkeletonComponent, ProfilePictureComponent],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })

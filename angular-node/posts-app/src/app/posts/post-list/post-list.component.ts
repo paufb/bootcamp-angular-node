@@ -3,15 +3,15 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Observable } from 'rxjs';
+import { PostCardSkeletonComponent } from '../shared/post-card-skeleton/post-card-skeleton.component';
 import { PostCardComponent } from '../shared/post-card/post-card.component';
 import { PostService } from '../shared/post.service';
 import { IPost } from '../shared/post.interface';
 
 @Component({
   selector: 'app-post-list',
-  imports: [AsyncPipe, MatButtonModule, MatIconModule, MatProgressSpinner, PostCardComponent, RouterModule],
+  imports: [AsyncPipe, MatButtonModule, MatIconModule, PostCardComponent, PostCardSkeletonComponent, RouterModule],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css'
 })

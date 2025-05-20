@@ -3,7 +3,9 @@
     <app-post-card [post]="post" />
   }
 } @else {
-  <mat-spinner diameter="50" />
+  <app-post-card-skeleton />
+  <app-post-card-skeleton />
+  <app-post-card-skeleton />
 }
 <a
   class="create-post"

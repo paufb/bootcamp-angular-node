@@ -1,0 +1,52 @@
+mat-card {
+  gap: 1rem;
+}
+
+mat-card-header {
+
+  .profile-picture {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: .5rem;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+}
+
+mat-card-content {
+  display: grid;
+  gap: .25rem;
+}
+
+mat-card-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 1rem 1rem 1rem;
+
+  & * {
+    flex-grow: 1;
+  }
+}
+
+.text {
+  --max-line-width: 700px;
+  display: block;
+  height: 1lh;
+  background-color: #ccc;
+
+  &.name { max-width: 70px; }
+  &.username { max-width: 60px; }
+  &.line-1 { max-width: var(--max-line-width); }
+  &.line-2 { max-width: calc(var(--max-line-width) * (2 / 3)); }
+  &.line-3 { max-width: calc(var(--max-line-width) * (1 / 3)); }
+  &.date { max-width: 60px; }
+  &.actions { max-width: 96px; }
+}
