@@ -37,8 +37,4 @@ export class AuthService {
     localStorage.removeItem(this.LOCAL_STORAGE_ITEM_KEY);
     return this.httpClient.post<null>(`${this.URL}/logout`, null);
   }
-
-  signUp() {
-
-  }
 }

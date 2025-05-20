@@ -13,29 +13,15 @@ form {
 
 mat-card-header {
   margin-bottom: 1rem;
-
-  mat-card-subtitle {
-    font-weight: normal;
-  }
 }
 
-.sign-up {
+.log-in {
   text-decoration: none;
   color: #1a73e8;
 }
 
 mat-card-content {
   display: grid;
-}
-
-.message {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fcc;
-  margin: 0 1rem 1.25rem;
-  padding: 0 1rem;
-  border-radius: .25rem;
 }
 
 mat-card-actions {
