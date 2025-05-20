@@ -20,6 +20,7 @@ import { Component, input } from '@angular/core';
       height: 100%;
       border-radius: 50%;
       aspect-ratio: 1 / 1;
+      background-color: #faf9fd;
     }
   `,
   host: {
