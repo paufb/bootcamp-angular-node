@@ -13,6 +13,10 @@ form {
 
 mat-card-header {
   margin-bottom: 1rem;
+
+  mat-card-subtitle {
+    font-weight: normal;
+  }
 }
 
 .log-in {
