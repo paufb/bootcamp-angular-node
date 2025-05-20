@@ -5,6 +5,20 @@
   max-width: var(--app-max-width);
 }
 
+.content {
+  display: grid;
+
+  & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+}
+
+.no-posts {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
 .posts,
 .skeleton {
   grid-column-start: 1;

@@ -1,16 +1,22 @@
-@if (posts$ | async; as posts) {
-  <div class="posts" @fadeIn>
-    @for (post of posts; track post._id) {
-      <app-post-card [post]="post" />
+<div class="content">
+  @if (posts$ | async; as posts) {
+    @if (posts.length === 0) {
+      <div class="no-posts">No posts to display...</div>
+    } @else {
+      <div class="posts" @fadeIn>
+        @for (post of posts; track post._id) {
+          <app-post-card [post]="post" />
+        }
+      </div>
     }
-  </div>
-} @else {
-  <div class="skeleton" @fadeOut>
-    <app-post-card-skeleton />
-    <app-post-card-skeleton />
-    <app-post-card-skeleton />
-  </div>
-}
+  } @else {
+    <div class="skeleton" @fadeOut>
+      <app-post-card-skeleton />
+      <app-post-card-skeleton />
+      <app-post-card-skeleton />
+    </div>
+  }
+</div>
 <a
   class="create-post"
   routerLink="/posts/new"
