@@ -1,0 +1,8 @@
+main {
+  display: grid;
+
+  & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+}

@@ -9,11 +9,13 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
+    data: { animationState: 'LoginPage' }
   },
   {
     path: 'signup',
-    loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent)
+    loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent),
+    data: { animationState: 'SignupPage' }
   },
   {
     path: '',
