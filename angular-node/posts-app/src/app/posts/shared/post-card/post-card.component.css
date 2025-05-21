@@ -2,6 +2,22 @@ app-profile-picture {
   margin-right: .5rem;
 }
 
+mat-card-header {
+  padding: .5rem .5rem 0;
+}
+
+.user-anchor {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  padding: .5rem;
+
+  &:hover {
+    background-color: #e8e7eb;
+  }
+}
+
 .user-info {
   display: flex;
   flex-direction: column;
