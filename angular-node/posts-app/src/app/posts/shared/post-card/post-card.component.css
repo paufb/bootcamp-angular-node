@@ -23,3 +23,20 @@ app-profile-picture {
   margin-top: .5rem;
   padding: .5rem;
 }
+
+
+.like-btn {
+  --icon-color: #44474e;
+  height: 2rem;
+  background-color: #e1e6ee;
+  box-shadow: none;
+  color: #44474e;
+
+  &.liked {
+    --icon-color: #ed4856;
+  }
+
+  .mat-icon {
+    color: var(--icon-color);
+  }
+}

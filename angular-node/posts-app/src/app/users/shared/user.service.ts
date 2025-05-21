@@ -11,7 +11,7 @@ export class UserService {
   private readonly URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  getUser(username: string): Observable<IUser> {
+  getUser(username: IUser['username']): Observable<IUser> {
     return this.httpClient.get<IUser>(`${this.URL}/${username}`);
   }
 
