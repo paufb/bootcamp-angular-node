@@ -11,11 +11,28 @@ const createPost = async (postData: ICreatePostDTO) => {
   return await Post.create(postData);
 }
 
-const getAllPosts = async () => {
-  return await Post.find().populate('user');
+const getAllPosts = async (options?: { select?: ('+likes')[], populate?: ('likes' | 'user')[] }) => {
+  const { select, populate } = options ?? {};
+  let query = Post.find();
+  if (select) query = query.select(select);
+  if (populate) query = query.populate(populate);
+  return await query.exec();
+}
+
+const likePost = async (like: boolean, postId: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId) => {
+  const post = await Post.findById(postId).select('+likes');
+  if (!post) throw new Error('Post not found');
+  if (like) {
+    post.likes.push(userId);
+  } else {
+    const index = post.likes.indexOf(userId);
+    post.likes.splice(index, 1);
+  }
+  post.save();
 }
 
 export default {
   createPost,
-  getAllPosts
+  getAllPosts,
+  likePost
 };
