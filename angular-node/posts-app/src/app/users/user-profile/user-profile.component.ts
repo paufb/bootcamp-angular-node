@@ -22,16 +22,16 @@ export class UserProfileComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly userService = inject(UserService);
   private readonly postService = inject(PostService);
+  protected readonly username = this.activatedRoute.snapshot.params['username'];
   protected readonly user = signal<IUser | null>(null);
   protected userPosts$!: Observable<IPost[]>;
 
   ngOnInit(): void {
-    const { username } = this.activatedRoute.snapshot.params;
-    this.userService.getUser(username)
+    this.userService.getUser(this.username)
       .subscribe({
         next: user => this.user.set(user),
         error: error => window.alert(`Could not fetch user: ${error.message}`)
       });
-    this.userPosts$ = this.postService.getPosts({ username });
+    this.userPosts$ = this.postService.getPosts({ username: this.username });
   }
 }
