@@ -1,8 +1,10 @@
 :root {
-  --app-max-width: 60rem;
+  --app-max-width: 90rem;
   --app-padding: 1rem;
-  --app-box-shadow: rgba(149, 157, 165, .2) 0 8px 24px;
+  --app-box-shadow: rgba(99, 99, 99, .2) 0 2px 8px 0;
   --app-sidenav-transition: .4s cubic-bezier(.25, .8, .25, 1);
+  --app-background-color: #fcfcf9;
+  --app-toolbar-color: #f3f3ee;
 }
 
 html,

@@ -17,8 +17,8 @@ export class LayoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   protected username = this.authService.username;
-  protected isSidenavCollapsed = signal(true);
-  protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '3.5rem' : '15rem');
+  protected isSidenavCollapsed = signal(false);
+  /* protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '3.5rem' : '15rem'); */
 
   protected onLogOut() {
     this.authService.logOut()

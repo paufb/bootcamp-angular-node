@@ -2,16 +2,42 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: min-content auto;
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
 }
 
 mat-toolbar {
-  display: flex;
-  justify-content: space-between;
-  z-index: 2;
-  padding-left: 8px;
+  position: sticky;
+  top: 0;
+  height: 3.5rem;
   box-shadow: var(--app-box-shadow);
+  background-color: var(--app-toolbar-color);
+  z-index: 1;
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--app-max-width);
+  height: 100%;
+  margin: 0 auto;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper-content {
+  display: flex;
+  max-width: var(--app-max-width);
+  flex-grow: 1;
+}
+
+.route {
+  flex-grow: 1;
+  padding: var(--app-padding);
 }
 
 .session-actions {
@@ -26,7 +52,18 @@ mat-toolbar {
 }
 
 mat-sidenav {
+  --width: 15rem;
   box-shadow: var(--app-box-shadow);
-  border-radius: 0;
+  clip-path: inset(0 -8px 0 0);
+  width: var(--width);
   transition: width var(--app-sidenav-transition) !important;
+
+  &.collapsed {
+    --width: 3.5rem;
+  }
+
+  > ::ng-deep :first-child {
+    position: sticky;
+    top: 64px;
+  }
 }
