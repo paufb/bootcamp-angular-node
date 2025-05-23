@@ -2,8 +2,10 @@
   @for (item of navListItems; track item.href) {
     <a
       mat-list-item
-      [activated]="item.href === router.url"
+      [activated]="rla.isActive"
       [routerLink]="item.href"
+      routerLinkActive
+      #rla="routerLinkActive"
     >
       <mat-icon matListItemIcon>{{item.matIcon}}</mat-icon>
       <span matListItemTitle>{{item.title}}</span>
@@ -11,8 +13,10 @@
   }
   <a
     mat-list-item
+    [activated]="rla.isActive"
     [routerLink]="`/user/${username()}`"
-    [activated]="router.url === `/user/${username()}`"
+    routerLinkActive
+    #rla="routerLinkActive"
   >
     <mat-icon matListItemIcon>
       @if (currentUser$ | async; as currentUser) {

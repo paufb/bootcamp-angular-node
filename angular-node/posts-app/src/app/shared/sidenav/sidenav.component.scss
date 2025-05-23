@@ -14,11 +14,11 @@ a.mdc-list-item--activated {
 }
 
 .skeleton.profile-picture {
-  --color: #ccc;
+  $color: #ccc;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: linear-gradient(90deg, var(--color) 25%, white 50%, var(--color) 75%);
+  background: linear-gradient(90deg, $color 25%, white 50%, $color 75%);
   background-size: 400% 100%;
   animation: shimmer 2s infinite linear;
 }

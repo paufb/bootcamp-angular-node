@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { fadeIn, fadeOut } from '../animations';
 import { ProfilePictureComponent } from '../profile-picture/profile-picture.component';
@@ -14,13 +14,13 @@ import { IUser } from '../../users/shared/user.interface';
   selector: 'app-sidenav',
   imports: [AsyncPipe, MatIconModule, MatListModule, RouterModule, ProfilePictureComponent],
   templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.css',
+  styleUrl: './sidenav.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeIn, fadeOut]
 })
 export class SidenavComponent {
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
-  protected readonly router = inject(Router);
   protected readonly username = this.authService.username;
   protected navListItems = [{ href: '/posts', title: 'Home', matIcon: 'home' }];
   protected currentUser$!: Observable<IUser>;
