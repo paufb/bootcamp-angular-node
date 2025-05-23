@@ -7,13 +7,26 @@ interface ICreatePostDTO {
   user: mongoose.Types.ObjectId;
 }
 
+interface PostQueryOptions {
+  select?: ('+likes')[];
+  populate?: ('likes' | 'user')[];
+}
+
 const createPost = async (postData: ICreatePostDTO) => {
   return await Post.create(postData);
 }
 
-const getAllPosts = async (options?: { select?: ('+likes')[], populate?: ('likes' | 'user')[] }) => {
+const getAllPosts = async (options?: PostQueryOptions) => {
   const { select, populate } = options ?? {};
   let query = Post.find();
+  if (select) query = query.select(select);
+  if (populate) query = query.populate(populate);
+  return await query.exec();
+}
+
+const getPost = async (postId: mongoose.Types.ObjectId, options?: PostQueryOptions) => {
+  const { select, populate } = options ?? {};
+  let query = Post.findById(postId);
   if (select) query = query.select(select);
   if (populate) query = query.populate(populate);
   return await query.exec();
@@ -34,5 +47,6 @@ const likePost = async (like: boolean, postId: mongoose.Types.ObjectId, userId: 
 export default {
   createPost,
   getAllPosts,
+  getPost,
   likePost
 };

@@ -8,7 +8,7 @@ const getPosts = async (req: Request, res: Response) => {
     const { likes, ...rest } = post.toObject();
     return {
       ...rest,
-      isLikedByUser: likes.some(userObjectId => userObjectId.equals(req.userId))//likes.includes(req.userId)
+      isLikedByUser: likes.some(userObjectId => userObjectId.equals(req.userId))
     };
   });
   res.json(response);
@@ -17,7 +17,8 @@ const getPosts = async (req: Request, res: Response) => {
 const createPost = async (req: Request, res: Response) => {
   const { title, body } = req.body;
   try {
-    const newPost = await postService.createPost({ title, body, user: req.userId });
+    const { _id } = await postService.createPost({ title, body, user: req.userId });
+    const newPost = await postService.getPost(_id, { populate: ['user'] });
     res.status(200).json(newPost);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
