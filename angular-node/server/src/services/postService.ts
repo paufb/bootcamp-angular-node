@@ -10,6 +10,7 @@ interface ICreatePostDTO {
 interface PostQueryOptions {
   select?: ('+likes')[];
   populate?: ('likes' | 'user')[];
+  sort?: ['createdAt', 'asc' | 'desc'][];
 }
 
 const createPost = async (postData: ICreatePostDTO) => {
@@ -17,18 +18,17 @@ const createPost = async (postData: ICreatePostDTO) => {
 }
 
 const getAllPosts = async (options?: PostQueryOptions) => {
-  const { select, populate } = options ?? {};
   let query = Post.find();
-  if (select) query = query.select(select);
-  if (populate) query = query.populate(populate);
+  if (options?.select) query = query.select(options.select);
+  if (options?.populate) query = query.populate(options.populate);
+  if (options?.sort) query = query.sort(options.sort);
   return await query.exec();
 }
 
 const getPost = async (postId: mongoose.Types.ObjectId, options?: PostQueryOptions) => {
-  const { select, populate } = options ?? {};
   let query = Post.findById(postId);
-  if (select) query = query.select(select);
-  if (populate) query = query.populate(populate);
+  if (options?.select) query = query.select(options.select);
+  if (options?.populate) query = query.populate(options.populate);
   return await query.exec();
 }
 

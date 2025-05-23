@@ -3,7 +3,7 @@ import mongoose, { Error } from 'mongoose';
 import postService from '../services/postService';
 
 const getPosts = async (req: Request, res: Response) => {
-  const posts = await postService.getAllPosts({ select: ['+likes'], populate: ['user'] });
+  const posts = await postService.getAllPosts({ select: ['+likes'], populate: ['user'], sort: [[ 'createdAt', 'desc' ]] });
   const response = posts.map(post => {
     const { likes, ...rest } = post.toObject();
     return {
