@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+  <div>
+    <app-profile-picture width="48px" height="48px" />
+    <mat-form-field appearance="outline">
+      <mat-label>What's happening?</mat-label>
+      <textarea matInput formControlName="body" autocomplete="off"></textarea>
+    </mat-form-field>
+  </div>
+  <button mat-flat-button type="submit">
+    @if (isSubmitting()) {
+      <mat-spinner diameter="24" />
+    } @else {
+      Post
+    }
+  </button>
+</form>

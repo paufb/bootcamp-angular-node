@@ -1,16 +1,21 @@
+<app-post-prompt (createPost)="onCreatePost($event)" />
+<hr />
 <div class="content">
   @if (posts$ | async; as posts) {
-    @if (posts.length === 0) {
+    @if (posts.length === 0 && newlyCreatedPosts().length === 0) {
       <div class="no-posts">No posts to display...</div>
     } @else {
-      <div class="posts" @fadeIn>
+      <div class="posts">
+        @for (post of newlyCreatedPosts(); track post._id) {
+          <app-post-card [post]="post" @scaleFadeInFromTop />
+        }
         @for (post of posts; track post._id) {
-          <app-post-card [post]="post" />
+          <app-post-card [post]="post" @fadeIn />
         }
       </div>
     }
   } @else {
-    <div class="skeleton" @fadeOut>
+    <div class="posts" @fadeOut>
       <app-post-card-skeleton />
       <app-post-card-skeleton />
       <app-post-card-skeleton />

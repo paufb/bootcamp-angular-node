@@ -1,0 +1,29 @@
+@use '@angular/material' as mat;
+
+:host {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: var(--mat-sys-on-primary),
+  ));
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+div {
+  display: flex;
+
+  mat-form-field {
+    flex-grow: 1;
+  }
+}
+
+app-profile-picture {
+  margin-right: .5rem;
+}
+
+button[type="submit"] {
+  width: 5rem;
+  align-self: flex-end;
+}

@@ -11,14 +11,17 @@ import { AuthService } from '../../auth/shared/auth.service';
   selector: 'app-layout',
   imports: [MatButtonModule, MatIconModule, MatSidenavModule, MatToolbarModule, RouterOutlet, SidenavComponent],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   protected username = this.authService.username;
   protected isSidenavCollapsed = signal(false);
-  /* protected sidenavWidth = computed(() => this.isSidenavCollapsed() ? '3.5rem' : '15rem'); */
+
+  protected onToggleSidebar() {
+    this.isSidenavCollapsed.update(value => !value);
+  }
 
   protected onLogOut() {
     this.authService.logOut()
