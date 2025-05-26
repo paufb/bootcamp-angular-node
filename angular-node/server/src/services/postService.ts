@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Post } from '../models/post';
+import { User } from '../models/user';
 
 interface ICreatePostDTO {
   title?: string;
@@ -17,7 +18,7 @@ const createPost = async (postData: ICreatePostDTO) => {
   return await Post.create(postData);
 }
 
-const getAllPosts = async (options?: PostQueryOptions) => {
+const findPosts = async (options?: PostQueryOptions) => {
   let query = Post.find();
   if (options?.select) query = query.select(options.select);
   if (options?.populate) query = query.populate(options.populate);
@@ -25,7 +26,17 @@ const getAllPosts = async (options?: PostQueryOptions) => {
   return await query.exec();
 }
 
-const getPost = async (postId: mongoose.Types.ObjectId, options?: PostQueryOptions) => {
+const findPostsByUsername = async (username: string, options?: PostQueryOptions) => {
+  const user = await User.findOne({ username }, '_id');
+  if (!user) throw new Error('User not found');
+  let query = Post.find({ user: user._id });
+  if (options?.select) query = query.select(options.select);
+  if (options?.populate) query = query.populate(options.populate);
+  if (options?.sort) query = query.sort(options.sort);
+  return await query.exec();
+}
+
+const findPost = async (postId: mongoose.Types.ObjectId, options?: PostQueryOptions) => {
   let query = Post.findById(postId);
   if (options?.select) query = query.select(options.select);
   if (options?.populate) query = query.populate(options.populate);
@@ -46,7 +57,8 @@ const likePost = async (like: boolean, postId: mongoose.Types.ObjectId, userId: 
 
 export default {
   createPost,
-  getAllPosts,
-  getPost,
+  findPosts,
+  findPostsByUsername,
+  findPost,
   likePost
 };
