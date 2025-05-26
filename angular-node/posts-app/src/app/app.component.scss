@@ -1,6 +1,5 @@
 main {
   display: grid;
-  background-color: var(--app-background-color);
 
   & > ::ng-deep * {
     grid-column-start: 1;
