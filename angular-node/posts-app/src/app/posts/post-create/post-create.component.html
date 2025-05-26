@@ -1,13 +1,1 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <mat-form-field>
-    <mat-label>Title</mat-label>
-    <input matInput type="text" formControlName="title" />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Body</mat-label>
-    <textarea matInput formControlName="body"></textarea>
-  </mat-form-field>
-  <div class="actions">
-    <button mat-flat-button>Post</button>
-  </div>
-</form>
+<app-post-prompt (createPost)="onCreatePost($event)" />

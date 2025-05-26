@@ -1,30 +1,29 @@
 import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { PostService } from '../shared/post.service';
-import { CreatePostDTO } from '../shared/create-post-dto.interface';
+import { PostPromptComponent } from "../shared/post-prompt/post-prompt.component";
+import { IPost } from '../shared/post.interface';
 
 @Component({
   selector: 'app-post-create',
-  imports: [FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, PostPromptComponent],
   templateUrl: './post-create.component.html',
-  styleUrl: './post-create.component.css'
+  styleUrl: './post-create.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostCreateComponent {
-  protected formGroup = new FormGroup({
-    title: new FormControl('', Validators.required),
-    body: new FormControl('', Validators.required)
-  });
-  private postService = inject(PostService);
-  private location = inject(Location);
+  private readonly postService = inject(PostService);
+  private readonly location = inject(Location);
 
-  protected onSubmit(): void {
-    if (!this.formGroup.valid) return;
-    const dto: CreatePostDTO = this.formGroup.value as CreatePostDTO;
-    this.postService.createPost(dto)
-      .subscribe(_ => this.location.back());
+  protected onCreatePost(newPost: IPost) {
+    this.postService.createPost(newPost)
+      .subscribe({
+        error: error => window.alert(`Could not create post: ${error.message}`),
+        complete: () => this.location.back()
+      });
   }
 }

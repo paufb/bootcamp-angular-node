@@ -31,7 +31,8 @@ export const routes: Routes = [
             path: 'following',
             loadComponent: () => import('./posts/post-following/post-following.component').then(m => m.PostFollowingComponent)
           }
-        ]
+        ],
+        data: { animationState: 'AnyPostsChildrenPage' }
       },
       {
         path: 'user/:username',
@@ -40,6 +41,7 @@ export const routes: Routes = [
       {
         path: 'posts/new',
         loadComponent: () => import('./posts/post-create/post-create.component').then(m => m.PostCreateComponent),
+        data: { animationState: 'PostCreatePage' }
       }
     ]
   }  

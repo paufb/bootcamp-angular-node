@@ -36,8 +36,14 @@ mat-toolbar {
 }
 
 .route {
+  display: grid;
   flex-grow: 1;
   padding: var(--app-padding);
+
+  > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
 }
 
 .session-actions {
