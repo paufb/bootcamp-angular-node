@@ -24,7 +24,13 @@ app-profile-picture {
   margin-right: .5rem;
 }
 
-button[type="submit"] {
-  width: 5rem;
+.actions {
+  display: flex;
+  gap: .5rem;
   align-self: flex-end;
+
+  button[type="submit"] {
+    width: 5rem;
+    align-self: flex-end;
+  }
 }

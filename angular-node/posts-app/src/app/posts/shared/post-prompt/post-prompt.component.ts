@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
+import { Location } from '@angular/common';
+import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,10 +19,13 @@ import { IPost } from '../post.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostPromptComponent {
+  cancellable = input(false, { transform: booleanAttribute });
   createPost = output<IPost>();
   private readonly postService = inject(PostService);
-  private formDirective = viewChild.required(FormGroupDirective);
-  protected isSubmitting = signal(false);
+  private readonly location = inject(Location);
+  private readonly router = inject(Router);
+  private readonly formDirective = viewChild.required(FormGroupDirective);
+  protected readonly isSubmitting = signal(false);
   protected readonly formGroup = new FormGroup({
     body: new FormControl('', Validators.required)
   });
@@ -39,5 +44,13 @@ export class PostPromptComponent {
         },
         error: error => window.alert(`Could not create post: ${error.message}`)
       });
+  }
+
+  protected onCancel() {
+    const { navigationId } = this.location.getState() as any;
+    if (navigationId > 1)
+      this.location.back();
+    else
+      this.router.navigate(['']);
   }
 }

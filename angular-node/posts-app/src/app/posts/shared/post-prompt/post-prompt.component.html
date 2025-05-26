@@ -6,11 +6,16 @@
       <textarea matInput formControlName="body" autocomplete="off"></textarea>
     </mat-form-field>
   </div>
-  <button mat-flat-button type="submit">
-    @if (isSubmitting()) {
-      <mat-spinner diameter="24" />
-    } @else {
-      Post
+  <div class="actions">
+    @if (cancellable()) {
+      <button mat-button (click)="onCancel()">Cancel</button>
     }
-  </button>
+    <button mat-flat-button type="submit">
+      @if (isSubmitting()) {
+        <mat-spinner diameter="24" />
+      } @else {
+        Post
+      }
+    </button>
+  </div>
 </form>
