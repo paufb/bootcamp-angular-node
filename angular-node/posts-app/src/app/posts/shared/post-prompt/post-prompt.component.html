@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup" #formDirective="ngForm" (ngSubmit)="onSubmit()">
   <div>
     <app-profile-picture width="48px" height="48px" />
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
       <mat-label>What's happening?</mat-label>
       <textarea matInput formControlName="body" autocomplete="off"></textarea>
     </mat-form-field>

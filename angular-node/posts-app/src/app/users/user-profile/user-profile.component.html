@@ -1,21 +1,2 @@
 <app-user-profile-header [user]="user()" />
-<div class="content">
-  @if (userPosts$ | async; as userPosts) {
-    @if (userPosts.length === 0) {
-      <div class="no-posts" @fadeIn>
-        <span class="username">{{`@${username}`}}</span> hasn't posted anything yet...
-      </div>
-    } @else {
-      <div class="posts" @fadeIn>
-        @for (post of userPosts; track post._id) {
-          <app-post-card [post]="post" />
-        }
-      </div>
-    }
-  } @else {
-    <div class="skeleton" @fadeOut>
-      <app-post-card-skeleton />
-      <app-post-card-skeleton />
-    </div>
-  }
-</div>
+<app-post-grid [posts]="posts()" />

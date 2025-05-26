@@ -1,26 +1,19 @@
 <app-post-prompt (createPost)="onCreatePost($event)" />
-<hr />
-<div class="content">
-  @if (posts$ | async; as posts) {
-    @if (posts.length === 0 && newlyCreatedPosts().length === 0) {
-      <div class="no-posts">No posts to display...</div>
-    } @else {
-      <div class="posts">
-        @for (post of newlyCreatedPosts(); track post._id) {
-          <app-post-card [post]="post" @scaleFadeInFromTop />
-        }
-        @for (post of posts; track post._id) {
-          <app-post-card [post]="post" @fadeIn />
-        }
-      </div>
-    }
-  } @else {
-    <div class="posts" @fadeOut>
-      <app-post-card-skeleton />
-      <app-post-card-skeleton />
-      <app-post-card-skeleton />
-    </div>
+<nav mat-tab-nav-bar>
+  @for (link of navLinks; track link.href) {
+    <a
+      mat-tab-link
+      [active]="rla.isActive"
+      [routerLink]="link.href"
+      routerLinkActive
+      #rla="routerLinkActive"
+    >
+      {{link.name}}
+    </a>
   }
+</nav>
+<div class="router-wrapper">
+  <router-outlet [routerOutletData]="newlyCreatedPosts()" />
 </div>
 <a
   class="create-post"

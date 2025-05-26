@@ -9,26 +9,24 @@ import { IUser } from '../../users/shared/user.interface';
   providedIn: 'root'
 })
 export class PostService {
-  private readonly URL = '/api/posts';
+  private readonly POSTS_URL = '/api/posts';
+  private readonly USERS_URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  getPosts(options?: { username: string; }): Observable<IPost[]> {
-    const { username } = options ?? {};
-    let url = this.URL;
-    if (username) url = `${url}?username=${username}`
-    return this.httpClient.get<IPost[]>(this.URL);
+  getPosts(): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(this.POSTS_URL);
   }
 
   getPostsByUsername(username: IUser['username']): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.URL}?username=${username}`);
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`);
   }
 
   createPost(dto: CreatePostDTO): Observable<IPost> {
-    return this.httpClient.post<IPost>(this.URL, dto);
+    return this.httpClient.post<IPost>(this.POSTS_URL, dto);
   }
 
   likePost(like: boolean, postId: IPost['_id']): Observable<null> {
     const requestBody = { like };
-    return this.httpClient.put<null>(`${this.URL}/${postId}/like`, requestBody);
+    return this.httpClient.put<null>(`${this.POSTS_URL}/${postId}/like`, requestBody);
   }
 }

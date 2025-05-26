@@ -1,0 +1,20 @@
+@defer (when posts()) {
+  @if (posts()?.length === 0 && newlyCreatedPosts().length === 0) {
+    <div class="no-posts">No posts to display...</div>
+  } @else {
+    <div class="posts">
+      @for (post of newlyCreatedPosts(); track post._id) {
+        <app-post-card [post]="post" @scaleFadeInFromTop />
+      }
+      @for (post of posts(); track post._id) {
+        <app-post-card [post]="post" @fadeIn />
+      }
+    </div>
+  }
+} @placeholder {
+  <div class="posts" @fadeOut>
+    <app-post-card-skeleton />
+    <app-post-card-skeleton />
+    <app-post-card-skeleton />
+  </div>
+}

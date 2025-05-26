@@ -2,11 +2,7 @@ import { Routes } from '@angular/router';
 import { canActivateUserGuard } from './auth/shared/can-activate-user.guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'posts'
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'posts' },
   {
     path: 'login',
     loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
@@ -25,6 +21,17 @@ export const routes: Routes = [
       {
         path: 'posts',
         loadComponent: () => import('./posts/post-list/post-list.component').then(m => m.PostListComponent),
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'all' },
+          {
+            path: 'all',
+            loadComponent: () => import('./posts/post-all/post-all.component').then(m => m.PostAllComponent)
+          },
+          {
+            path: 'following',
+            loadComponent: () => import('./posts/post-following/post-following.component').then(m => m.PostFollowingComponent)
+          }
+        ]
       },
       {
         path: 'user/:username',
