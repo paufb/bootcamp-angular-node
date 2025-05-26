@@ -8,9 +8,10 @@ import { ProfilePictureComponent } from '../../../shared/profile-picture/profile
   selector: 'app-user-profile-header',
   imports: [MatButtonModule, ProfilePictureComponent],
   templateUrl: './user-profile-header.component.html',
-  styleUrl: './user-profile-header.component.css',
+  styleUrl: './user-profile-header.component.scss',
   animations: [fadeIn, fadeOut]
 })
 export class UserProfileHeaderComponent {
   user = input.required<IUser | null>();
+  isOwn = input<boolean>(false);
 }
