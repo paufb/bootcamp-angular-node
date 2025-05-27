@@ -3,23 +3,48 @@
   <mat-tab-group [selectedIndex]="selectedTabIndex()">
     <mat-tab label="Following">
       @if (followingUsers$ | async; as users) {
-        @for (user of users; track user._id) {
-          <div class="user-entry" @fadeIn>
-            <app-profile-picture
-              width="2.5rem"
-              height="2.5rem"
-            />
-            <div class="details">
-              <span class="name">{{user.name}}</span>
-              <span class="username">{{user.username}}</span>
+        @if (users.length === 0) {
+          <div class="no-results" @fadeIn>No followed users</div>
+        } @else {
+          @for (user of users; track user._id) {
+            <div class="user-entry" @fadeIn>
+              <app-profile-picture
+                width="2.5rem"
+                height="2.5rem"
+              />
+              <div class="details">
+                <span class="name">{{user.name}}</span>
+                <span class="username">{{user.username}}</span>
+              </div>
             </div>
-          </div>
+          } 
         }
       } @else {
         <mat-spinner diameter="40" @fadeOut></mat-spinner>
       }
     </mat-tab>
-    <mat-tab label="Followers"></mat-tab>
+    <mat-tab label="Followers">
+      @if (followersUsers$ | async; as users) {
+        @if (users.length === 0) {
+          <div class="no-results" @fadeIn>No followers</div>
+        } @else {
+          @for (user of users; track user._id) {
+            <div class="user-entry" @fadeIn>
+              <app-profile-picture
+                width="2.5rem"
+                height="2.5rem"
+              />
+              <div class="details">
+                <span class="name">{{user.name}}</span>
+                <span class="username">{{user.username}}</span>
+              </div>
+            </div>
+          }
+        }
+      } @else {
+        <mat-spinner diameter="40" @fadeOut></mat-spinner>
+      }
+    </mat-tab>
   </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions>

@@ -19,6 +19,10 @@ export class UserService {
     return this.httpClient.post<{ username: string; }>(this.URL, formData);
   }
 
+  getFollowersUsers(username: IUser['username']) {
+    return this.httpClient.get<IUser[]>(`${this.URL}/${username}/followers`);
+  }
+
   getFollowingUsers(username: IUser['username']): Observable<IUser[]> {
     return this.httpClient.get<IUser[]>(`${this.URL}/${username}/following`);
   }

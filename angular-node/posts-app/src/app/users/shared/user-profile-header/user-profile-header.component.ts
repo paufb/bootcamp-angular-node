@@ -46,9 +46,9 @@ export class UserProfileHeaderComponent {
       });
   }
 
-  protected onFollowingClick() {
+  protected openUserFollowListDialog(selectedTab: 'Following' | 'Followers') {
     this.matDialog.open(UserFollowListDialogComponent, {
-      data: { user: this.user(), selectedTab: 'Following' }
+      data: { user: this.user(), selectedTab }
     });
   }
 }

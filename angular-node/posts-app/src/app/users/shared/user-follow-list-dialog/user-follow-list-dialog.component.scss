@@ -13,6 +13,14 @@ h2 {
   }
 }
 
+.no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  margin-block: $margin-block;
+}
+
 .user-entry {
   display: flex;
   gap: .5rem;

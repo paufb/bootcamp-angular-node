@@ -31,9 +31,11 @@ export class UserFollowListDialogComponent implements OnInit {
   private readonly userService = inject(UserService);
   protected readonly selectedTabIndex = computed(() => this.getSelectedTabIndex(this.selectedTab()));
   protected followingUsers$!: Observable<IUser[]>;
+  protected followersUsers$!: Observable<IUser[]>;
 
   ngOnInit(): void {
     this.followingUsers$ = this.userService.getFollowingUsers(this.user().username);
+    this.followersUsers$ = this.userService.getFollowersUsers(this.user().username);
   }
 
   private getSelectedTabIndex(selectedTab: DialogData['selectedTab']) {
