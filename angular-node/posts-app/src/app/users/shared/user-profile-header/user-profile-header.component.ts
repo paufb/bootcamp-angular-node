@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { UserFollowListDialogComponent } from '../user-follow-list-dialog/user-follow-list-dialog.component';
 import { IUser } from '../user.interface';
 import { UserService } from '../user.service';
 import { fadeIn, fadeOut } from '../../../shared/animations';
@@ -17,6 +19,7 @@ export class UserProfileHeaderComponent {
   user = input.required<IUser | null>();
   isOwn = input<boolean>(false);
   private readonly userService = inject(UserService);
+  private readonly matDialog = inject(MatDialog);
   protected readonly hasBeenFollowed = signal<boolean>(false);
   protected readonly followersCount = computed<number>(() => {
     const user = this.user();
@@ -41,5 +44,11 @@ export class UserProfileHeaderComponent {
         error: error => window.alert(`Could not follow user: ${error.message}`),
         complete: () => this.hasBeenFollowed.update(value => !value)
       });
+  }
+
+  protected onFollowingClick() {
+    this.matDialog.open(UserFollowListDialogComponent, {
+      data: { user: this.user(), selectedTab: 'Following' }
+    });
   }
 }

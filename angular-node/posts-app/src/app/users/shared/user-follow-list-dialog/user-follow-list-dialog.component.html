@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{`@${user().username}`}}</h2>
+<mat-dialog-content>
+  <mat-tab-group [selectedIndex]="selectedTabIndex()">
+    <mat-tab label="Following">
+      @if (followingUsers$ | async; as users) {
+        @for (user of users; track user._id) {
+          <div class="user-entry" @fadeIn>
+            <app-profile-picture
+              width="2.5rem"
+              height="2.5rem"
+            />
+            <div class="details">
+              <span class="name">{{user.name}}</span>
+              <span class="username">{{user.username}}</span>
+            </div>
+          </div>
+        }
+      } @else {
+        <mat-spinner diameter="40" @fadeOut></mat-spinner>
+      }
+    </mat-tab>
+    <mat-tab label="Followers"></mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

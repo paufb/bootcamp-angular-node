@@ -1,0 +1,38 @@
+$margin-block: .5rem;
+
+h2 {
+  text-align: center;
+}
+
+::ng-deep .mat-mdc-tab-body-content {
+  display: grid;
+
+  & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+}
+
+.user-entry {
+  display: flex;
+  gap: .5rem;
+  margin-block: $margin-block;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+mat-spinner {
+  margin: $margin-block auto;
+}
+
+.name {
+  font-size: 1rem;
+}
+
+.username {
+  color: #717c85;
+}

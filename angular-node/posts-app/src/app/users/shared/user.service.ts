@@ -19,6 +19,10 @@ export class UserService {
     return this.httpClient.post<{ username: string; }>(this.URL, formData);
   }
 
+  getFollowingUsers(username: IUser['username']): Observable<IUser[]> {
+    return this.httpClient.get<IUser[]>(`${this.URL}/${username}/following`);
+  }
+
   followUser(follow: boolean, userId: IUser['_id']): Observable<null> {
     const requestBody = { follow };
     return this.httpClient.put<null>(`${this.URL}/${userId}/follow`, requestBody);

@@ -50,6 +50,11 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+
+  > span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 .gray {
