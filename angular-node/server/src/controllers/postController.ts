@@ -3,12 +3,12 @@ import mongoose, { Error } from 'mongoose';
 import postService from '../services/postService';
 
 const getPosts = async (req: Request, res: Response) => {
-  const posts = await postService.findPosts({ select: ['+likes'], populate: ['user'], sort: [[ 'createdAt', 'desc' ]] });
+  const posts = await postService.findPosts({ select: ['+likes.users'], populate: ['user'], sort: [[ 'createdAt', 'desc' ]] });
   const response = posts.map(post => {
-    const { likes, ...rest } = post.toObject();
+    const postObj = post.toObject();
     return {
-      ...rest,
-      isLikedByUser: likes.some(userObjectId => userObjectId.equals(req.userId))
+      ...postObj,
+      isLikedByUser: postObj.likes?.users.some(userObjectId => userObjectId.equals(req.userId))
     };
   });
   res.status(200).json(response);
@@ -16,8 +16,15 @@ const getPosts = async (req: Request, res: Response) => {
 
 const getPostsByUsername = async (req: Request, res: Response) => {
   const { username } = req.params;
-  const posts = await postService.findPostsByUsername(username, { populate: ['user'] });
-  res.status(200).json(posts);
+  const posts = await postService.findPostsByUsername(username, { select: ['+likes.users'], populate: ['user'], sort: [['createdAt', 'desc']] });
+  const response = posts.map(post => {
+    const postObj = post.toObject();
+    return {
+      ...postObj,
+      isLikedByUser: postObj.likes?.users.some(userObjectId => userObjectId.equals(req.userId))
+    };
+  });
+  res.status(200).json(response);
 }
 
 const createPost = async (req: Request, res: Response) => {

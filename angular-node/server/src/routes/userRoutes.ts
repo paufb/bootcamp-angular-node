@@ -8,5 +8,6 @@ const router = express.Router();
 router.get('/:username', requireAuthentication, userController.getUserByUsername);
 router.get('/:username/posts', requireAuthentication, postController.getPostsByUsername);
 router.post('/', userController.createUser);
+router.put('/:userId/follow', requireAuthentication, userController.followUser);
 
 export default router;
