@@ -21,6 +21,10 @@ export class PostService {
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`);
   }
 
+  getFollowingUsersPosts(username: IUser['username']): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`);
+  }
+
   createPost(dto: CreatePostDTO): Observable<IPost> {
     return this.httpClient.post<IPost>(this.POSTS_URL, dto);
   }

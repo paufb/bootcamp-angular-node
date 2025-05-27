@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, Signal } from '@angular/core';
 import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { PostGridComponent } from '../shared/post-grid/post-grid.component';
 import { IPost } from '../shared/post.interface';
 import { PostService } from '../shared/post.service';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
   selector: 'app-post-following',
@@ -11,16 +12,21 @@ import { PostService } from '../shared/post.service';
     <app-post-grid [posts]="posts()" [newlyCreatedPosts]="newlyCreatedPosts()" />
   `
 })
-export class PostFollowingComponent implements OnInit {
-  protected newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
-  private postService = inject(PostService);
-  protected posts = signal<IPost[] | null>(null);
+export class PostFollowingComponent {
+  protected readonly newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
+  private readonly authService = inject(AuthService);
+  private readonly postService = inject(PostService);
+  protected readonly posts = signal<IPost[] | null>(null);
 
-  ngOnInit(): void {
-    this.postService.getPosts()
-      .subscribe({
-        next: posts => this.posts.set(posts),
-        error: error => window.alert(`Could not fetch posts: ${error.message}`)
-      });
+  constructor() {
+    effect(() => {
+      const username = this.authService.username();
+      if (username)
+        this.postService.getFollowingUsersPosts(username)
+          .subscribe({
+            next: posts => this.posts.set(posts),
+            error: error => window.alert(`Could not fetch posts: ${error.message}`)
+          });
+    });
   }
 }
