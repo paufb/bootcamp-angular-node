@@ -27,6 +27,16 @@ const getPostsByUsername = async (req: Request, res: Response) => {
   res.status(200).json(response);
 }
 
+const getFollowingUsersPosts = async (req: Request, res: Response) => {
+  const { username } = req.params;
+  try {
+    const posts = await postService.findFollowingUsersPosts(username, { populate: ['user'] });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 const createPost = async (req: Request, res: Response) => {
   const { title, body } = req.body;
   try {
@@ -53,6 +63,7 @@ const likePost = async (req: Request, res: Response) => {
 export default {
   getPosts,
   getPostsByUsername,
+  getFollowingUsersPosts,
   createPost,
   likePost
 };
