@@ -23,9 +23,10 @@ export class PostCardComponent implements OnInit {
   protected readonly likeCount = computed(() => {
     const post = this.post();
     const hasBeenLiked = this.hasBeenLiked();
+    const likeCount = post.likes.count;
     return hasBeenLiked
-      ? post.isLikedByUser ? post.likeCount : post.likeCount + 1
-      : post.isLikedByUser ? post.likeCount - 1 : post.likeCount
+      ? post.isLikedByUser ? likeCount : likeCount + 1
+      : post.isLikedByUser ? likeCount - 1 : likeCount
   });
 
   ngOnInit(): void {
@@ -36,7 +37,7 @@ export class PostCardComponent implements OnInit {
     this.postService.likePost(!this.hasBeenLiked(), this.post()._id)
       .subscribe({
         error: error => window.alert(`Error liking post: ${error.message}`),
-        complete: () => this.hasBeenLiked.set(!this.hasBeenLiked())
+        complete: () => this.hasBeenLiked.update(value => !value)
       });
   }
 }

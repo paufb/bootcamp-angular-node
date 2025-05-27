@@ -5,7 +5,9 @@ export interface IPost {
   title: string;
   body: string;
   user?: IUser;
-  likeCount: number;
+  likes: {
+    count: number;
+  };
   isLikedByUser: boolean;
   createdAt: Date;
   updatedAt: Date;

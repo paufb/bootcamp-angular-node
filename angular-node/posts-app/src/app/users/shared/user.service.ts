@@ -18,4 +18,9 @@ export class UserService {
   createUser(formData: ISignupFormData): Observable<{ username: string; }> {
     return this.httpClient.post<{ username: string; }>(this.URL, formData);
   }
+
+  followUser(follow: boolean, userId: IUser['_id']): Observable<null> {
+    const requestBody = { follow };
+    return this.httpClient.put<null>(`${this.URL}/${userId}/follow`, requestBody);
+  }
 }

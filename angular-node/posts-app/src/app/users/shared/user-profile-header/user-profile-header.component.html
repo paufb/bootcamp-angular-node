@@ -13,8 +13,14 @@
 <div class="actions">
   @if (isOwn()) {
     <button mat-raised-button [disabled]="!user()">Edit profile</button>
+  } @else if (hasBeenFollowed()) {
+    <button mat-stroked-button [disabled]="!user()" (click)="onFollow()">
+      Followed
+    </button>
   } @else {
-    <button mat-flat-button [disabled]="!user()">Follow</button>
+    <button mat-flat-button [disabled]="!user()" (click)="onFollow()">
+      Follow
+    </button>
   }
 </div>
 <div class="content">
