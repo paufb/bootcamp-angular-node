@@ -8,7 +8,7 @@ interface CreateUserDTO {
 }
 
 interface UserQueryOptions {
-  select?: ('+followed.users' | '+follower.users')[];
+  select?: ('+following.users' | '+followers.users')[];
 }
 
 const createUser = (userData: CreateUserDTO) => {
@@ -24,12 +24,12 @@ const getUserByUsername = async (username: string, options?: UserQueryOptions) =
 const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId) => {
   const countIncrement = follow ? 1 : -1;
   await User.findByIdAndUpdate(userIdToFollow, {
-    [follow ? '$push' : '$pull']: { 'follower.users': userId },
-    $inc: { 'follower.count': countIncrement }
+    [follow ? '$push' : '$pull']: { 'followers.users': userId },
+    $inc: { 'followers.count': countIncrement }
   });
   await User.findByIdAndUpdate(userId, {
-    [follow ? '$push' : '$pull']: { 'followed.users': userIdToFollow },
-    $inc: { 'followed.count': countIncrement }
+    [follow ? '$push' : '$pull']: { 'following.users': userIdToFollow },
+    $inc: { 'following.count': countIncrement }
   });
 }
 

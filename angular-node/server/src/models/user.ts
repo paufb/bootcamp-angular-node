@@ -5,11 +5,11 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true, select: false },
-  followed: {
+  following: {
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', select: false }],
     count: { type: Number, default: 0 }
   },
-  follower: {
+  followers: {
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', select: false }],
     count: { type: Number, default: 0 }
   }
