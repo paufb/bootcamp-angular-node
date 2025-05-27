@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { IUser } from '../user.interface';
 import { UserService } from '../user.service';
@@ -18,6 +18,14 @@ export class UserProfileHeaderComponent {
   isOwn = input<boolean>(false);
   private readonly userService = inject(UserService);
   protected readonly hasBeenFollowed = signal<boolean>(false);
+  protected readonly followers = computed<number>(() => {
+    const user = this.user();
+    const hasBeenFollowed = this.hasBeenFollowed();
+    const followerCount = user?.follower.count ?? 0;
+    return hasBeenFollowed
+      ? user?.isFollowedByUser ? followerCount : followerCount + 1
+      : user?.isFollowedByUser ? followerCount - 1 : followerCount
+  });
 
   constructor() {
     effect(() => {

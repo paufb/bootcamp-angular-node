@@ -28,12 +28,20 @@
     @defer (when user()) {
       <div @fadeIn>
         <span class="profile-name">{{user()?.name}}</span>
-        <span class="username">{{`@${user()?.username}`}}</span>
+        <span class="gray">{{`@${user()?.username}`}}</span>
+        <div class="counts">
+          <span>{{user()?.followed?.count}} <span class="gray">Following</span></span>
+          <span>{{followers()}} <span class="gray">Followers</span></span>
+        </div>
       </div>
     } @placeholder {
       <div @fadeOut>
         <div class="placeholder text profile-name"></div>
         <div class="placeholder text username"></div>
+        <div class="counts">
+          <div class="placeholder text count"></div>
+          <div class="placeholder text count"></div>
+        </div>
       </div>
     }
   </div>

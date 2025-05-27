@@ -35,7 +35,7 @@
     grid-row-start: 1;
   }
 
-  div {
+  > div {
     display: flex;
     flex-direction: column;
     gap: .25rem;
@@ -46,7 +46,13 @@
   }
 }
 
-.username {
+.counts {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.gray {
   color: #717c85;
 }
 
@@ -69,6 +75,7 @@
   }
   &.profile-name { width: 80px; }
   &.username { width: 60px; }
+  &.count { width: 70px; }
 }
 
 @keyframes shimmer {
