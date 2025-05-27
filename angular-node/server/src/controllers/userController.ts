@@ -31,6 +31,16 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
+const getFollowersUsers = async (req: Request, res: Response) => {
+  const { username } = req.params;
+  try {
+    const users = await userService.getFollowersUsers(username);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 const getFollowingUsers = async (req: Request, res: Response) => {
   const { username } = req.params;
   try {
@@ -56,6 +66,7 @@ const followUser = async (req: Request, res: Response): Promise<void> => {
 export default {
   getUserByUsername,
   createUser,
+  getFollowersUsers,
   getFollowingUsers,
   followUser
 };

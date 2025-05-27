@@ -21,6 +21,11 @@ const getUserByUsername = (username: string, options?: UserQueryOptions) => {
   return query.exec();
 }
 
+const getFollowersUsers = async (username: string) => {
+  const user = await User.findOne({ username }).select('+followers.users').populate('followers.users');
+  return user?.followers?.users;
+}
+
 const getFollowingUsers = async (username: string) => {
   const user = await User.findOne({ username }).select('+following.users').populate('following.users');
   return user?.following?.users;
@@ -41,6 +46,7 @@ const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.Object
 export default {
   createUser,
   getUserByUsername,
+  getFollowersUsers,
   getFollowingUsers,
   followUser
 };
