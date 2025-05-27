@@ -6,6 +6,7 @@ import { requireAuthentication } from '../middlewares/authMiddleware';
 const router = express.Router();
 
 router.get('/:username', requireAuthentication, userController.getUserByUsername);
+router.get('/:username/following', requireAuthentication, userController.getFollowingUsers);
 router.get('/:username/posts', requireAuthentication, postController.getPostsByUsername);
 router.post('/', userController.createUser);
 router.put('/:userId/follow', requireAuthentication, userController.followUser);
