@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserProfileHeaderComponent } from '../shared/user-profile-header/user-profile-header.component';
 import { IUser } from '../shared/user.interface';
@@ -22,21 +22,30 @@ export class UserProfileComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
   private readonly postService = inject(PostService);
-  private readonly username = this.activatedRoute.snapshot.params['username'];
-  protected readonly isOwnProfile = computed(() => this.authService.username() === this.username);
+  protected readonly isOwnProfile = signal<boolean>(false);
   protected readonly user = signal<IUser | null>(null);
   protected readonly posts = signal<IPost[] | null>(null);
 
   ngOnInit(): void {
-    this.userService.getUser(this.username)
-      .subscribe({
-        next: user => this.user.set(user),
-        error: error => window.alert(`Could not fetch user: ${error.message}`)
-      });
-    this.postService.getPostsByUsername(this.username)
-      .subscribe({
-        next: posts => this.posts.set(posts),
-        error: error => window.alert(`Could not fetch posts: ${error.message}`)
-      });
+    this.activatedRoute.params.subscribe(params => {
+      const username = params['username'];
+      this.isOwnProfile.set(username === this.authService.username());
+      this.fetchUser(username);
+      this.fetchPosts(username);
+    });
+  }
+
+  private fetchUser(username: IUser['username']) {
+    this.userService.getUser(username).subscribe({
+      next: user => this.user.set(user),
+      error: error => window.alert(`Could not fetch user: ${error.message}`)
+    });
+  }
+
+  private fetchPosts(username: IUser['username']) {
+    this.postService.getPostsByUsername(username).subscribe({
+      next: posts => this.posts.set(posts),
+      error: error => window.alert(`Could not fetch posts: ${error.message}`)
+    });
   }
 }
