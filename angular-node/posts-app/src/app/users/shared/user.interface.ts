@@ -2,10 +2,10 @@ export interface IUser {
   _id: string;
   name: string;
   username: string;
-  followed: {
+  following: {
     count: number;
   };
-  follower: {
+  followers: {
     count: number;
   };
   isFollowedByUser: boolean;

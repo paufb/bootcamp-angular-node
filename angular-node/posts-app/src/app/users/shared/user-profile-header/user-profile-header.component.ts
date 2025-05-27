@@ -18,13 +18,13 @@ export class UserProfileHeaderComponent {
   isOwn = input<boolean>(false);
   private readonly userService = inject(UserService);
   protected readonly hasBeenFollowed = signal<boolean>(false);
-  protected readonly followers = computed<number>(() => {
+  protected readonly followersCount = computed<number>(() => {
     const user = this.user();
     const hasBeenFollowed = this.hasBeenFollowed();
-    const followerCount = user?.follower.count ?? 0;
+    const count = user?.followers.count ?? 0;
     return hasBeenFollowed
-      ? user?.isFollowedByUser ? followerCount : followerCount + 1
-      : user?.isFollowedByUser ? followerCount - 1 : followerCount
+      ? user?.isFollowedByUser ? count : count + 1
+      : user?.isFollowedByUser ? count - 1 : count
   });
 
   constructor() {

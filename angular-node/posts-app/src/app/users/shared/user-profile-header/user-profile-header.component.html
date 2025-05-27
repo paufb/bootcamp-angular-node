@@ -30,8 +30,8 @@
         <span class="profile-name">{{user()?.name}}</span>
         <span class="gray">{{`@${user()?.username}`}}</span>
         <div class="counts">
-          <span>{{user()?.followed?.count}} <span class="gray">Following</span></span>
-          <span>{{followers()}} <span class="gray">Followers</span></span>
+          <span>{{user()?.following?.count}} <span class="gray">Following</span></span>
+          <span>{{followersCount()}} <span class="gray">Followers</span></span>
         </div>
       </div>
     } @placeholder {
