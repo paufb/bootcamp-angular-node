@@ -5,6 +5,15 @@
   gap: 1rem;
 }
 
+.placeholder-container {
+  display: grid;
+
+  & > ::ng-deep * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+} 
+
 .background {
   position: relative;
   background-color: lightblue;
@@ -19,6 +28,7 @@
 }
 
 .actions {
+  justify-items: end;
   padding-right: var(--padding);
   align-self: end;
 }
@@ -27,22 +37,13 @@
   padding: 0 var(--padding);
 }
 
-.user-info {
-  display: grid;
+.user-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
 
-  & > ::ng-deep * {
-    grid-column-start: 1;
-    grid-row-start: 1;
-  }
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-
-    .profile-name {
-      font-size: 1.25rem;
-    }
+  .profile-name {
+    font-size: 1.25rem;
   }
 }
 
@@ -78,9 +79,16 @@
     border-radius: 50%;
 
   }
+  &.action-button {
+    $height: 40px;
+    width: 110px;
+    height: $height;
+    border-radius: calc(#{$height} / 2);
+  }
+
   &.profile-name { width: 80px; }
   &.username { width: 60px; }
-  &.count { width: 70px; }
+  &.count { width: 85px; }
 }
 
 @keyframes shimmer {

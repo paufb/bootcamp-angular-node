@@ -10,21 +10,21 @@
     <div @fadeOut class="root-profile-picture placeholder profile-picture"></div>
   }
 </div>
-<div class="actions">
-  @if (isOwn()) {
-    <button mat-raised-button [disabled]="!user()">Edit profile</button>
-  } @else if (hasBeenFollowed()) {
-    <button mat-stroked-button [disabled]="!user()" (click)="onFollow()">
-      Followed
-    </button>
-  } @else {
-    <button mat-flat-button [disabled]="!user()" (click)="onFollow()">
-      Follow
-    </button>
+<div class="placeholder-container actions">
+  @defer (when user()) {
+    @if (isOwn()) {
+      <button @fadeIn mat-raised-button>Edit profile</button>
+    } @else if (hasBeenFollowed()) {
+      <button @fadeIn mat-stroked-button (click)="onFollow()">Followed</button>
+    } @else {
+      <button @fadeIn mat-flat-button (click)="onFollow()">Follow</button>
+    }
+  } @placeholder {
+    <div @fadeOut class="placeholder action-button"></div>
   }
 </div>
 <div class="content">
-  <div class="user-info">
+  <div class="placeholder-container user-info">
     @defer (when user()) {
       <div @fadeIn>
         <span class="profile-name">{{user()?.name}}</span>
