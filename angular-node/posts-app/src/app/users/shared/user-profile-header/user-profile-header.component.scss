@@ -21,7 +21,7 @@
   border-radius: 12px;
 }
 
-.root-profile-picture {
+.profile-picture {
   position: absolute;
   inset: auto auto 0 var(--padding);
   transform: translateY(50%);
@@ -73,12 +73,6 @@
     height: 1lh;
   }
 
-  &.profile-picture {
-    width: 7.5rem;
-    height: 7.5rem;
-    border-radius: 50%;
-
-  }
   &.action-button {
     $height: 40px;
     width: 110px;

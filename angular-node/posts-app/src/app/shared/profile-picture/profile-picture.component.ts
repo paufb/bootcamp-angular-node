@@ -1,35 +1,20 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+import { fadeIn, fadeOut } from '../animations';
 
 @Component({
   selector: 'app-profile-picture',
   imports: [],
-  template: `
-    <img
-      [src]="src()"
-      [width]="width()"
-      [height]="height()"
-      alt="Profile picture"
-    />
-  `,
-  styles: `
-    :host {
-      display: flex;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      aspect-ratio: 1 / 1;
-      background-color: #faf9fd;
-    }
-  `,
+  templateUrl: './profile-picture.component.html',
+  styleUrl: './profile-picture.component.scss',
+  animations: [fadeIn, fadeOut],
   host: {
     '[style.width]': 'width()',
     '[style.height]': 'height()'
   }
 })
 export class ProfilePictureComponent {
-  src = input<string>('circle-user.svg');
+  src = input.required<string | null | undefined>();
   width = input<string>('3rem');
   height = input<string>('3rem');
+  protected readonly imgSrc = computed(() => this.src() ?? 'assets/circle-user.svg');
 }

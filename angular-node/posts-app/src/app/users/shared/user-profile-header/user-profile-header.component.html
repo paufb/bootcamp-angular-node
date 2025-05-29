@@ -1,14 +1,10 @@
 <div class="background">
-  @defer (when user()) {
-    <app-profile-picture
-      @fadeIn
-      class="root-profile-picture"
-      width="7.5rem"
-      height="7.5rem"
-    />
-  } @placeholder {
-    <div @fadeOut class="root-profile-picture placeholder profile-picture"></div>
-  }
+  <app-profile-picture
+    [src]="profilePictureSrc()"
+    class="profile-picture"
+    width="7.5rem"
+    height="7.5rem"
+  />
 </div>
 <div class="placeholder-container actions">
   @defer (when user()) {

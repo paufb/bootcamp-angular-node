@@ -8,10 +8,7 @@
         } @else {
           @for (user of users; track user._id) {
             <div class="user-entry" @fadeIn>
-              <app-profile-picture
-                width="2.5rem"
-                height="2.5rem"
-              />
+              <app-profile-picture [src]="null" width="2.5rem" height="2.5rem" />
               <div class="details">
                 <span class="name">{{user.name}}</span>
                 <span class="username">{{user.username}}</span>
@@ -30,10 +27,7 @@
         } @else {
           @for (user of users; track user._id) {
             <div class="user-entry" @fadeIn>
-              <app-profile-picture
-                width="2.5rem"
-                height="2.5rem"
-              />
+              <app-profile-picture [src]="null" width="2.5rem" height="2.5rem" />
               <div class="details">
                 <span class="name">{{user.name}}</span>
                 <span class="username">{{user.username}}</span>

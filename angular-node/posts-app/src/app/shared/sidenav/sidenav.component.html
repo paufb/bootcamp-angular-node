@@ -19,11 +19,7 @@
     #rla="routerLinkActive"
   >
     <mat-icon matListItemIcon>
-      @defer (when loggedInUser()) {
-        <app-profile-picture @fadeIn width="24px" height="24px" />
-      } @placeholder {
-        <div @fadeOut class="skeleton profile-picture"></div>
-      }
+      <app-profile-picture [src]="profilePictureSrc()" width="24px" height="24px" />
     </mat-icon>
     <span matListItemTitle>{{`@${loggedInUser()?.username}`}}</span>
   </a>

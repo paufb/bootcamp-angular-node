@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input, output, signal, viewChild } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { ProfilePictureComponent } from '../../../shared/profile-picture/profile
 import { CreatePostDTO } from '../create-post-dto.interface';
 import { PostService } from '../post.service';
 import { IPost } from '../post.interface';
+import { AuthService } from '../../../auth/shared/auth.service';
 
 @Component({
   selector: 'app-post-prompt',
@@ -21,11 +22,14 @@ import { IPost } from '../post.interface';
 export class PostPromptComponent {
   cancellable = input(false, { transform: booleanAttribute });
   createPost = output<IPost>();
+  private readonly authService = inject(AuthService);
   private readonly postService = inject(PostService);
   private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly formDirective = viewChild.required(FormGroupDirective);
   protected readonly isSubmitting = signal(false);
+  protected readonly loggedInUser = this.authService.loggedInUser;
+  protected readonly profilePictureSrc = computed(() => this.loggedInUser() ? null : undefined);
   protected readonly formGroup = new FormGroup({
     body: new FormControl('', Validators.required)
   });

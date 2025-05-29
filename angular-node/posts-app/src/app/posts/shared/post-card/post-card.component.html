@@ -5,7 +5,7 @@
       matRipple
       [routerLink]="`/user/${post().user?.name}`"
     >
-      <app-profile-picture />
+      <app-profile-picture [src]="null" />
       <div class="user-info">
         <span class="profile-name">{{post().user?.name}}</span>
         <span class="user-name">{{`@${post().user?.username}`}}</span>

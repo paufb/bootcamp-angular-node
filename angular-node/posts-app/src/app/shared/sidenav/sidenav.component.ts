@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { fadeIn, fadeOut } from '../animations';
 import { ProfilePictureComponent } from '../profile-picture/profile-picture.component';
 import { AuthService } from '../../auth/shared/auth.service';
 
@@ -11,11 +10,11 @@ import { AuthService } from '../../auth/shared/auth.service';
   imports: [MatIconModule, MatListModule, RouterModule, ProfilePictureComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeIn, fadeOut]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidenavComponent {
   private readonly authService = inject(AuthService);
   protected readonly loggedInUser = this.authService.loggedInUser;
+  protected readonly profilePictureSrc = computed(() => this.loggedInUser() ? null : undefined);
   protected readonly navListItems = [{ href: '/posts', title: 'Home', matIcon: 'home' }];
 }
