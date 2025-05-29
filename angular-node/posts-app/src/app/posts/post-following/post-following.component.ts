@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, effect, inject, signal, Signal } from '@angular/core';
 import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { PostGridComponent } from '../shared/post-grid/post-grid.component';
 import { IPost } from '../shared/post.interface';
@@ -20,9 +20,9 @@ export class PostFollowingComponent {
 
   constructor() {
     effect(() => {
-      const username = this.authService.username();
-      if (username)
-        this.postService.getFollowingUsersPosts(username)
+      const loggedInUser = this.authService.loggedInUser();
+      if (loggedInUser)
+        this.postService.getFollowingUsersPosts(loggedInUser.username)
           .subscribe({
             next: posts => this.posts.set(posts),
             error: error => window.alert(`Could not fetch posts: ${error.message}`)

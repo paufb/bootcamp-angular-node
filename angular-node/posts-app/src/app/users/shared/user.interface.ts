@@ -8,7 +8,7 @@ export interface IUser {
   followers: {
     count: number;
   };
-  isFollowedByUser: boolean;
+  isFollowedByUser?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

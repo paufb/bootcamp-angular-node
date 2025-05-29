@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { IUser } from '../../users/shared/user.interface';
+import { UserService } from '../../users/shared/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +11,30 @@ export class AuthService {
   private readonly URL = '/api/auth';
   private readonly LOCAL_STORAGE_ITEM_KEY = 'user_details';
   private readonly httpClient = inject(HttpClient);
-  private readonly _username = signal<string | null>(null);
-  readonly username = this._username.asReadonly();
-  readonly isLoggedIn = computed(() => !!this.getLocalStorageItem() || !!this._username());
+  private readonly userService = inject(UserService);
+  private readonly _loggedInUser = signal<IUser | null>(null);
+  readonly loggedInUser = this._loggedInUser.asReadonly();
+  readonly isLoggedIn = computed(() => !!this.getLocalStorageItem() || !!this._loggedInUser());
 
   constructor() {
     const localStorageItem = this.getLocalStorageItem();
-    if (localStorageItem)
-      this._username.set(localStorageItem.username);
+    if (!localStorageItem?.username) return;
+    this.userService.getUser(localStorageItem.username)
+      .subscribe({
+        next: user => this._loggedInUser.set(user)
+      });
   }
 
   private getLocalStorageItem(): { username: string } | null {
     return JSON.parse(localStorage.getItem(this.LOCAL_STORAGE_ITEM_KEY)!);
   }
 
-  logIn(username: string, password: string): Observable<{ username: string }> {
+  logIn(username: string, password: string): Observable<IUser> {
     const requestBody = { username, password };
-    return this.httpClient.post<{ username: string }>(this.URL, requestBody).pipe(
-      tap(response => {
-        this._username.set(response.username);
-        localStorage.setItem(this.LOCAL_STORAGE_ITEM_KEY, JSON.stringify({ username }));
+    return this.httpClient.post<IUser>(this.URL, requestBody).pipe(
+      tap(user => {
+        this._loggedInUser.set(user);
+        localStorage.setItem(this.LOCAL_STORAGE_ITEM_KEY, JSON.stringify({ username: user.username }));
       })
     );
   }

@@ -14,17 +14,17 @@
   <a
     mat-list-item
     [activated]="rla.isActive"
-    [routerLink]="`/user/${username()}`"
+    [routerLink]="`/user/${loggedInUser()?.username}`"
     routerLinkActive
     #rla="routerLinkActive"
   >
     <mat-icon matListItemIcon>
-      @if (currentUser$ | async; as currentUser) {
+      @defer (when loggedInUser()) {
         <app-profile-picture @fadeIn width="24px" height="24px" />
-      } @else {
+      } @placeholder {
         <div @fadeOut class="skeleton profile-picture"></div>
       }
     </mat-icon>
-    <span matListItemTitle>{{`@${username()}`}}</span>
+    <span matListItemTitle>{{`@${loggedInUser()?.username}`}}</span>
   </a>
 </mat-nav-list>

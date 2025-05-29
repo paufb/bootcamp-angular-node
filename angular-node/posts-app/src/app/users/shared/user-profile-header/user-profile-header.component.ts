@@ -34,7 +34,7 @@ export class UserProfileHeaderComponent {
     effect(() => {
       const user = this.user();
       if (user)
-        this.hasBeenFollowed.set(user.isFollowedByUser);
+        this.hasBeenFollowed.set(!!user.isFollowedByUser);
     });
   }
 

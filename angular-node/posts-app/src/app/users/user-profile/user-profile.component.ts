@@ -29,7 +29,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const username = params['username'];
-      this.isOwnProfile.set(username === this.authService.username());
+      this.isOwnProfile.set(username === this.authService.loggedInUser()?.username);
       this.fetchUser(username);
       this.fetchPosts(username);
     });

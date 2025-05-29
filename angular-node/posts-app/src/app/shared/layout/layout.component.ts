@@ -39,7 +39,7 @@ import { AuthService } from '../../auth/shared/auth.service';
 export class LayoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-  protected username = this.authService.username;
+  protected loggedInUser = this.authService.loggedInUser;
   protected isSidenavCollapsed = signal(false);
 
   protected onToggleSidebar() {

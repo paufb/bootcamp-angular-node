@@ -4,7 +4,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <div class="session-actions">
-      <span class="username">{{`@${username()}`}}</span>
+      <span class="username">{{`@${loggedInUser()?.username}`}}</span>
       <button mat-icon-button (click)="onLogOut()">
         <mat-icon>logout</mat-icon>
       </button>
