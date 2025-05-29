@@ -22,13 +22,13 @@ import { AuthService } from '../../../auth/shared/auth.service';
 export class PostPromptComponent {
   cancellable = input(false, { transform: booleanAttribute });
   createPost = output<IPost>();
-  private readonly authService = inject(AuthService);
+  protected readonly authService = inject(AuthService);
   private readonly postService = inject(PostService);
   private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly formDirective = viewChild.required(FormGroupDirective);
   protected readonly isSubmitting = signal(false);
-  protected readonly loggedInUser = this.authService.loggedInUser;
+  protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly formGroup = new FormGroup({
     body: new FormControl('', Validators.required)
   });
@@ -54,6 +54,6 @@ export class PostPromptComponent {
     if (navigationId > 1)
       this.location.back();
     else
-      this.router.navigate(['']);
+      this.router.navigateByUrl('');
   }
 }

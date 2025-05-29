@@ -37,10 +37,10 @@ import { AuthService } from '../../auth/shared/auth.service';
   ]
 })
 export class LayoutComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  protected loggedInUser = this.authService.loggedInUser;
-  protected isSidenavCollapsed = signal(false);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  protected readonly authenticatedUser = this.authService.authenticatedUser;
+  protected readonly isSidenavCollapsed = signal(false);
 
   protected onToggleSidebar() {
     this.isSidenavCollapsed.update(value => !value);
@@ -50,7 +50,7 @@ export class LayoutComponent {
     this.authService.logOut()
       .subscribe({
         error: err => window.alert(`Could not log out: ${err.message}`),
-        complete: () => this.router.navigate(['login'])
+        complete: () => this.router.navigateByUrl('login')
       });
   }
 

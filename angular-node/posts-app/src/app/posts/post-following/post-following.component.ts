@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal, Signal } from '@angular/core';
 import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { PostGridComponent } from '../shared/post-grid/post-grid.component';
 import { IPost } from '../shared/post.interface';
@@ -10,7 +10,8 @@ import { AuthService } from '../../auth/shared/auth.service';
   imports: [PostGridComponent],
   template: `
     <app-post-grid [posts]="posts()" [newlyCreatedPosts]="newlyCreatedPosts()" />
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostFollowingComponent {
   protected readonly newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
@@ -20,9 +21,9 @@ export class PostFollowingComponent {
 
   constructor() {
     effect(() => {
-      const loggedInUser = this.authService.loggedInUser();
-      if (loggedInUser)
-        this.postService.getFollowingUsersPosts(loggedInUser.username)
+      const authenticatedUser = this.authService.authenticatedUser();
+      if (authenticatedUser)
+        this.postService.getFollowingUsersPosts(authenticatedUser.username)
           .subscribe({
             next: posts => this.posts.set(posts),
             error: error => window.alert(`Could not fetch posts: ${error.message}`)

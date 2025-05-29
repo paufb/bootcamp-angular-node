@@ -14,6 +14,6 @@ import { AuthService } from '../../auth/shared/auth.service';
 })
 export class SidenavComponent {
   private readonly authService = inject(AuthService);
-  protected readonly loggedInUser = this.authService.loggedInUser;
+  protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly navListItems = [{ href: '/posts', title: 'Home', matIcon: 'home' }];
 }
