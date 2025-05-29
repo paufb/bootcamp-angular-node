@@ -19,7 +19,7 @@
     #rla="routerLinkActive"
   >
     <mat-icon matListItemIcon>
-      <app-profile-picture [src]="profilePictureSrc()" width="24px" height="24px" />
+      <app-profile-picture [src]="loggedInUser()?.imageUrl" width="24px" height="24px" />
     </mat-icon>
     <span matListItemTitle>{{`@${loggedInUser()?.username}`}}</span>
   </a>

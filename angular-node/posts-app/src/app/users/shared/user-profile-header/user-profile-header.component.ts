@@ -21,7 +21,6 @@ export class UserProfileHeaderComponent {
   private readonly userService = inject(UserService);
   private readonly matDialog = inject(MatDialog);
   protected readonly hasBeenFollowed = signal<boolean>(false);
-  protected readonly profilePictureSrc = computed(() => this.user() ? null : undefined);
   protected readonly followersCount = computed<number>(() => {
     const user = this.user();
     const hasBeenFollowed = this.hasBeenFollowed();

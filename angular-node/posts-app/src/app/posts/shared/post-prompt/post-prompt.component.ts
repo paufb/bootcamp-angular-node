@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,6 @@ export class PostPromptComponent {
   private readonly formDirective = viewChild.required(FormGroupDirective);
   protected readonly isSubmitting = signal(false);
   protected readonly loggedInUser = this.authService.loggedInUser;
-  protected readonly profilePictureSrc = computed(() => this.loggedInUser() ? null : undefined);
   protected readonly formGroup = new FormGroup({
     body: new FormControl('', Validators.required)
   });
