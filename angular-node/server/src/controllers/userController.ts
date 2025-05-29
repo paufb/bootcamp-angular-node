@@ -5,7 +5,7 @@ import userService from '../services/userService';
 const getUserByUsername = async (req: Request, res: Response): Promise<void> => {
   const { username } = req.params;
   try {
-    const user = await userService.getUserByUsername(username, { select: ['+followers.users'] });
+    const user = await userService.findUserByUsername(username, { select: ['+followers.users'] });
     if (!user) {
       res.sendStatus(404);
       return;
@@ -34,7 +34,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 const getFollowersUsers = async (req: Request, res: Response) => {
   const { username } = req.params;
   try {
-    const users = await userService.getFollowersUsers(username);
+    const users = await userService.findFollowersUsers(username);
     res.status(200).json(users);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
@@ -44,7 +44,7 @@ const getFollowersUsers = async (req: Request, res: Response) => {
 const getFollowingUsers = async (req: Request, res: Response) => {
   const { username } = req.params;
   try {
-    const users = await userService.getFollowingUsers(username);
+    const users = await userService.findFollowingUsers(username);
     res.status(200).json(users);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });

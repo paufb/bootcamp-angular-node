@@ -15,18 +15,18 @@ const createUser = (userData: CreateUserDTO) => {
   return User.create(userData);
 }
 
-const getUserByUsername = (username: string, options?: UserQueryOptions) => {
+const findUserByUsername = (username: string, options?: UserQueryOptions) => {
   let query = User.findOne({ username });
   if (options?.select) query.select(options.select);
   return query.exec();
 }
 
-const getFollowersUsers = async (username: string) => {
+const findFollowersUsers = async (username: string) => {
   const user = await User.findOne({ username }).select('+followers.users').populate('followers.users');
   return user?.followers?.users;
 }
 
-const getFollowingUsers = async (username: string) => {
+const findFollowingUsers = async (username: string) => {
   const user = await User.findOne({ username }).select('+following.users').populate('following.users');
   return user?.following?.users;
 }
@@ -45,8 +45,8 @@ const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.Object
 
 export default {
   createUser,
-  getUserByUsername,
-  getFollowersUsers,
-  getFollowingUsers,
+  findUserByUsername,
+  findFollowersUsers,
+  findFollowingUsers,
   followUser
 };
