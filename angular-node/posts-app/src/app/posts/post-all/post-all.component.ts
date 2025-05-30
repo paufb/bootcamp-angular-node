@@ -20,18 +20,19 @@ export class PostAllComponent implements OnInit {
   protected newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
   private postService = inject(PostService);
   protected posts = signal<IPost[] | null>(null);
-  private page = 0;
+  private lastPostCreatedAt?: string;
 
   ngOnInit(): void {
     this.fetchMorePosts();
   }
 
   protected fetchMorePosts() {
-    this.postService.getPosts({ pagesize: 10, page: this.page })
+    this.postService.getPosts({ pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
           this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
-          this.page++;
+          if (posts.length > 0)
+            this.lastPostCreatedAt = posts[posts.length - 1].createdAt;
         },
         error: error => window.alert(`Could not fetch posts: ${error.message}`)
       });

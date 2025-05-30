@@ -9,6 +9,6 @@ export interface IPost {
     count: number;
   };
   isLikedByUser: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }

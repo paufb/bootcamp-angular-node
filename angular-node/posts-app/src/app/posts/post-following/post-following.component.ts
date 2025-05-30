@@ -22,7 +22,7 @@ export class PostFollowingComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly postService = inject(PostService);
   protected readonly posts = signal<IPost[] | null>(null);
-  private page = 0;
+  private lastPostCreatedAt?: string;
 
   ngOnInit(): void {
     this.fetchMorePosts();
@@ -30,11 +30,12 @@ export class PostFollowingComponent implements OnInit {
 
   protected fetchMorePosts() {
     const { username } = this.authService.authenticatedUser()!;
-    this.postService.getFollowingUsersPosts(username, { pagesize: 10, page: this.page })
+    this.postService.getFollowingUsersPosts(username, { pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
           this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
-          this.page++;
+          if (posts.length > 0)
+            this.lastPostCreatedAt = posts[posts.length - 1].createdAt;
         },
         error: error => window.alert(`Could not fetch posts: ${error.message}`)
       });

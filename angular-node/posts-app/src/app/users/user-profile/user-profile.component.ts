@@ -26,7 +26,7 @@ export class UserProfileComponent implements OnInit {
   protected readonly user = signal<IUser | null>(null);
   protected readonly posts = signal<IPost[] | null>(null);
   private username!: IUser['username'];
-  private page = 0;
+  private lastPostCreatedAt?: string;
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -47,11 +47,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   protected fetchMorePosts() {
-    this.postService.getPostsByUsername(this.username, { pagesize: 10, page: this.page })
+    this.postService.getPostsByUsername(this.username, { pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
           this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
-          this.page++;
+          if (posts.length > 0)
+            this.lastPostCreatedAt = posts[posts.length - 1].createdAt;
         },
         error: error => window.alert(`Could not fetch posts: ${error.message}`)
       });

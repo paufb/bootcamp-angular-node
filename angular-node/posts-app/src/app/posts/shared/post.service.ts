@@ -5,9 +5,10 @@ import { CreatePostDTO } from './create-post-dto.interface';
 import { IPost } from './post.interface';
 import { IUser } from '../../users/shared/user.interface';
 
-interface PostRequestOptions {
-  pagesize: number;
-  page: number;
+interface PostRequestQueryParams {
+  pageSize: number;
+  page?: number;
+  createdBefore?: string;
 }
 
 @Injectable({
@@ -18,22 +19,27 @@ export class PostService {
   private readonly USERS_URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  getPosts(options: PostRequestOptions): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.POSTS_URL}`, {
-      params: { pagesize: options.pagesize, page: options.page }
-    });
+  private constructQueryParams(params: PostRequestQueryParams): Record<string, string | number | boolean> {
+    const queryParams: Record<string, string | number | boolean> = {};
+    if (params.pageSize) queryParams['page_size'] = params.pageSize;
+    if (params.page) queryParams['page'] = params.page;
+    if (params.createdBefore) queryParams['created_before'] = params.createdBefore;
+    return queryParams;
   }
 
-  getPostsByUsername(username: IUser['username'], options: PostRequestOptions): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`, {
-      params: { pagesize: options.pagesize, page: options.page }
-    });
+  getPosts(params: PostRequestQueryParams): Observable<IPost[]> {
+    const queryParams = this.constructQueryParams(params);
+    return this.httpClient.get<IPost[]>(`${this.POSTS_URL}`, { params: queryParams });
   }
 
-  getFollowingUsersPosts(username: IUser['username'], options: PostRequestOptions): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, {
-      params: { pagesize: options.pagesize, page: options.page }
-    });
+  getPostsByUsername(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
+    const queryParams = this.constructQueryParams(params);
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`, { params: queryParams });
+  }
+
+  getFollowingUsersPosts(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
+    const queryParams = this.constructQueryParams(params);
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, { params: queryParams });
   }
 
   createPost(dto: CreatePostDTO): Observable<IPost> {
