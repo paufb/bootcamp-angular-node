@@ -3,7 +3,13 @@ import mongoose, { Error } from 'mongoose';
 import postService from '../services/postService';
 
 const getPosts = async (req: Request, res: Response) => {
-  const posts = await postService.findPosts({ select: ['+likes.users'], populate: ['user'], sort: [[ 'createdAt', 'desc' ]] });
+  const { pagesize = 0, page = 0 } = req.query;
+  const posts = await postService.findPosts({
+    select: ['+likes.users'],
+    populate: ['user'],
+    sort: [[ 'createdAt', 'desc' ]],
+    pagination: { pageSize: Number(pagesize), page: Number(page) }
+  });
   const response = posts.map(post => {
     const postObj = post.toObject();
     return {
@@ -16,7 +22,13 @@ const getPosts = async (req: Request, res: Response) => {
 
 const getPostsByUsername = async (req: Request, res: Response) => {
   const { username } = req.params;
-  const posts = await postService.findPostsByUsername(username, { select: ['+likes.users'], populate: ['user'], sort: [['createdAt', 'desc']] });
+  const { pagesize = 0, page = 0 } = req.query;
+  const posts = await postService.findPostsByUsername(username, {
+    select: ['+likes.users'],
+    populate: ['user'],
+    sort: [['createdAt', 'desc']],
+    pagination: { pageSize: Number(pagesize), page: Number(page) }
+  });
   const response = posts.map(post => {
     const postObj = post.toObject();
     return {
@@ -29,8 +41,12 @@ const getPostsByUsername = async (req: Request, res: Response) => {
 
 const getFollowingUsersPosts = async (req: Request, res: Response) => {
   const { username } = req.params;
+  const { pagesize = 0, page = 0 } = req.query;
   try {
-    const posts = await postService.findFollowingUsersPosts(username, { populate: ['user'] });
+    const posts = await postService.findFollowingUsersPosts(username, {
+      populate: ['user'],
+      pagination: { pageSize: Number(pagesize), page: Number(page) }
+    });
     res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
