@@ -1,14 +1,15 @@
+import type { ParsedQs } from 'qs';
 import { Request, Response } from 'express';
 import mongoose, { Error } from 'mongoose';
 import postService from '../services/postService';
+import { PostQueryOptions } from '../interfaces/post-query-options.interface';
 
 const getPosts = async (req: Request, res: Response) => {
-  const { pagesize = 0, page = 0 } = req.query;
   const posts = await postService.findPosts({
     select: ['+likes.users'],
     populate: ['user'],
     sort: [[ 'createdAt', 'desc' ]],
-    pagination: { pageSize: Number(pagesize), page: Number(page) }
+    pagination: constructPaginationOptions(req.query)
   });
   const response = posts.map(post => {
     const postObj = post.toObject();
@@ -22,12 +23,11 @@ const getPosts = async (req: Request, res: Response) => {
 
 const getPostsByUsername = async (req: Request, res: Response) => {
   const { username } = req.params;
-  const { pagesize = 0, page = 0 } = req.query;
   const posts = await postService.findPostsByUsername(username, {
     select: ['+likes.users'],
     populate: ['user'],
     sort: [['createdAt', 'desc']],
-    pagination: { pageSize: Number(pagesize), page: Number(page) }
+    pagination: constructPaginationOptions(req.query)
   });
   const response = posts.map(post => {
     const postObj = post.toObject();
@@ -41,12 +41,11 @@ const getPostsByUsername = async (req: Request, res: Response) => {
 
 const getFollowingUsersPosts = async (req: Request, res: Response) => {
   const { username } = req.params;
-  const { pagesize = 0, page = 0 } = req.query;
   try {
     const posts = await postService.findFollowingUsersPosts(username, {
       populate: ['user'],
       sort: [[ 'createdAt', 'desc' ]],
-      pagination: { pageSize: Number(pagesize), page: Number(page) }
+      pagination: constructPaginationOptions(req.query)
     });
     res.status(200).json(posts);
   } catch (error) {
@@ -75,6 +74,15 @@ const likePost = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
   }
+}
+
+const constructPaginationOptions = (query: ParsedQs): PostQueryOptions['pagination'] => {
+  const { page_size, page, created_before } = query;
+  return {
+    pageSize: Number(page_size),
+    page: page ? Number(page) : undefined,
+    createdBefore: created_before ? String(created_before) : undefined
+  };
 }
 
 export default {

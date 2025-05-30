@@ -1,21 +1,12 @@
 import mongoose from 'mongoose';
 import { Post } from '../models/post';
 import { User } from '../models/user';
+import { PostQueryOptions } from '../interfaces/post-query-options.interface';
 
 interface ICreatePostDTO {
   title?: string;
   body: string;
   user: mongoose.Types.ObjectId;
-}
-
-interface PostQueryOptions {
-  select?: ('+likes.users')[];
-  populate?: ('user' | 'likes.users')[];
-  sort?: ['createdAt', 'asc' | 'desc'][];
-  pagination?: {
-    pageSize: number;
-    page: number;
-  }
 }
 
 const createPost = (postData: ICreatePostDTO) => {
@@ -27,10 +18,7 @@ const findPosts = (options?: PostQueryOptions) => {
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
-  if (options?.pagination) {
-    query.skip(options.pagination.pageSize * options.pagination.page);
-    query.limit(options.pagination.pageSize);
-  }
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
   return query.exec();
 }
 
@@ -41,10 +29,7 @@ const findPostsByUsername = async (username: string, options?: PostQueryOptions)
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
-  if (options?.pagination) {
-    query.skip(options.pagination.pageSize * options.pagination.page);
-    query.limit(options.pagination.pageSize);
-  }
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
   return query.exec();
 }
 
@@ -62,10 +47,7 @@ const findFollowingUsersPosts = async (username: string, options?: PostQueryOpti
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
-  if (options?.pagination) {
-    query.skip(options.pagination.pageSize * options.pagination.page);
-    query.limit(options.pagination.pageSize);
-  }
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
   return query.exec();
 }
 
@@ -74,6 +56,19 @@ const likePost = (like: boolean, postId: mongoose.Types.ObjectId, userId: mongoo
     [like ? '$push' : '$pull']: { 'likes.users': userId },
     $inc: { 'likes.count': like ? 1 : -1 }
   });
+}
+
+const addPaginationToQuery = (query: mongoose.Query<unknown, unknown>, options: NonNullable<PostQueryOptions['pagination']>) => {
+  const { pageSize, page, createdBefore } = options;
+  if (createdBefore) {
+    query.where('createdAt').lt(new Date(createdBefore).getTime());
+    query.limit(pageSize);
+  } else if (page) {
+    query.skip(pageSize * page);
+    query.limit(pageSize);
+  } else {
+    query.limit(pageSize);
+  };
 }
 
 export default {
