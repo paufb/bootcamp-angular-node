@@ -45,6 +45,7 @@ const getFollowingUsersPosts = async (req: Request, res: Response) => {
   try {
     const posts = await postService.findFollowingUsersPosts(username, {
       populate: ['user'],
+      sort: [[ 'createdAt', 'desc' ]],
       pagination: { pageSize: Number(pagesize), page: Number(page) }
     });
     res.status(200).json(posts);

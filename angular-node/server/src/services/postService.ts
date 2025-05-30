@@ -61,6 +61,7 @@ const findFollowingUsersPosts = async (username: string, options?: PostQueryOpti
   let query = Post.find({ user: { $in: user.following?.users } });
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
+  if (options?.sort) query.sort(options.sort);
   if (options?.pagination) {
     query.skip(options.pagination.pageSize * options.pagination.page);
     query.limit(options.pagination.pageSize);
