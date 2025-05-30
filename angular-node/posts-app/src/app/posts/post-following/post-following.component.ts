@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { PostGridComponent } from '../shared/post-grid/post-grid.component';
 import { IPost } from '../shared/post.interface';
@@ -9,25 +9,34 @@ import { AuthService } from '../../auth/shared/auth.service';
   selector: 'app-post-following',
   imports: [PostGridComponent],
   template: `
-    <app-post-grid [posts]="posts()" [newlyCreatedPosts]="newlyCreatedPosts()" />
+    <app-post-grid
+      [posts]="posts()"
+      [newlyCreatedPosts]="newlyCreatedPosts()"
+      (loadMorePosts)="fetchMorePosts()"
+    />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PostFollowingComponent {
+export class PostFollowingComponent implements OnInit {
   protected readonly newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
   private readonly authService = inject(AuthService);
   private readonly postService = inject(PostService);
   protected readonly posts = signal<IPost[] | null>(null);
+  private page = 0;
 
-  constructor() {
-    effect(() => {
-      const authenticatedUser = this.authService.authenticatedUser();
-      if (authenticatedUser)
-        this.postService.getFollowingUsersPosts(authenticatedUser.username)
-          .subscribe({
-            next: posts => this.posts.set(posts),
-            error: error => window.alert(`Could not fetch posts: ${error.message}`)
-          });
-    });
+  ngOnInit(): void {
+    this.fetchMorePosts();
+  }
+
+  protected fetchMorePosts() {
+    const { username } = this.authService.authenticatedUser()!;
+    this.postService.getFollowingUsersPosts(username, { pagesize: 10, page: this.page })
+      .subscribe({
+        next: posts => {
+          this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
+          this.page++;
+        },
+        error: error => window.alert(`Could not fetch posts: ${error.message}`)
+      });
   }
 }

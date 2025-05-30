@@ -2,7 +2,14 @@
   @if (posts()?.length === 0 && newlyCreatedPosts().length === 0) {
     <div class="no-posts">No posts to display...</div>
   } @else {
-    <div class="posts">
+    <div
+      class="posts"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollUpDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+    >
       @for (post of newlyCreatedPosts(); track post._id) {
         <app-post-card [post]="post" @scaleFadeInFromTop />
       }

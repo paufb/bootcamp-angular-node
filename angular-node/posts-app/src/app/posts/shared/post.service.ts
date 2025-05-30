@@ -5,6 +5,11 @@ import { CreatePostDTO } from './create-post-dto.interface';
 import { IPost } from './post.interface';
 import { IUser } from '../../users/shared/user.interface';
 
+interface PostRequestOptions {
+  pagesize: number;
+  page: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,16 +18,22 @@ export class PostService {
   private readonly USERS_URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  getPosts(): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(this.POSTS_URL);
+  getPosts(options: PostRequestOptions): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(`${this.POSTS_URL}`, {
+      params: { pagesize: options.pagesize, page: options.page }
+    });
   }
 
-  getPostsByUsername(username: IUser['username']): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`);
+  getPostsByUsername(username: IUser['username'], options: PostRequestOptions): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`, {
+      params: { pagesize: options.pagesize, page: options.page }
+    });
   }
 
-  getFollowingUsersPosts(username: IUser['username']): Observable<IPost[]> {
-    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`);
+  getFollowingUsersPosts(username: IUser['username'], options: PostRequestOptions): Observable<IPost[]> {
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, {
+      params: { pagesize: options.pagesize, page: options.page }
+    });
   }
 
   createPost(dto: CreatePostDTO): Observable<IPost> {

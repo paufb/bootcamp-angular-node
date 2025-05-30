@@ -25,27 +25,35 @@ export class UserProfileComponent implements OnInit {
   protected readonly isOwnProfile = signal<boolean>(false);
   protected readonly user = signal<IUser | null>(null);
   protected readonly posts = signal<IPost[] | null>(null);
+  private username!: IUser['username'];
+  private page = 0;
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const username = params['username'];
+      this.username = username;
       this.isOwnProfile.set(username === this.authService.authenticatedUser()?.username);
-      this.fetchUser(username);
-      this.fetchPosts(username);
+      this.fetchUser();
+      this.fetchMorePosts();
     });
   }
 
-  private fetchUser(username: IUser['username']) {
-    this.userService.getUser(username).subscribe({
-      next: user => this.user.set(user),
-      error: error => window.alert(`Could not fetch user: ${error.message}`)
-    });
+  private fetchUser() {
+    this.userService.getUser(this.username)
+      .subscribe({
+        next: user => this.user.set(user),
+        error: error => window.alert(`Could not fetch user: ${error.message}`)
+      });
   }
 
-  private fetchPosts(username: IUser['username']) {
-    this.postService.getPostsByUsername(username).subscribe({
-      next: posts => this.posts.set(posts),
-      error: error => window.alert(`Could not fetch posts: ${error.message}`)
-    });
+  protected fetchMorePosts() {
+    this.postService.getPostsByUsername(this.username, { pagesize: 10, page: this.page })
+      .subscribe({
+        next: posts => {
+          this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
+          this.page++;
+        },
+        error: error => window.alert(`Could not fetch posts: ${error.message}`)
+      });
   }
 }

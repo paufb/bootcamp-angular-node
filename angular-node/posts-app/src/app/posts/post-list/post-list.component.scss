@@ -5,7 +5,7 @@ app-post-prompt {
 
 .router-wrapper {
   display: grid;
-  padding: 1rem 0;
+  padding-top: 1rem;
 
   > ::ng-deep * {
     grid-column-start: 1;
