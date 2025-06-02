@@ -1,3 +1,11 @@
+@use 'roboto-fontface/css/roboto/sass/roboto-fontface' with (
+  $roboto-font-path: 'roboto-fontface/fonts'
+);
+
+@use 'material-icons/iconfont/material-icons.scss' with (
+  $material-icons-font-path: 'material-icons/iconfont/'
+);
+
 :root {
   --app-max-width: 90rem;
   --app-padding: 1rem;
