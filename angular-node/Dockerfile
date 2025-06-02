@@ -7,8 +7,9 @@ WORKDIR /tmp/posts-app/
 RUN npm install && \
 npm run build && \
 mkdir /server/browser/ && \
-mv ./dist/posts-app/browser/* /server/browser/
+mv ./dist/posts-app/browser/* /server/browser/ && \
+npm install -g ts-node@10.9.2
 WORKDIR /server/
 RUN npm install
 
-ENTRYPOINT npm start
+ENTRYPOINT ts-node src/app.ts
