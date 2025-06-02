@@ -1,8 +1,10 @@
 import type { ParsedQs } from 'qs';
 import { Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import mongoose, { Error } from 'mongoose';
-import postService from '../services/postService';
+import { DTO } from '../interfaces/dto';
 import { PostQueryOptions } from '../interfaces/post-query-options.interface';
+import postService from '../services/postService';
 
 const getPosts = async (req: Request, res: Response) => {
   const posts = await postService.findPosts({
@@ -23,20 +25,24 @@ const getPosts = async (req: Request, res: Response) => {
 
 const getPostsByUsername = async (req: Request, res: Response) => {
   const { username } = req.params;
-  const posts = await postService.findPostsByUsername(username, {
-    select: ['+likes.users'],
-    populate: ['user'],
-    sort: [['createdAt', 'desc']],
-    pagination: constructPaginationOptions(req.query)
-  });
-  const response = posts.map(post => {
-    const postObj = post.toObject();
-    return {
-      ...postObj,
-      isLikedByUser: postObj.likes?.users.some(userObjectId => userObjectId.equals(req.userId))
-    };
-  });
-  res.status(200).json(response);
+  try {
+    const posts = await postService.findPostsByUsername(username, {
+      select: ['+likes.users'],
+      populate: ['user'],
+      sort: [['createdAt', 'desc']],
+      pagination: constructPaginationOptions(req.query)
+    });
+    const response = posts.map(post => {
+      const postObj = post.toObject();
+      return {
+        ...postObj,
+        isLikedByUser: postObj.likes?.users.some(userObjectId => userObjectId.equals(req.userId))
+      };
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
 }
 
 const getFollowingUsersPosts = async (req: Request, res: Response) => {
@@ -53,7 +59,7 @@ const getFollowingUsersPosts = async (req: Request, res: Response) => {
   }
 }
 
-const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: Request<ParamsDictionary, any, DTO.ICreatePostDTO>, res: Response) => {
   const { title, body } = req.body;
   try {
     const { _id } = await postService.createPost({ title, body, user: req.userId });
@@ -64,7 +70,7 @@ const createPost = async (req: Request, res: Response) => {
   }
 }
 
-const likePost = async (req: Request, res: Response) => {
+const likePost = async (req: Request<ParamsDictionary, any, DTO.ILikePostDTO>, res: Response) => {
   const { postId } = req.params;
   const { like } = req.body;
   const postObjectId = new mongoose.Types.ObjectId(postId); 

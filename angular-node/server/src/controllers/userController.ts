@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import mongoose, { Error } from 'mongoose';
+import { DTO } from '../interfaces/dto';
 import userService from '../services/userService';
 
 const getUserByUsername = async (req: Request, res: Response): Promise<void> => {
@@ -21,7 +23,7 @@ const getUserByUsername = async (req: Request, res: Response): Promise<void> => 
   }
 }
 
-const createUser = async (req: Request, res: Response): Promise<void> => {
+const createUser = async (req: Request<ParamsDictionary, any, DTO.ICreateUserDTO>, res: Response): Promise<void> => {
   const { name, username, password } = req.body;
   try {
     const newUser = await userService.createUser({ name, username, password });
@@ -51,12 +53,23 @@ const getFollowingUsers = async (req: Request, res: Response) => {
   }
 }
 
+const editUser = async (req: Request<ParamsDictionary, any, DTO.IUpdateUserDTO>, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const objectId = new mongoose.Types.ObjectId(userId);
+    const user = await userService.updateUser(objectId, req.body);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 const followUser = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.params;
   const { follow } = req.body;
-  const userObjectIdToFollow = new mongoose.Types.ObjectId(userId);
   try {
-    await userService.followUser(follow, userObjectIdToFollow, req.userId);
+    const objectId = new mongoose.Types.ObjectId(userId);
+    await userService.followUser(follow, objectId, req.userId);
     res.sendStatus(204);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
@@ -68,5 +81,6 @@ export default {
   createUser,
   getFollowersUsers,
   getFollowingUsers,
+  editUser,
   followUser
 };

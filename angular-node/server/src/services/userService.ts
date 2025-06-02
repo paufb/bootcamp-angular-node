@@ -1,17 +1,12 @@
 import mongoose from 'mongoose';
+import { DTO } from '../interfaces/dto';
 import { User } from '../models/user'
-
-interface CreateUserDTO {
-  name: string;
-  username: string;
-  password: string;
-}
 
 interface UserQueryOptions {
   select?: ('+following.users' | '+followers.users')[];
 }
 
-const createUser = (userData: CreateUserDTO) => {
+const createUser = (userData: DTO.ICreateUserDTO) => {
   return User.create(userData);
 }
 
@@ -31,6 +26,11 @@ const findFollowingUsers = async (username: string) => {
   return user?.following?.users;
 }
 
+const updateUser = async (userId: mongoose.Types.ObjectId, dto: DTO.IUpdateUserDTO) => {
+  const updatedUser = await User.findByIdAndUpdate(userId, { name: dto.name, username: dto.username }, { new: true });
+  return updatedUser;
+}
+
 const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId) => {
   const countIncrement = follow ? 1 : -1;
   await User.findByIdAndUpdate(userIdToFollow, {
@@ -48,5 +48,6 @@ export default {
   findUserByUsername,
   findFollowersUsers,
   findFollowingUsers,
+  updateUser,
   followUser
 };

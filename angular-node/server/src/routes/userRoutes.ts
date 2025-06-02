@@ -12,5 +12,6 @@ router.get('/:username/following/posts', requireAuthentication, postController.g
 router.get('/:username/posts', requireAuthentication, postController.getPostsByUsername);
 router.post('/', userController.createUser);
 router.put('/:userId/follow', requireAuthentication, userController.followUser);
+router.patch('/:userId', requireAuthentication, userController.editUser);
 
 export default router;
