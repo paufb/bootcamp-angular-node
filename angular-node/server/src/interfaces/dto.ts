@@ -9,7 +9,6 @@ export namespace DTO {
     username: string;
   }
   export interface ICreatePostDTO {
-    title?: string;
     body: string;
   }
   export interface ILikePostDTO {

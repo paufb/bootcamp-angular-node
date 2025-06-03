@@ -1,6 +1,6 @@
+import type { IDecodedJWTPayload } from '../interfaces/decoded-jwt-payload.interface';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
-import { IDecodedJWTPayload } from '../interfaces/decoded-jwt-payload.interface';
 
 const JWT_SECRET = process.env.JWT_SECRET ?? '';
 
@@ -13,7 +13,7 @@ const areUserCredentialsValid = async (username: string, password: string): Prom
 const generateJsonWebToken = async (username: string): Promise<string> => {
   const user = await User.findOne({ username });
   if (!user) throw new Error('User not found during JWT generation');
-  const payload: IDecodedJWTPayload = { userId: user._id };
+  const payload: IDecodedJWTPayload = { userId: user._id.toString() };
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
 }
 

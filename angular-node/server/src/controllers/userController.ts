@@ -1,8 +1,25 @@
-import { Request, Response } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
-import mongoose, { Error } from 'mongoose';
-import { DTO } from '../interfaces/dto';
+import type { Request, Response } from 'express';
+import type { ParamsDictionary } from 'express-serve-static-core';
+import type { Error } from 'mongoose';
+import type { DTO } from '../interfaces/dto';
 import userService from '../services/userService';
+
+const getUser = async (req: Request, res: Response): Promise<void> => {
+  const { userId } = req.params;
+  try {
+    const user = await userService.findUser(userId);
+    if (!user) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).json({
+      isFollowedByUser: userService.isUserFollowedBy(user, req.userId),
+      ...user.toObject()
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+}
 
 const getUserByUsername = async (req: Request, res: Response): Promise<void> => {
   const { username } = req.params;
@@ -12,12 +29,10 @@ const getUserByUsername = async (req: Request, res: Response): Promise<void> => 
       res.sendStatus(404);
       return;
     }
-    const userObj = user.toObject();
-    const response = {
-      ...userObj,
-      isFollowedByUser: userObj.followers?.users.some(userObjectId => userObjectId.equals(req.userId))
-    };
-    res.status(200).json(response);
+    res.status(200).json({
+      isFollowedByUser: userService.isUserFollowedBy(user, req.userId),
+      ...user.toObject()
+    });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
@@ -33,7 +48,7 @@ const createUser = async (req: Request<ParamsDictionary, any, DTO.ICreateUserDTO
   }
 }
 
-const getFollowersUsers = async (req: Request, res: Response) => {
+const getFollowersUsers = async (req: Request, res: Response): Promise<void> => {
   const { username } = req.params;
   try {
     const users = await userService.findFollowersUsers(username);
@@ -43,7 +58,7 @@ const getFollowersUsers = async (req: Request, res: Response) => {
   }
 }
 
-const getFollowingUsers = async (req: Request, res: Response) => {
+const getFollowingUsers = async (req: Request, res: Response): Promise<void> => {
   const { username } = req.params;
   try {
     const users = await userService.findFollowingUsers(username);
@@ -53,11 +68,10 @@ const getFollowingUsers = async (req: Request, res: Response) => {
   }
 }
 
-const editUser = async (req: Request<ParamsDictionary, any, DTO.IUpdateUserDTO>, res: Response) => {
+const editUser = async (req: Request<ParamsDictionary, any, DTO.IUpdateUserDTO>, res: Response): Promise<void> => {
   const { userId } = req.params;
   try {
-    const objectId = new mongoose.Types.ObjectId(userId);
-    const user = await userService.updateUser(objectId, req.body);
+    const user = await userService.updateUser(userId, req.body);
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
@@ -68,8 +82,7 @@ const followUser = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.params;
   const { follow } = req.body;
   try {
-    const objectId = new mongoose.Types.ObjectId(userId);
-    await userService.followUser(follow, objectId, req.userId);
+    await userService.followUser(follow, userId, req.userId);
     res.sendStatus(204);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });
@@ -77,6 +90,7 @@ const followUser = async (req: Request, res: Response): Promise<void> => {
 }
 
 export default {
+  getUser,
   getUserByUsername,
   createUser,
   getFollowersUsers,

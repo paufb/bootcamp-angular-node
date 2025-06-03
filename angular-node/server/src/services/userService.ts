@@ -1,37 +1,42 @@
-import mongoose from 'mongoose';
-import { DTO } from '../interfaces/dto';
+import type { HydratedDocument, Types } from 'mongoose';
+import type { DTO } from '../interfaces/dto';
+import type { IUser } from '../interfaces/user';
 import { User } from '../models/user'
 
 interface UserQueryOptions {
   select?: ('+following.users' | '+followers.users')[];
 }
 
-const createUser = (userData: DTO.ICreateUserDTO) => {
+const createUser = (userData: DTO.ICreateUserDTO): Promise<HydratedDocument<IUser>> => {
   return User.create(userData);
 }
 
-const findUserByUsername = (username: string, options?: UserQueryOptions) => {
+const findUser = (userId: string): Promise<HydratedDocument<IUser> | null> => {
+  return User.findById(userId);
+}
+
+const findUserByUsername = (username: string, options?: UserQueryOptions): Promise<HydratedDocument<IUser> | null> => {
   let query = User.findOne({ username });
   if (options?.select) query.select(options.select);
-  return query.exec();
+  return query;
 }
 
-const findFollowersUsers = async (username: string) => {
+const findFollowersUsers = async (username: string): Promise<Types.ObjectId[] | undefined> => {
   const user = await User.findOne({ username }).select('+followers.users').populate('followers.users');
-  return user?.followers?.users;
+  return user?.followers.users;
 }
 
-const findFollowingUsers = async (username: string) => {
+const findFollowingUsers = async (username: string): Promise<Types.ObjectId[] | undefined> => {
   const user = await User.findOne({ username }).select('+following.users').populate('following.users');
-  return user?.following?.users;
+  return user?.following.users;
 }
 
-const updateUser = async (userId: mongoose.Types.ObjectId, dto: DTO.IUpdateUserDTO) => {
+const updateUser = async (userId: string, dto: DTO.IUpdateUserDTO): Promise<HydratedDocument<IUser> | null> => {
   const updatedUser = await User.findByIdAndUpdate(userId, { name: dto.name, username: dto.username }, { new: true });
   return updatedUser;
 }
 
-const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId) => {
+const followUser = async (follow: boolean, userIdToFollow: string, userId: string): Promise<void> => {
   const countIncrement = follow ? 1 : -1;
   await User.findByIdAndUpdate(userIdToFollow, {
     [follow ? '$push' : '$pull']: { 'followers.users': userId },
@@ -43,11 +48,17 @@ const followUser = async (follow: boolean, userIdToFollow: mongoose.Types.Object
   });
 }
 
+const isUserFollowedBy = (currentUser: HydratedDocument<IUser>, userId: string): boolean => {
+  return !!currentUser.followers.users?.some(userObjectId => userObjectId.equals(userId));
+}
+
 export default {
   createUser,
+  findUser,
   findUserByUsername,
   findFollowersUsers,
   findFollowingUsers,
   updateUser,
-  followUser
+  followUser,
+  isUserFollowedBy
 };

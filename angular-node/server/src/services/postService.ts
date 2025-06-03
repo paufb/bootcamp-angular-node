@@ -1,28 +1,23 @@
-import mongoose from 'mongoose';
+import type { HydratedDocument, Query } from 'mongoose';
+import type { PostQueryOptions } from '../interfaces/post-query-options.interface';
+import type { IPost } from '../interfaces/post';
 import { Post } from '../models/post';
 import { User } from '../models/user';
-import { PostQueryOptions } from '../interfaces/post-query-options.interface';
 
-interface ICreatePostDTO {
-  title?: string;
-  body: string;
-  user: mongoose.Types.ObjectId;
+const createPost = ({ body, userId }: { body: string; userId: string }): Promise<HydratedDocument<IPost>> => {
+  return Post.create({ body, user: userId });
 }
 
-const createPost = (postData: ICreatePostDTO) => {
-  return Post.create(postData);
-}
-
-const findPosts = (options?: PostQueryOptions) => {
+const findPosts = (options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
   let query = Post.find();
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
   if (options?.pagination) addPaginationToQuery(query, options.pagination);
-  return query.exec();
+  return query;
 }
 
-const findPostsByUsername = async (username: string, options?: PostQueryOptions) => {
+const findPostsByUsername = async (username: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
   const user = await User.findOne({ username }, '_id');
   if (!user) throw new Error('User not found');
   let query = Post.find({ user: user._id });
@@ -30,35 +25,35 @@ const findPostsByUsername = async (username: string, options?: PostQueryOptions)
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
   if (options?.pagination) addPaginationToQuery(query, options.pagination);
-  return query.exec();
+  return query;
 }
 
-const findPost = (postId: mongoose.Types.ObjectId, options?: PostQueryOptions) => {
+const findPost = (postId: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost> | null> => {
   let query = Post.findById(postId);
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
-  return query.exec();
+  return query;
 }
 
-const findFollowingUsersPosts = async (username: string, options?: PostQueryOptions) => {
+const findFollowingUsersPosts = async (username: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
   const user = await User.findOne({ username }).select('following.users');
   if (!user) throw new Error('User not found');
-  let query = Post.find({ user: { $in: user.following?.users } });
+  let query = Post.find({ user: { $in: user.following.users } });
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
   if (options?.pagination) addPaginationToQuery(query, options.pagination);
-  return query.exec();
+  return query;
 }
 
-const likePost = (like: boolean, postId: mongoose.Types.ObjectId, userId: mongoose.Types.ObjectId) => {
+const likePost = (like: boolean, postId: string, userId: string): Promise<HydratedDocument<IPost> | null> => {
   return Post.findByIdAndUpdate(postId, {
     [like ? '$push' : '$pull']: { 'likes.users': userId },
     $inc: { 'likes.count': like ? 1 : -1 }
   });
 }
 
-const addPaginationToQuery = (query: mongoose.Query<unknown, unknown>, options: NonNullable<PostQueryOptions['pagination']>) => {
+const addPaginationToQuery = (query: Query<unknown, IPost>, options: NonNullable<PostQueryOptions['pagination']>): void => {
   const { pageSize, page, createdBefore } = options;
   if (createdBefore) {
     query.where('createdAt').lt(new Date(createdBefore).getTime());
@@ -71,11 +66,16 @@ const addPaginationToQuery = (query: mongoose.Query<unknown, unknown>, options: 
   };
 }
 
+const isPostLikedBy = (post: HydratedDocument<IPost>, userId: string) => {
+  return !!post.likes.users?.some(userObjectId => userObjectId.equals(userId));
+}
+
 export default {
   createPost,
   findPosts,
   findPostsByUsername,
   findPost,
   findFollowingUsersPosts,
-  likePost
+  likePost,
+  isPostLikedBy
 };
