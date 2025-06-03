@@ -19,12 +19,12 @@
   background-color: lightblue;
   height: max(7.5rem, 25dvh);
   border-radius: 12px;
-}
 
-.profile-picture {
-  position: absolute;
-  inset: auto auto 0 var(--padding);
-  transform: translateY(50%);
+  & > app-profile-picture {
+    position: absolute;
+    inset: auto auto 0 var(--padding);
+    transform: translateY(50%);
+  }
 }
 
 .actions {

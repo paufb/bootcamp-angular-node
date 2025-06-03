@@ -1,4 +1,3 @@
-export interface CreatePostDTO {
-  title: string;
+export interface ICreatePostDTO {
   body: string;
 }

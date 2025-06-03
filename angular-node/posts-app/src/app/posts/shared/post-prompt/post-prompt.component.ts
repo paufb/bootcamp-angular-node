@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProfilePictureComponent } from '../../../shared/profile-picture/profile-picture.component';
-import { CreatePostDTO } from '../create-post-dto.interface';
+import { ICreatePostDTO } from '../create-post-dto.interface';
 import { PostService } from '../post.service';
 import { IPost } from '../post.interface';
 import { AuthService } from '../../../auth/shared/auth.service';
@@ -36,7 +36,7 @@ export class PostPromptComponent {
   protected onSubmit() {
     if (!this.formGroup.valid) return;
     this.isSubmitting.set(true);
-    const dto: CreatePostDTO = this.formGroup.value as CreatePostDTO;
+    const dto = this.formGroup.value as ICreatePostDTO;
     this.postService.createPost(dto)
       .subscribe({
         next: post => {

@@ -1,4 +1,4 @@
-import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { animate, group, keyframes, query, style, transition, trigger } from '@angular/animations';
 
 export const fadeIn = trigger('fadeIn', [
   transition(':enter', [
@@ -21,4 +21,20 @@ export const scaleFadeInFromTop = trigger('scaleFadeInFromTop', [
       style({ scale: 1, opacity: 1, transform: 'translateY(0)', offset: 1 })
     ]))
   ])
+]);
+
+export const pageEnterSlideUpAnimationGroup = group([
+  query(':leave', style({ 'z-index': 0 })),
+  query(':enter', [
+    style({ transform: 'translateY(100dvh)', 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
+    animate('.3s ease-out', style({ transform: 'translateY(0)' }))
+  ])
+]);
+
+export const pageLeaveSlideDownAnimationGroup = group([
+  query(':leave', [
+    style({ 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
+    animate('.3s ease-in', style({ transform: 'translateY(100dvh)' }))
+  ]),
+  query(':enter', style({ 'z-index': 0 }))
 ]);

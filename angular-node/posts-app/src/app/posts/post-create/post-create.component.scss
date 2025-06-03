@@ -1,7 +1,5 @@
 :host {
-  $padding: 1rem;
-  $border-radius: 1rem;
-  padding: $padding;
-  border-radius: $border-radius $border-radius 0 0;
-  box-shadow: rgba(0, 0, 0, .16) 0 -3px 6px, rgba(0, 0, 0, .23) 0 -3px 6px;
+  padding: 1rem;
+  border-radius: var(--app-slid-up-border-radius);
+  box-shadow: var(--app-slid-up-box-shadow);
 }

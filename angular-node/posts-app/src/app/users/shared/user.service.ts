@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUser } from './user.interface';
+import { IEditUserDTO } from '../../auth/shared/edit-user-dto';
 import { ISignupFormData } from '../../auth/shared/signup-form-data.interface';
 
 @Injectable({
@@ -11,8 +12,12 @@ export class UserService {
   private readonly URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  getUser(username: IUser['username']): Observable<IUser> {
-    return this.httpClient.get<IUser>(`${this.URL}/${username}`);
+  getUser(userId: IUser['_id']): Observable<IUser> {
+    return this.httpClient.get<IUser>(`${this.URL}/${userId}`);
+  }
+
+  getUserByUsername(username: IUser['username']) {
+    return this.httpClient.get<IUser>(`${this.URL}/username/${username}`);
   }
 
   createUser(formData: ISignupFormData): Observable<{ username: string; }> {
@@ -25,6 +30,10 @@ export class UserService {
 
   getFollowingUsers(username: IUser['username']): Observable<IUser[]> {
     return this.httpClient.get<IUser[]>(`${this.URL}/${username}/following`);
+  }
+
+  editUser(userId: IUser['_id'], data: IEditUserDTO) {
+    return this.httpClient.patch<IUser>(`${this.URL}/${userId}`, data);
   }
 
   followUser(follow: boolean, userId: IUser['_id']): Observable<null> {

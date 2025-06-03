@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { filter } from 'rxjs';
 import { PostPromptComponent } from '../shared/post-prompt/post-prompt.component';
-import { PostService } from '../shared/post.service';
 import { IPost } from '../shared/post.interface';
 import { fadeIn, fadeOut, scaleFadeInFromTop } from '../../shared/animations';
 

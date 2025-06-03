@@ -1,7 +1,6 @@
 <div class="background">
   <app-profile-picture
     [src]="user()?.imageUrl"
-    class="profile-picture"
     width="7.5rem"
     height="7.5rem"
   />
@@ -9,7 +8,7 @@
 <div class="placeholder-container actions">
   @defer (when user()) {
     @if (isOwn()) {
-      <button @fadeIn mat-raised-button>Edit profile</button>
+      <a @fadeIn mat-raised-button routerLink="/settings/profile">Edit profile</a>
     } @else if (hasBeenFollowed()) {
       <button @fadeIn mat-stroked-button (click)="onFollow()">Followed</button>
     } @else {

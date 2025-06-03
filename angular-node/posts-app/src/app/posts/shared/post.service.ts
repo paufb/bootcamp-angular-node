@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreatePostDTO } from './create-post-dto.interface';
+import { ICreatePostDTO } from './create-post-dto.interface';
 import { IPost } from './post.interface';
 import { IUser } from '../../users/shared/user.interface';
 
@@ -42,7 +42,7 @@ export class PostService {
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, { params: queryParams });
   }
 
-  createPost(dto: CreatePostDTO): Observable<IPost> {
+  createPost(dto: ICreatePostDTO): Observable<IPost> {
     return this.httpClient.post<IPost>(this.POSTS_URL, dto);
   }
 

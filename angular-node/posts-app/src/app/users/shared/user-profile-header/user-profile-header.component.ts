@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { RouterLink } from '@angular/router';
 import { UserFollowListDialogComponent } from '../user-follow-list-dialog/user-follow-list-dialog.component';
 import { IUser } from '../user.interface';
 import { UserService } from '../user.service';
@@ -9,15 +10,15 @@ import { ProfilePictureComponent } from '../../../shared/profile-picture/profile
 
 @Component({
   selector: 'app-user-profile-header',
-  imports: [MatButtonModule, ProfilePictureComponent],
+  imports: [MatButtonModule, ProfilePictureComponent, RouterLink],
   templateUrl: './user-profile-header.component.html',
   styleUrl: './user-profile-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeIn, fadeOut]
 })
 export class UserProfileHeaderComponent {
-  user = input.required<IUser | null>();
-  isOwn = input<boolean>(false);
+  readonly user = input.required<IUser | null>();
+  readonly isOwn = input<boolean>(false);
   private readonly userService = inject(UserService);
   private readonly matDialog = inject(MatDialog);
   protected readonly hasBeenFollowed = signal<boolean>(false);

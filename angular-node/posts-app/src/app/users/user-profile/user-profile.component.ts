@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private fetchUser() {
-    this.userService.getUser(this.username)
+    this.userService.getUserByUsername(this.username)
       .subscribe({
         next: user => this.user.set(user),
         error: error => window.alert(`Could not fetch user: ${error.message}`)

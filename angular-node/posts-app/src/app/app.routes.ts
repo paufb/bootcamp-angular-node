@@ -35,13 +35,19 @@ export const routes: Routes = [
         data: { animationState: 'AnyPostsChildrenPage' }
       },
       {
-        path: 'user/:username',
-        loadComponent: () => import('./users/user-profile/user-profile.component').then(m => m.UserProfileComponent),
-      },
-      {
         path: 'posts/new',
         loadComponent: () => import('./posts/post-create/post-create.component').then(m => m.PostCreateComponent),
         data: { animationState: 'PostCreatePage' }
+      },
+      {
+        path: 'user/:username',
+        loadComponent: () => import('./users/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+        data: { animationState: 'UserProfilePage' }
+      },
+      {
+        path: 'settings/profile',
+        loadComponent: () => import('./features/settings/profile-settings/profile-settings.component').then(m => m.ProfileSettingsComponent),
+        data: { animationState: 'ProfileSettingsPage' }
       }
     ]
   }  

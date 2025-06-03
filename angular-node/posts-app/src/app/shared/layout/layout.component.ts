@@ -1,10 +1,11 @@
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
+import { transition, trigger } from '@angular/animations';
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { pageEnterSlideUpAnimationGroup, pageLeaveSlideDownAnimationGroup } from '../animations';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { AuthService } from '../../auth/shared/auth.service';
 
@@ -15,24 +16,10 @@ import { AuthService } from '../../auth/shared/auth.service';
   styleUrl: './layout.component.scss',
   animations: [
     trigger('routeAnimations', [
-      transition('AnyPostsChildrenPage => PostCreatePage', [
-        group([
-          query(':leave', style({ 'z-index': 0 })),
-          query(':enter', [
-            style({ transform: 'translateY(100dvh)', 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
-            animate('.3s ease-out', style({ transform: 'translateY(0)' }))
-          ])
-        ])
-      ]),
-      transition('PostCreatePage => AnyPostsChildrenPage', [
-        group([
-          query(':leave', [
-            style({ 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
-            animate('.3s ease-in', style({ transform: 'translateY(100dvh)' }))
-          ]),
-          query(':enter', style({ 'z-index': 0 }))
-        ])
-      ])
+      transition('AnyPostsChildrenPage => PostCreatePage', pageEnterSlideUpAnimationGroup),
+      transition('PostCreatePage => AnyPostsChildrenPage', pageLeaveSlideDownAnimationGroup),
+      transition('UserProfilePage => ProfileSettingsPage', pageEnterSlideUpAnimationGroup),
+      transition('ProfileSettingsPage => UserProfilePage', pageLeaveSlideDownAnimationGroup)
     ]),
   ]
 })
