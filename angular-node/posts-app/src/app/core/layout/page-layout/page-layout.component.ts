@@ -1,5 +1,7 @@
 import { transition, trigger } from '@angular/animations';
-import { Component, inject, signal } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,11 +25,19 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
     ]),
   ]
 })
-export class PageLayoutComponent {
+export class PageLayoutComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly isSidenavCollapsed = signal(false);
+
+  ngOnInit(): void {
+    this.breakpointObserver.observe('(width < 90rem)')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(state => this.isSidenavCollapsed.set(state.matches));
+  }
 
   protected toggleSidebar() {
     this.isSidenavCollapsed.update(value => !value);
