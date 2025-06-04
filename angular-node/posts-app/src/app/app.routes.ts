@@ -1,47 +1,47 @@
 import { Routes } from '@angular/router';
-import { canActivateUserGuard } from './auth/shared/can-activate-user.guard';
+import { canActivateUserGuard } from './core/auth/can-activate-user.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'posts' },
   {
     path: 'login',
-    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent),
+    loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent),
     data: { animationState: 'LoginPage' }
   },
   {
     path: 'signup',
-    loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent),
+    loadComponent: () => import('./features/signup/signup.component').then(m => m.SignupComponent),
     data: { animationState: 'SignupPage' }
   },
   {
     path: '',
-    loadComponent: () => import('./shared/layout/layout.component').then(m => m.LayoutComponent),
+    loadComponent: () => import('./core/layout/page-layout/page-layout.component').then(m => m.PageLayoutComponent),
     canActivateChild: [canActivateUserGuard],
     children: [
       {
         path: 'posts',
-        loadComponent: () => import('./posts/post-list/post-list.component').then(m => m.PostListComponent),
+        loadComponent: () => import('./features/posts/posts-page.component').then(m => m.PostsPageComponent),
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'all' },
           {
             path: 'all',
-            loadComponent: () => import('./posts/post-all/post-all.component').then(m => m.PostAllComponent)
+            loadComponent: () => import('./features/posts/all/posts-all.component').then(m => m.PostsAllComponent)
           },
           {
             path: 'following',
-            loadComponent: () => import('./posts/post-following/post-following.component').then(m => m.PostFollowingComponent)
+            loadComponent: () => import('./features/posts/following/posts-following.component').then(m => m.PostsFollowingComponent)
           }
         ],
         data: { animationState: 'AnyPostsChildrenPage' }
       },
       {
         path: 'posts/new',
-        loadComponent: () => import('./posts/post-create/post-create.component').then(m => m.PostCreateComponent),
+        loadComponent: () => import('./features/posts/new/posts-new.component').then(m => m.PostsNewComponent),
         data: { animationState: 'PostCreatePage' }
       },
       {
         path: 'user/:username',
-        loadComponent: () => import('./users/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+        loadComponent: () => import('./features/user/user-page/user-page.component').then(m => m.UserPageComponent),
         data: { animationState: 'UserProfilePage' }
       },
       {
@@ -50,5 +50,6 @@ export const routes: Routes = [
         data: { animationState: 'ProfileSettingsPage' }
       }
     ]
-  }  
+  },
+  { path: '**', redirectTo: '' }  
 ];

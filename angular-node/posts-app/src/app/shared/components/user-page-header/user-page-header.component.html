@@ -1,0 +1,43 @@
+<div class="background">
+  <app-profile-picture
+    [src]="user()?.imageUrl"
+    width="7.5rem"
+    height="7.5rem"
+  />
+</div>
+<div class="placeholder-container actions">
+  @defer (when user()) {
+    @if (isOwn()) {
+      <a @fadeIn mat-raised-button [routerLink]="['/settings', 'profile']">Edit profile</a>
+    } @else if (hasBeenFollowed()) {
+      <button @fadeIn mat-stroked-button (click)="onFollow()">Followed</button>
+    } @else {
+      <button @fadeIn mat-flat-button (click)="onFollow()">Follow</button>
+    }
+  } @placeholder {
+    <div @fadeOut class="placeholder action-button"></div>
+  }
+</div>
+<div class="content">
+  <div class="placeholder-container user-info">
+    @defer (when user()) {
+      <div @fadeIn>
+        <span class="profile-name">{{user()?.name}}</span>
+        <span class="gray">{{`@${user()?.username}`}}</span>
+        <div class="counts">
+          <span (click)="openUserFollowListDialog('Following')">{{user()?.following?.count}} <span class="gray">Following</span></span>
+          <span (click)="openUserFollowListDialog('Followers')">{{followersCount()}} <span class="gray">Followers</span></span>
+        </div>
+      </div>
+    } @placeholder {
+      <div @fadeOut>
+        <div class="placeholder text profile-name"></div>
+        <div class="placeholder text username"></div>
+        <div class="counts">
+          <div class="placeholder text count"></div>
+          <div class="placeholder text count"></div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

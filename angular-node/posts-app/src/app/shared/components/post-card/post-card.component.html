@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>
+    <a
+      class="user-anchor"
+      matRipple
+      [routerLink]="['/user', post().user?.name]"
+    >
+      <app-profile-picture [src]="post().user?.imageUrl" />
+      <div class="user-info">
+        <span class="profile-name">{{post().user?.name}}</span>
+        <span class="user-name">{{`@${post().user?.username}`}}</span>
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{post().body}}
+    </p>
+  </mat-card-content>
+  <div class="card-footer">
+    <mat-chip disableRipple highlighted>{{post().createdAt | date}}</mat-chip>
+    <button
+      mat-fab extended
+      class="like-btn"
+      [class.liked]="hasBeenLiked()"
+      (click)="onLike()"
+    >
+      <mat-icon>favorite</mat-icon>
+      {{likeCount()}}
+    </button>
+  </div>
+</mat-card>

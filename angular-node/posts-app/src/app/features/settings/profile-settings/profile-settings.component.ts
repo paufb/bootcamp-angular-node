@@ -6,10 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../auth/shared/auth.service';
-import { IEditUserDTO } from '../../../auth/shared/edit-user-dto';
-import { ProfilePictureComponent } from '../../../shared/profile-picture/profile-picture.component';
-import { UserService } from '../../../users/shared/user.service';
+import { AuthService } from '../../../core/auth/auth.service';
+import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
+import { IEditUserDTO } from '../../../shared/interfaces/edit-user-dto.interface';
+import { UserService } from '../../../shared/services/user.service';
 
 interface ProfileSettingsForm {
   name: FormControl<IEditUserDTO['name']>;
@@ -37,7 +37,7 @@ export class ProfileSettingsComponent {
   protected navigateBack(toUsername?: string) {
     const { navigationId } = this.location.getState() as any;
     if (!toUsername && navigationId > 1) return this.location.back();
-    this.router.navigate(['user', toUsername ?? this.authenticatedUser()!.username]);
+    this.router.navigate(['/user', toUsername ?? this.authenticatedUser()!.username]);
   }
 
   protected onSubmit() {
