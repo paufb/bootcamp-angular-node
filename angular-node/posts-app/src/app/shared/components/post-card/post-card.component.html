@@ -3,7 +3,7 @@
     <a
       class="user-anchor"
       matRipple
-      [routerLink]="['/user', post().user?.name]"
+      [routerLink]="['/user', post().user?.username]"
     >
       <app-profile-picture [src]="post().user?.imageUrl" />
       <div class="user-info">
