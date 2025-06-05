@@ -1,9 +1,10 @@
-<mat-card>
+<mat-card (click)="navigateToPostPage()">
   <mat-card-header>
     <a
       class="user-anchor"
       matRipple
       [routerLink]="['/user', post().user?.username]"
+      (click)="stopPropagation($event)"
     >
       <app-profile-picture [src]="post().user?.imageUrl" />
       <div class="user-info">
@@ -23,7 +24,7 @@
       mat-fab extended
       class="like-btn"
       [class.liked]="hasBeenLiked()"
-      (click)="onLike()"
+      (click)="likePost($event)"
     >
       <mat-icon>favorite</mat-icon>
       {{likeCount()}}

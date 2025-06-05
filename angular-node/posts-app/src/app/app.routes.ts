@@ -40,9 +40,14 @@ export const routes: Routes = [
         data: { animationState: 'PostCreatePage' }
       },
       {
+        path: 'posts/:id',
+        loadComponent: () => import('./features/posts/post-page/post-page.component').then(m => m.PostPageComponent),
+        data: { animationState: 'PostPage' }
+      },
+      {
         path: 'user/:username',
         loadComponent: () => import('./features/user/user-page/user-page.component').then(m => m.UserPageComponent),
-        data: { animationState: 'UserProfilePage' }
+        data: { animationState: 'UserPage' }
       },
       {
         path: 'settings/profile',

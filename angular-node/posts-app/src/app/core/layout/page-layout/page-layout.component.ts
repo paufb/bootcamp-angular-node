@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { pageEnterSlideUpAnimationGroup, pageLeaveSlideDownAnimationGroup } from '../../../shared/animations';
+import { backFromPostPageAnimationGroup, pageEnterSlideUpAnimationGroup, pageLeaveSlideDownAnimationGroup, toPostPageAnimationGroup } from '../../../shared/animations';
 import { AuthService } from '../../auth/auth.service';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 
@@ -20,8 +20,10 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
     trigger('routeAnimations', [
       transition('AnyPostsChildrenPage => PostCreatePage', pageEnterSlideUpAnimationGroup),
       transition('PostCreatePage => AnyPostsChildrenPage', pageLeaveSlideDownAnimationGroup),
-      transition('UserProfilePage => ProfileSettingsPage', pageEnterSlideUpAnimationGroup),
-      transition('ProfileSettingsPage => UserProfilePage', pageLeaveSlideDownAnimationGroup)
+      transition('UserPage => ProfileSettingsPage', pageEnterSlideUpAnimationGroup),
+      transition('ProfileSettingsPage => UserPage', pageLeaveSlideDownAnimationGroup),
+      transition('* => PostPage', toPostPageAnimationGroup),
+      transition('PostPage => *', backFromPostPageAnimationGroup),
     ]),
   ]
 })

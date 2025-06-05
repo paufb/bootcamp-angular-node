@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRippleModule } from '@angular/material/core';
@@ -12,13 +12,14 @@ import { ProfilePictureComponent } from '../profile-picture/profile-picture.comp
 
 @Component({
   selector: 'app-post-card',
-  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatRippleModule, ProfilePictureComponent, RouterModule],
+  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatRippleModule, ProfilePictureComponent, RouterLink],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.scss'
 })
 export class PostCardComponent implements OnInit {
   readonly post = input.required<IPost>();
   private readonly postService = inject(PostService);
+  private readonly router = inject(Router);
   protected readonly hasBeenLiked = signal<boolean>(false);
   protected readonly likeCount = computed(() => {
     const post = this.post();
@@ -33,11 +34,20 @@ export class PostCardComponent implements OnInit {
     this.hasBeenLiked.set(this.post().isLikedByUser);
   }
 
-  protected onLike() {
+  protected stopPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  protected likePost(event: MouseEvent) {
+    this.stopPropagation(event);
     this.postService.likePost(!this.hasBeenLiked(), this.post()._id)
       .subscribe({
         error: error => window.alert(`Error liking post: ${error.message}`),
         complete: () => this.hasBeenLiked.update(value => !value)
       });
+  }
+
+  protected navigateToPostPage() {
+    this.router.navigate(['/posts', this.post()._id]);
   }
 }

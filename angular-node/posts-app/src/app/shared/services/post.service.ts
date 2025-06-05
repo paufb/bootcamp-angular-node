@@ -27,6 +27,10 @@ export class PostService {
     return queryParams;
   }
 
+  getPost(postId: IPost['_id']): Observable<IPost> {
+    return this.httpClient.get<IPost>(`${this.POSTS_URL}/${postId}`);
+  }
+
   getPosts(params: PostRequestQueryParams): Observable<IPost[]> {
     const queryParams = this.constructQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.POSTS_URL}`, { params: queryParams });
