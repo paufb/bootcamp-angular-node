@@ -6,7 +6,7 @@
   />
 </div>
 <div class="placeholder-container actions">
-  @defer (when user()) {
+  @if (user()) {
     @if (isOwn()) {
       <a @fadeIn mat-raised-button [routerLink]="['/settings', 'profile']">Edit profile</a>
     } @else if (hasBeenFollowed()) {
@@ -14,13 +14,13 @@
     } @else {
       <button @fadeIn mat-flat-button (click)="onFollow()">Follow</button>
     }
-  } @placeholder {
+  } @else {
     <div @fadeOut class="placeholder action-button"></div>
   }
 </div>
 <div class="content">
   <div class="placeholder-container user-info">
-    @defer (when user()) {
+    @if (user()) {
       <div @fadeIn>
         <span class="profile-name">{{user()?.name}}</span>
         <span class="gray">{{`@${user()?.username}`}}</span>
@@ -29,7 +29,7 @@
           <span (click)="openUserFollowListDialog('Followers')">{{followersCount()}} <span class="gray">Followers</span></span>
         </div>
       </div>
-    } @placeholder {
+    } @else {
       <div @fadeOut>
         <div class="placeholder text profile-name"></div>
         <div class="placeholder text username"></div>

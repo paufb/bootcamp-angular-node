@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { fadeIn, fadeOut } from '../../../shared/animations';
@@ -22,24 +22,30 @@ export class UserPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
   private readonly postService = inject(PostService);
-  protected readonly isOwnProfile = signal<boolean>(false);
   protected readonly user = signal<IUser | null>(null);
   protected readonly posts = signal<IPost[] | null>(null);
-  private username!: IUser['username'];
+  private readonly username = signal<IUser['username']>('');
+  protected readonly isOwnProfile = computed(() => this.username() === this.authService.authenticatedUser()?.username);
   private lastPostCreatedAt?: string;
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const username = params['username'];
-      this.username = username;
-      this.isOwnProfile.set(username === this.authService.authenticatedUser()?.username);
+      this.username.set(username);
+      this.resetAllUserState();
       this.fetchUser();
       this.fetchMorePosts();
     });
   }
 
+  private resetAllUserState() {
+    this.user.set(null);
+    this.posts.set(null);
+    this.lastPostCreatedAt = undefined;
+  }
+
   private fetchUser() {
-    this.userService.getUserByUsername(this.username)
+    this.userService.getUserByUsername(this.username())
       .subscribe({
         next: user => this.user.set(user),
         error: error => window.alert(`Could not fetch user: ${error.message}`)
@@ -47,7 +53,7 @@ export class UserPageComponent implements OnInit {
   }
 
   protected fetchMorePosts() {
-    this.postService.getPostsByUsername(this.username, { pageSize: 10, createdBefore: this.lastPostCreatedAt })
+    this.postService.getPostsByUsername(this.username(), { pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
           this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);

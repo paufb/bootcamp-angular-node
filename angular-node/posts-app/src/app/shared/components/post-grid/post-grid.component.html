@@ -1,4 +1,4 @@
-@defer (when posts()) {
+@if (posts()) {
   @if (posts()?.length === 0 && newlyCreatedPosts().length === 0) {
     <div class="no-posts">No posts to display...</div>
   } @else {
@@ -18,7 +18,7 @@
       }
     </div>
   }
-} @placeholder {
+} @else {
   <div class="posts" @fadeOut>
     <app-post-card-skeleton />
     <app-post-card-skeleton />
