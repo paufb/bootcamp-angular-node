@@ -5,13 +5,13 @@
     </div>
   </div>
   <div class="fields">
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field appearance="outline" floatLabel="always" hideRequiredMarker subscriptSizing="dynamic">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" type="text" placeholder="Add your name" />
+      <input matInput formControlName="name" type="text" placeholder="Add your name" autocomplete="off" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" floatLabel="always" hideRequiredMarker>
       <mat-label>Username</mat-label>
-      <input matInput formControlName="username" type="text" placeholder="Add your username" />
+      <input matInput formControlName="username" type="text" placeholder="Add your username" autocomplete="off" />
       @if (formGroup.get('username')?.hasError('usernameTaken')) {
         <mat-error>Username is taken</mat-error>
       }

@@ -5,12 +5,12 @@
       <mat-card-subtitle>Don't have an account? <a routerLink="/signup" class="sign-up">Sign up!</a></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" hideRequiredMarker>
         <mat-label>Username</mat-label>
         <input matInput formControlName="username" autofocus />
         <mat-icon matSuffix>alternate_email</mat-icon>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" hideRequiredMarker>
         <mat-label>Password</mat-label>
         <input matInput [type]="isPasswordHidden() ? 'password' : 'text'" formControlName="password" />
         <button
