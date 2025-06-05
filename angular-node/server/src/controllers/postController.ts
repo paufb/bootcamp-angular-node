@@ -6,6 +6,23 @@ import type { DTO } from '../interfaces/dto';
 import type { PostQueryOptions } from '../interfaces/post-query-options.interface';
 import postService from '../services/postService';
 
+const getPost = async (req: Request, res: Response): Promise<void> => {
+  const { postId } = req.params;
+  try {
+    const post = await postService.findPost(postId, { select: ['+likes.users'], populate: ['user'] });
+    if (!post) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).json({
+      isLikedByUser: postService.isPostLikedBy(post, req.userId),
+      ...post.toObject()
+    });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+}
+
 const getPosts = async (req: Request, res: Response): Promise<void> => {
   const posts = await postService.findPosts({
     select: ['+likes.users'],
@@ -90,6 +107,7 @@ const constructPaginationOptions = (query: ParsedQs): PostQueryOptions['paginati
 }
 
 export default {
+  getPost,
   getPosts,
   getPostsByUsername,
   getFollowingUsersPosts,
