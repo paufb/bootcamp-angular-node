@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -30,8 +30,8 @@ export class ProfileSettingsComponent {
   private readonly userService = inject(UserService);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly formGroup = new FormGroup<ProfileSettingsForm>({
-    name: new FormControl(this.authenticatedUser()!.name, { nonNullable: true }),
-    username: new FormControl(this.authenticatedUser()!.username, { nonNullable: true })
+    name: new FormControl(this.authenticatedUser()!.name, { nonNullable: true, validators: [Validators.required] }),
+    username: new FormControl(this.authenticatedUser()!.username, { nonNullable: true, validators: [Validators.required] })
   });
 
   protected navigateBack(toUsername?: string) {
@@ -49,7 +49,12 @@ export class ProfileSettingsComponent {
           this.authService.updateAuthenticatedUser(user);
           this.navigateBack(user.username);
         },
-        error: error => window.alert(`Could not edit user: ${error.message}`)
+        error: error => {
+          if (error.status === 400)
+            this.formGroup.get('username')?.setErrors({ usernameTaken: true });
+          else
+            window.alert(`Could not edit user: ${error.message}`);
+        }
       });
   }
 }

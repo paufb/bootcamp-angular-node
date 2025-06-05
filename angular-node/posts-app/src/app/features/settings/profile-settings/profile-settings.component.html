@@ -9,9 +9,12 @@
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" type="text" placeholder="Add your name" />
     </mat-form-field>
-    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+    <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" type="text" placeholder="Add your username" />
+      @if (formGroup.get('username')?.hasError('usernameTaken')) {
+        <mat-error>Username is taken</mat-error>
+      }
       <mat-icon matSuffix>alternate_email</mat-icon>
     </mat-form-field>
   </div>

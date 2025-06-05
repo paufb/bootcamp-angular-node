@@ -43,6 +43,6 @@ label {
   justify-content: flex-end;
   gap: 1rem;
   max-width: $max-width;
-  margin: 1rem auto 0 auto;
+  margin-inline: auto;
   padding-inline: $padding;
 }
