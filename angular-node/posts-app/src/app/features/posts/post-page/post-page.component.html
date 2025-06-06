@@ -1,5 +1,27 @@
-@defer (when post()) {
-  <app-post-card [post]="post()!" />
-} @placeholder {
-  <app-post-card-skeleton />
+@if (post()) {
+  <div @fadeIn class="page">
+    <app-post-card [post]="post()!" />
+    <form [formGroup]="formGroup" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+      <div>
+        <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="36px" height="36px" />
+        <mat-form-field appearance="outline" hideRequiredMarker subscriptSizing="dynamic">
+          <mat-label>Reply to {{`@${post()?.user?.username}`}}</mat-label>
+          <textarea matInput formControlName="body" autocomplete="off"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="actions">
+        <button mat-flat-button type="submit" [disabled]="!post()">Reply</button>
+      </div>
+    </form>
+    <div class="replies">
+      @for (reply of newlyCreatedPostReplies(); track reply._id) {
+        <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
+      }
+      @for (reply of postReplies(); track reply._id) {
+        <app-post-reply [postReply]="reply" />
+      }
+    </div>
+  </div>
+} @else {
+  <app-post-card-skeleton @fadeOut />
 }

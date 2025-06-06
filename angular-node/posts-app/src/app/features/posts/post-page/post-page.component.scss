@@ -1,0 +1,34 @@
+:host {
+  display: grid;
+
+  > ::ng-deep * {
+    grid-area: 1 / 1;
+  }
+}
+
+.page {
+  display: grid;
+  align-content: start;
+  gap: var(--app-padding);
+}
+
+form {
+  display: grid;
+  gap: calc(var(--app-padding) / 2);
+
+  > :first-child {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5rem;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.replies {
+  display: grid;
+  gap: var(--app-padding);
+}

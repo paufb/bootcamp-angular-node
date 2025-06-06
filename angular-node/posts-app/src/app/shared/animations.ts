@@ -41,12 +41,12 @@ export const pageLeaveSlideDownAnimationGroup = group([
 ]);
 
 export const toPostPageAnimationGroup = group([
-  query(':leave', animate('.2s ease-in', style({ opacity: 0, scale: .975 }))),
+  query(':leave', animate('.2s ease-in', style({ opacity: 0, scale: .975 })), { optional: true }),
   query('router-outlet ~ *', animate('.2s', style({})), { optional: true }),
   query(':enter', [
     style({ opacity: 0, transform: 'translateX(12.5rem)' }),
     animate('.2s ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
-  ])
+  ], { optional: true })
 ]);
 
 export const backFromPostPageAnimationGroup = group([

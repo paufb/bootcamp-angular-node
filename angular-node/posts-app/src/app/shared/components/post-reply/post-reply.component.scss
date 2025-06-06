@@ -1,0 +1,42 @@
+mat-card-content {
+  display: flex;
+  gap: .5rem;
+}
+
+.column {
+  display: grid;
+}
+
+.user-info {
+  display: flex;
+  gap: .25rem;
+
+  > span {
+    display: flex;
+    align-items: center;
+    font-size: .9rem;
+  }
+}
+
+.user-anchor {
+  --text-decoration: none;
+  color: inherit;
+  text-decoration: var(--text-decoration);
+
+  &:hover {
+    --text-decoration: underline;
+  }
+
+  span:first-child {
+    font-weight: bold;
+    margin-right: .25rem;
+  }
+
+  span:last-child {
+    color: #717c85;
+  }
+}
+
+p {
+  margin-block: 0;
+}
