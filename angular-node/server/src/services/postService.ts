@@ -1,8 +1,9 @@
-import type { HydratedDocument, Query } from 'mongoose';
+import type { HydratedDocument } from 'mongoose';
 import type { PostQueryOptions } from '../interfaces/post-query-options.interface';
 import type { IPost } from '../interfaces/post';
 import { Post } from '../models/post';
 import { User } from '../models/user';
+import { addPaginationToQuery } from '../utils/paginationUtils';
 
 const createPost = ({ body, userId }: { body: string; userId: string }): Promise<HydratedDocument<IPost>> => {
   return Post.create({ body, user: userId });
@@ -51,19 +52,6 @@ const likePost = (like: boolean, postId: string, userId: string): Promise<Hydrat
     [like ? '$push' : '$pull']: { 'likes.users': userId },
     $inc: { 'likes.count': like ? 1 : -1 }
   });
-}
-
-const addPaginationToQuery = (query: Query<unknown, IPost>, options: NonNullable<PostQueryOptions['pagination']>): void => {
-  const { pageSize, page, createdBefore } = options;
-  if (createdBefore) {
-    query.where('createdAt').lt(new Date(createdBefore).getTime());
-    query.limit(pageSize);
-  } else if (page) {
-    query.skip(pageSize * page);
-    query.limit(pageSize);
-  } else {
-    query.limit(pageSize);
-  };
 }
 
 const isPostLikedBy = (post: HydratedDocument<IPost>, userId: string) => {

@@ -14,4 +14,7 @@ export namespace DTO {
   export interface ILikePostDTO {
     like: boolean;
   }
+  export interface ICreatePostReplyDTO {
+    body: string;
+  }
 }
