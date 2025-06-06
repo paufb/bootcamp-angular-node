@@ -23,7 +23,8 @@ const createPostReply = async (req: Request<ParamsDictionary, any, DTO.ICreatePo
   const { postId } = req.params;
   const { body } = req.body;
   try {
-    const newPostReply = await postReplyService.createPostReply({ body, userId: req.userId, postId });
+    const { _id } = await postReplyService.createPostReply({ body, userId: req.userId, postId });
+    const newPostReply = await postReplyService.findPostReply(_id.toString(), { populate: ['user'] });
     res.status(200).json(newPostReply);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });

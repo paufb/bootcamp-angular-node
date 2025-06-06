@@ -12,11 +12,18 @@ const findPostReplies = (postId: string, options?: IPostReplyQueryOptions): Prom
   return query;
 }
 
+const findPostReply = (postReplyId: string, options?: IPostReplyQueryOptions): Promise<HydratedDocument<IPostReply> | null> => {
+  const query = PostReply.findById(postReplyId);
+  if (options?.populate) query.populate(options.populate);
+  return query;
+}
+
 const createPostReply = ({ body, userId, postId }: { body: string; userId: string; postId: string; }): Promise<HydratedDocument<IPostReply>> => {
   return PostReply.create({ body, user: userId, post: postId });
 }
 
 export default {
   findPostReplies,
+  findPostReply,
   createPostReply
 };
