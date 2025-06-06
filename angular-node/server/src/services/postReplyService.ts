@@ -7,6 +7,7 @@ import { addPaginationToQuery } from '../utils/paginationUtils';
 const findPostReplies = (postId: string, options?: IPostReplyQueryOptions): Promise<HydratedDocument<IPostReply>[]> => {
   const query = PostReply.find({ post: postId });
   if (options?.populate) query.populate(options.populate);
+  if (options?.sort) query.sort(options.sort);
   if (options?.pagination) addPaginationToQuery(query, options.pagination);
   return query;
 }

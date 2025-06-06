@@ -10,6 +10,7 @@ const getPostReplies = async (req: Request, res: Response) => {
   try {
     const postReplies = await postReplyService.findPostReplies(postId, {
       populate: ['user'],
+      sort: [['createdAt', 'desc']],
       pagination: constructPaginationOptions(req.query)
     });
     res.status(200).json(postReplies);
