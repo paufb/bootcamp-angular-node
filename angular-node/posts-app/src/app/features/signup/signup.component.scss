@@ -28,6 +28,16 @@ mat-card-content {
   display: grid;
 }
 
+mat-form-field {
+  --mb: 0;
+  margin-bottom: var(--mb);
+  transition: margin-bottom .2s ease-out;
+
+  &:has(mat-error) {
+    --mb: .5rem;
+  }
+}
+
 mat-card-actions {
   padding: 0 1rem 1rem 1rem;
 }

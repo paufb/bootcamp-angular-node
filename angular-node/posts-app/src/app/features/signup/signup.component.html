@@ -14,6 +14,9 @@
         <mat-label>Username</mat-label>
         <input matInput formControlName="username" />
         <mat-icon matSuffix>alternate_email</mat-icon>
+        @if (formGroup.get('username')?.hasError('usernameTaken')) {
+          <mat-error>Username is taken</mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>

@@ -34,7 +34,10 @@ export class SignupComponent {
     const { username, password } = formData;
     this.userService.createUser(formData)
       .subscribe({
-        error: error => window.alert(`Could not sign up: ${error.message}`),
+        error: error => {
+          if (error.status === 400)
+            this.formGroup.get('username')?.setErrors({ usernameTaken: true });
+        },
         complete: () => {
           this.authService.logIn(username, password)
             .subscribe({
