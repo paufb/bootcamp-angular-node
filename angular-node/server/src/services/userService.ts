@@ -7,8 +7,8 @@ interface UserQueryOptions {
   select?: ('+following.users' | '+followers.users')[];
 }
 
-const createUser = (dto: DTO.ICreateUserDTO): Promise<HydratedDocument<IUser>> => {
-  const { name, username, password, imageFilename } = dto;
+const createUser = (data: DTO.ICreateUserDTO & { imageFilename?: string; }): Promise<HydratedDocument<IUser>> => {
+  const { name, username, password, imageFilename } = data;
   return User.create({
     name, username, password,
     ...(imageFilename && { imageUrl: `/profile-pictures/${imageFilename}` })
@@ -35,8 +35,12 @@ const findFollowingUsers = async (username: string): Promise<Types.ObjectId[] | 
   return user?.following.users;
 }
 
-const updateUser = async (userId: string, dto: DTO.IUpdateUserDTO): Promise<HydratedDocument<IUser> | null> => {
-  const updatedUser = await User.findByIdAndUpdate(userId, { name: dto.name, username: dto.username }, { new: true });
+const updateUser = async (userId: string, data: DTO.IUpdateUserDTO & { imageFilename?: string; }): Promise<HydratedDocument<IUser> | null> => {
+  const { name, username, password, imageFilename } = data;
+  const updatedUser = await User.findByIdAndUpdate(userId, {
+    name, username, password,
+    ...(imageFilename && { imageUrl: `/profile-pictures/${imageFilename}` })
+  }, { new: true });
   return updatedUser;
 }
 

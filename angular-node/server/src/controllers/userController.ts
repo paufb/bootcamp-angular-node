@@ -74,8 +74,13 @@ const getFollowingUsers = async (req: Request, res: Response): Promise<void> => 
 
 const editUser = async (req: Request<ParamsDictionary, any, DTO.IUpdateUserDTO>, res: Response): Promise<void> => {
   const { userId } = req.params;
+  const { name, password, username } = req.body;
+  const profilePicture = req.file;
   try {
-    const user = await userService.updateUser(userId, req.body);
+    const user = await userService.updateUser(userId, {
+      name, password, username,
+      ...(profilePicture && { imageFilename: profilePicture?.filename })
+    });
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });

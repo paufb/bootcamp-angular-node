@@ -14,6 +14,6 @@ router.get('/:username/posts', requireAuthentication, postController.getPostsByU
 router.get('/username/:username', requireAuthentication, userController.getUserByUsername);
 router.post('/', uploadProfilePictures.single('profile-picture'), userController.createUser);
 router.put('/:userId/follow', requireAuthentication, userController.followUser);
-router.patch('/:userId', requireAuthentication, userController.editUser);
+router.patch('/:userId', uploadProfilePictures.single('profile-picture'), requireAuthentication, userController.editUser);
 
 export default router;

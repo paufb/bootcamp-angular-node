@@ -3,11 +3,11 @@ export namespace DTO {
     name: string;
     username: string;
     password: string;
-    imageFilename?: string;
   }
   export interface IUpdateUserDTO {
     name: string;
     username: string;
+    password: string;
   }
   export interface ICreatePostDTO {
     body: string;
