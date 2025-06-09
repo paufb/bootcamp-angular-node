@@ -7,8 +7,12 @@ interface UserQueryOptions {
   select?: ('+following.users' | '+followers.users')[];
 }
 
-const createUser = (userData: DTO.ICreateUserDTO): Promise<HydratedDocument<IUser>> => {
-  return User.create(userData);
+const createUser = (dto: DTO.ICreateUserDTO): Promise<HydratedDocument<IUser>> => {
+  const { name, username, password, imageFilename } = dto;
+  return User.create({
+    name, username, password,
+    ...(imageFilename && { imageUrl: `/profile-pictures/${imageFilename}` })
+    });
 }
 
 const findUser = (userId: string): Promise<HydratedDocument<IUser> | null> => {

@@ -40,8 +40,12 @@ const getUserByUsername = async (req: Request, res: Response): Promise<void> => 
 
 const createUser = async (req: Request<ParamsDictionary, any, DTO.ICreateUserDTO>, res: Response): Promise<void> => {
   const { name, username, password } = req.body;
+  const profilePicture = req.file;
   try {
-    const newUser = await userService.createUser({ name, username, password });
+    const newUser = await userService.createUser({
+      name, username, password,
+      ...(profilePicture && { imageFilename: profilePicture.filename })
+    });
     res.status(200).json({ username: newUser.username });
   } catch (error) {
     res.status(400).json({ message: (error as Error).message });

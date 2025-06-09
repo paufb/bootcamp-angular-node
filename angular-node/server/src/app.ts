@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import { profilePicturesDirectory } from './middlewares/profilePicturesMiddleware';
 import authRoutes from './routes/authRoutes';
 import postRoutes from './routes/postRoutes';
 import userRoutes from './routes/userRoutes'
@@ -22,6 +23,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 
 app.use(express.static(path.join(__dirname, '..', 'browser')));
+app.use('/profile-pictures', express.static(profilePicturesDirectory));
 app.use('*path', (_req: Request, res: Response) => {
   res.sendFile(path.resolve('browser/index.html'));
 });

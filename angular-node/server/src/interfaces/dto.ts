@@ -3,6 +3,7 @@ export namespace DTO {
     name: string;
     username: string;
     password: string;
+    imageFilename?: string;
   }
   export interface IUpdateUserDTO {
     name: string;
