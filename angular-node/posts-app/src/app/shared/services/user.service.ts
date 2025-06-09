@@ -20,7 +20,13 @@ export class UserService {
     return this.httpClient.get<IUser>(`${this.URL}/username/${username}`);
   }
 
-  createUser(formData: ISignupFormData): Observable<{ username: string; }> {
+  createUser(data: ISignupFormData): Observable<{ username: string; }> {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('username', data.username);
+    formData.append('password', data.password);
+    if (data.profilePicture)
+      formData.append('profile-picture', data.profilePicture);
     return this.httpClient.post<{ username: string; }>(this.URL, formData);
   }
 

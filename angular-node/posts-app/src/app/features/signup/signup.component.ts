@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
-import { ISignupFormData } from '../../shared/interfaces/signup-form-data.interface';
 import { UserService } from '../../shared/services/user.service';
 
 @Component({
@@ -23,15 +22,21 @@ export class SignupComponent {
   private readonly router = inject(Router);
   protected readonly isPasswordHidden = signal(true);
   protected readonly formGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    name: new FormControl('', { validators: [Validators.required], nonNullable: true }),
+    username: new FormControl('', { validators: [Validators.required], nonNullable: true }),
+    password: new FormControl('', { validators: [Validators.required], nonNullable: true }),
+    profilePicture: new FormControl<File | null>(null)
   });
 
-  protected onSubmit() {
+  protected selectProfilePictureFile(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const file = target.files![0];
+    this.formGroup.patchValue({ profilePicture: file });
+  }
+
+  protected submitForm() {
     if (!this.formGroup.valid) return;
-    const formData = this.formGroup.value as ISignupFormData;
-    const { username, password } = formData;
+    const formData = this.formGroup.getRawValue();
     this.userService.createUser(formData)
       .subscribe({
         error: error => {
@@ -39,7 +44,7 @@ export class SignupComponent {
             this.formGroup.get('username')?.setErrors({ usernameTaken: true });
         },
         complete: () => {
-          this.authService.logIn(username, password)
+          this.authService.logIn(formData.username, formData.password)
             .subscribe({
               error: _ => window.alert('Could not log in after sign up'),
               complete: () => this.router.navigate(['/'])
