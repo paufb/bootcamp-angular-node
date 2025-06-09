@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute } from '@angular/router';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { AuthService } from '../../../core/auth/auth.service';
 import { fadeIn, fadeOut, scaleFadeInFromTop } from '../../../shared/animations';
 import { PostCardSkeletonComponent } from '../../../shared/components/post-card-skeleton/post-card-skeleton.component';
@@ -22,7 +23,7 @@ interface IPostReplyForm {
 
 @Component({
   selector: 'app-post-page',
-  imports: [FormsModule, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostCardSkeletonComponent, PostReplyComponent, ProfilePictureComponent, ReactiveFormsModule],
+  imports: [FormsModule, InfiniteScrollDirective, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostCardSkeletonComponent, PostReplyComponent, ProfilePictureComponent, ReactiveFormsModule],
   templateUrl: './post-page.component.html',
   styleUrl: './post-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

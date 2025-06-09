@@ -13,7 +13,13 @@
         <button mat-flat-button type="submit" [disabled]="!post()">Reply</button>
       </div>
     </form>
-    <div class="replies">
+    <div
+      class="replies"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="fetchMoreReplies()"
+    >
       @for (reply of newlyCreatedPostReplies(); track reply._id) {
         <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
       }
