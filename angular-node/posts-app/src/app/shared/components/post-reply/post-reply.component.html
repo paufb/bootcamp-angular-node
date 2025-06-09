@@ -8,7 +8,7 @@
         <a class="user-anchor" [routerLink]="['/user', postReply().user.username]">
           <span>{{postReply().user.name}}</span> <span>{{`@${postReply().user.username}`}}</span>
         </a>
-        <span>{{postReply().createdAt | date: 'medium'}}</span>
+        <span>{{postReply().createdAt | timeAgo}}</span>
       </div>
       <p>
         {{postReply().body}}

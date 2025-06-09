@@ -1,5 +1,8 @@
+$lighter-text-color: #717c85;
+
 mat-card-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   gap: .5rem;
 }
 
@@ -9,12 +12,17 @@ mat-card-content {
 
 .user-info {
   display: flex;
+  justify-content: space-between;
   gap: .25rem;
 
   > span {
     display: flex;
     align-items: center;
     font-size: .9rem;
+
+    &:last-of-type {
+      color: $lighter-text-color;
+    }
   }
 }
 
@@ -33,7 +41,7 @@ mat-card-content {
   }
 
   span:last-child {
-    color: #717c85;
+    color: $lighter-text-color;
   }
 }
 
