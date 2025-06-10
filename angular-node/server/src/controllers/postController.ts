@@ -85,6 +85,16 @@ const createPost = async (req: Request<ParamsDictionary, any, DTO.ICreatePostDTO
   }
 }
 
+const deletePost = async (req: Request, res: Response) => {
+  const { postId } = req.params;
+  try {
+    await postService.deletePost(postId);
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 const likePost = async (req: Request<ParamsDictionary, any, DTO.ILikePostDTO>, res: Response): Promise<void> => {
   const { postId } = req.params;
   const { like } = req.body;
@@ -102,5 +112,6 @@ export default {
   getPostsByUsername,
   getFollowingUsersPosts,
   createPost,
+  deletePost,
   likePost
 };

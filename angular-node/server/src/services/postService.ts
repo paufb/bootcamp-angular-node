@@ -1,4 +1,4 @@
-import type { HydratedDocument } from 'mongoose';
+import type { HydratedDocument, Query } from 'mongoose';
 import type { PostQueryOptions } from '../interfaces/post-query-options.interface';
 import type { IPost } from '../interfaces/post';
 import { Post } from '../models/post';
@@ -47,6 +47,10 @@ const findFollowingUsersPosts = async (username: string, options?: PostQueryOpti
   return query;
 }
 
+const deletePost = (postId: string) => {
+  return Post.findByIdAndDelete(postId);
+}
+
 const likePost = (like: boolean, postId: string, userId: string): Promise<HydratedDocument<IPost> | null> => {
   return Post.findByIdAndUpdate(postId, {
     [like ? '$push' : '$pull']: { 'likes.users': userId },
@@ -64,6 +68,7 @@ export default {
   findPostsByUsername,
   findPost,
   findFollowingUsersPosts,
+  deletePost,
   likePost,
   isPostLikedBy
 };

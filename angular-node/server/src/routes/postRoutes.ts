@@ -11,5 +11,6 @@ router.get('/:postId/replies', requireAuthentication, postReplyController.getPos
 router.post('/', requireAuthentication, postController.createPost);
 router.post('/:postId/replies', requireAuthentication, postReplyController.createPostReply);
 router.put('/:postId/like', requireAuthentication, postController.likePost);
+router.delete('/:postId', requireAuthentication, postController.deletePost);
 
 export default router;
