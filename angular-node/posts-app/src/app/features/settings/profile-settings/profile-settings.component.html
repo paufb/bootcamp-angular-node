@@ -1,11 +1,11 @@
-<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+<form [formGroup]="formGroup" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
   <div class="background">
     <div class="profile-picture-wrapper">
       <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="5rem" height="5rem" />
     </div>
   </div>
   <div class="fields">
-    <mat-form-field appearance="outline" floatLabel="always" hideRequiredMarker subscriptSizing="dynamic">
+    <mat-form-field appearance="outline" floatLabel="always" hideRequiredMarker>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" type="text" placeholder="Add your name" autocomplete="off" />
     </mat-form-field>
@@ -17,6 +17,22 @@
       }
       <mat-icon matSuffix>alternate_email</mat-icon>
     </mat-form-field>
+    <mat-form-field appearance="outline" floatLabel="always" hideRequiredMarker>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" [type]="isPasswordHidden() ? 'password' : 'text'" placeholder="Change your password" autocomplete="off" />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="isPasswordHidden.set(!isPasswordHidden())"
+      >
+        <mat-icon>{{isPasswordHidden() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="profile-picture-field">
+      <label for="profile-picture">Profile picture</label>
+      <input id="profile-picture" type="file" accept="image/png,image/jpeg" (change)="selectProfilePictureFile($event)" />
+    </div>
   </div>
   <div class="actions">
     <button mat-button (click)="navigateBack()">Cancel</button>

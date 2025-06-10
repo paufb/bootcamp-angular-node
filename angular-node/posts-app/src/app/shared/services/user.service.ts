@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IEditUserDTO } from '../interfaces/edit-user-dto.interface';
+import { IEditUserFormData } from '../interfaces/edit-user-form-data.interface';
 import { ISignupFormData } from '../interfaces/signup-form-data.interface';
 import { IUser } from '../interfaces/user.interface';
 
@@ -25,8 +25,7 @@ export class UserService {
     formData.append('name', data.name);
     formData.append('username', data.username);
     formData.append('password', data.password);
-    if (data.profilePicture)
-      formData.append('profile-picture', data.profilePicture);
+    if (data.profilePicture) formData.append('profile-picture', data.profilePicture);
     return this.httpClient.post<{ username: string; }>(this.URL, formData);
   }
 
@@ -38,8 +37,13 @@ export class UserService {
     return this.httpClient.get<IUser[]>(`${this.URL}/${username}/following`);
   }
 
-  editUser(userId: IUser['_id'], data: IEditUserDTO) {
-    return this.httpClient.patch<IUser>(`${this.URL}/${userId}`, data);
+  editUser(userId: IUser['_id'], data: IEditUserFormData) {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('username', data.username);
+    if (data.password) formData.append('password', data.password);
+    if (data.profilePicture) formData.append('profile-picture', data.profilePicture);
+    return this.httpClient.patch<IUser>(`${this.URL}/${userId}`, formData);
   }
 
   followUser(follow: boolean, userId: IUser['_id']): Observable<null> {
