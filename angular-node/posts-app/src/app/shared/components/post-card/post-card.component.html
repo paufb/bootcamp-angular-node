@@ -20,14 +20,23 @@
   </mat-card-content>
   <div class="card-footer">
     <mat-chip disableRipple highlighted>{{post().createdAt | date}}</mat-chip>
-    <button
-      mat-fab extended
-      class="like-btn"
-      [class.liked]="hasBeenLiked()"
-      (click)="likePost($event)"
-    >
-      <mat-icon>favorite</mat-icon>
-      {{likeCount()}}
-    </button>
+    <div>
+      <button
+        mat-fab extended
+        class="action-btn replies-btn"
+      >
+        <mat-icon>chat</mat-icon>
+        {{dynamicReplyCount() || post().replies.count}}
+      </button>
+      <button
+        mat-fab extended
+        class="action-btn like-btn"
+        [class.liked]="hasBeenLiked()"
+        (click)="likePost($event)"
+      >
+        <mat-icon>favorite</mat-icon>
+        {{likeCount()}}
+      </button>
+    </div>
   </div>
 </mat-card>

@@ -7,6 +7,9 @@ export interface IPost {
   likes: {
     count: number;
   };
+  replies: {
+    count: number;
+  };
   isLikedByUser: boolean;
   createdAt: string;
   updatedAt: string;

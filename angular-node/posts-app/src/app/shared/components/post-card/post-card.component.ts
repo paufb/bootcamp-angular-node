@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, model, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,10 +14,12 @@ import { ProfilePictureComponent } from '../profile-picture/profile-picture.comp
   selector: 'app-post-card',
   imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatRippleModule, ProfilePictureComponent, RouterLink],
   templateUrl: './post-card.component.html',
-  styleUrl: './post-card.component.scss'
+  styleUrl: './post-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostCardComponent implements OnInit {
   readonly post = input.required<IPost>();
+  readonly dynamicReplyCount = input<number>();
   private readonly postService = inject(PostService);
   private readonly router = inject(Router);
   protected readonly hasBeenLiked = signal<boolean>(false);

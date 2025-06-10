@@ -36,6 +36,7 @@ export class PostPageComponent implements OnInit {
   private readonly postService = inject(PostService);
   protected readonly post = signal<IPost | null>(null);
   protected readonly postReplies = signal<IPostReply[] | null>(null);
+  protected readonly dynamicPostReplyCount = signal<number>(0);
   protected readonly newlyCreatedPostReplies = signal<IPostReply[]>([]);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly formGroup = new FormGroup<IPostReplyForm>({
@@ -55,7 +56,10 @@ export class PostPageComponent implements OnInit {
   private fetchPostData() {
     this.postService.getPost(this.postId)
       .subscribe({
-        next: post => this.post.set(post),
+        next: post => {
+          this.post.set(post)
+          this.dynamicPostReplyCount.set(post.replies.count);
+        },
         error: error => window.alert(`Could not fetch post: ${error.message}`)
       });
   }
@@ -78,6 +82,7 @@ export class PostPageComponent implements OnInit {
     this.postReplyService.createPostReply(this.postId, formData)
       .subscribe({
         next: postReply => {
+          this.dynamicPostReplyCount.update(v => v + 1);
           this.newlyCreatedPostReplies.update(prev => [postReply, ...prev]);
           formGroupDirective.resetForm();
         },
