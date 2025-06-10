@@ -7,6 +7,9 @@ const postSchema = new Schema<IPost, Model<IPost>>({
   likes: {
     users: [{ type: Schema.Types.ObjectId, ref: 'User', select: false }],
     count: { type: Number, default: 0 }
+  },
+  replies: {
+    count: { type: Number, default: 0 }
   }
 }, { timestamps: true });
 

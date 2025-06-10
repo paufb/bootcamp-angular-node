@@ -1,5 +1,6 @@
 import type { HydratedDocument } from 'mongoose';
 import type { IPostReplyQueryOptions } from '../interfaces/post-reply-query-options.interface';
+import { Post } from '../models/post';
 import { PostReply } from '../models/post-reply';
 import { IPostReply } from '../interfaces/post-reply';
 import { addPaginationToQuery } from '../utils/paginationUtils';
@@ -18,7 +19,8 @@ const findPostReply = (postReplyId: string, options?: IPostReplyQueryOptions): P
   return query;
 }
 
-const createPostReply = ({ body, userId, postId }: { body: string; userId: string; postId: string; }): Promise<HydratedDocument<IPostReply>> => {
+const createPostReply = async ({ body, userId, postId }: { body: string; userId: string; postId: string; }): Promise<HydratedDocument<IPostReply>> => {
+  await Post.findByIdAndUpdate(postId, { $inc: { 'replies.count': 1 } });
   return PostReply.create({ body, user: userId, post: postId });
 }
 

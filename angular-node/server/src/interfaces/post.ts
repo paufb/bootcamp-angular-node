@@ -7,4 +7,7 @@ export interface IPost {
     users?: Types.ObjectId[];
     count: number;
   };
+  replies: {
+    count: number;
+  };
 }
