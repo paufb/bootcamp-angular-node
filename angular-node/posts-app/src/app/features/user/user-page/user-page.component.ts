@@ -7,6 +7,7 @@ import { PostGridComponent } from '../../../shared/components/post-grid/post-gri
 import { IPost } from '../../../shared/interfaces/post.interface';
 import { IUser } from '../../../shared/interfaces/user.interface';
 import { PostService } from '../../../shared/services/post.service';
+import { PostFeedService } from '../../../shared/services/post-feed.service';
 import { UserService } from '../../../shared/services/user.service';
 
 @Component({
@@ -21,9 +22,10 @@ export class UserPageComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
+  private readonly postFeedService = inject(PostFeedService);
   private readonly postService = inject(PostService);
   protected readonly user = signal<IUser | null>(null);
-  protected readonly posts = signal<IPost[] | null>(null);
+  protected readonly posts = this.postFeedService.posts;
   private readonly username = signal<IUser['username']>('');
   protected readonly isOwnProfile = computed(() => this.username() === this.authService.authenticatedUser()?.username);
   private lastPostCreatedAt?: string;
@@ -40,7 +42,7 @@ export class UserPageComponent implements OnInit {
 
   private resetAllUserState() {
     this.user.set(null);
-    this.posts.set(null);
+    this.postFeedService.clearPosts();
     this.lastPostCreatedAt = undefined;
   }
 
@@ -56,11 +58,15 @@ export class UserPageComponent implements OnInit {
     this.postService.getPostsByUsername(this.username(), { pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
-          this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
+          this.postFeedService.appendPosts(posts);
           if (posts.length > 0)
             this.lastPostCreatedAt = posts[posts.length - 1].createdAt;
         },
         error: error => window.alert(`Could not fetch posts: ${error.message}`)
       });
+  }
+
+  protected deletePost(postId: IPost['_id']) {
+    this.postFeedService.removePost(postId);
   }
 }

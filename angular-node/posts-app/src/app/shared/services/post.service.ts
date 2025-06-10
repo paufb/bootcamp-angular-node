@@ -50,6 +50,10 @@ export class PostService {
     return this.httpClient.post<IPost>(this.POSTS_URL, dto);
   }
 
+  deletePost(postId: IPost['_id']): Observable<null> {
+    return this.httpClient.delete<null>(`${this.POSTS_URL}/${postId}`);
+  }
+
   likePost(like: boolean, postId: IPost['_id']): Observable<null> {
     const requestBody = { like };
     return this.httpClient.put<null>(`${this.POSTS_URL}/${postId}/like`, requestBody);

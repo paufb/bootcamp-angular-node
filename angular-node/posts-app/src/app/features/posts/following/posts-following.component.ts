@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, Signal } from '@angular/core';
-import { ROUTER_OUTLET_DATA } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PostGridComponent } from '../../../shared/components/post-grid/post-grid.component';
 import { IPost } from '../../../shared/interfaces/post.interface';
 import { PostService } from '../../../shared/services/post.service'; 
+import { PostFeedService } from '../../../shared/services/post-feed.service';
 
 @Component({
   selector: 'app-posts-following',
@@ -11,20 +11,21 @@ import { PostService } from '../../../shared/services/post.service';
   template: `
     <app-post-grid
       [posts]="posts()"
-      [newlyCreatedPosts]="newlyCreatedPosts()"
       (loadMorePosts)="fetchMorePosts()"
+      (deletePost)="deletePost($event)"
     />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostsFollowingComponent implements OnInit {
-  protected readonly newlyCreatedPosts = inject<Signal<IPost[]>>(ROUTER_OUTLET_DATA);
   private readonly authService = inject(AuthService);
+  private readonly postFeedService = inject(PostFeedService);
   private readonly postService = inject(PostService);
-  protected readonly posts = signal<IPost[] | null>(null);
+  protected readonly posts = this.postFeedService.posts;
   private lastPostCreatedAt?: string;
 
   ngOnInit(): void {
+    this.postFeedService.clearPosts();
     this.fetchMorePosts();
   }
 
@@ -33,11 +34,15 @@ export class PostsFollowingComponent implements OnInit {
     this.postService.getFollowingUsersPosts(username, { pageSize: 10, createdBefore: this.lastPostCreatedAt })
       .subscribe({
         next: posts => {
-          this.posts.update(previousPosts => [...(previousPosts ?? []), ...posts]);
+          this.postFeedService.appendPosts(posts);
           if (posts.length > 0)
             this.lastPostCreatedAt = posts[posts.length - 1].createdAt;
         },
         error: error => window.alert(`Could not fetch posts: ${error.message}`)
       });
+  }
+
+  protected deletePost(postId: IPost['_id']) {
+    this.postFeedService.removePost(postId);
   }
 }

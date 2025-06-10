@@ -7,7 +7,13 @@ mat-card {
 }
 
 mat-card-header {
-  padding: .5rem .5rem 0;
+  $padding: .5rem;
+  padding: $padding $padding 0;
+
+  .menu-btn {
+    position: absolute;
+    inset: $padding $padding auto auto;
+  }
 }
 
 .user-anchor {

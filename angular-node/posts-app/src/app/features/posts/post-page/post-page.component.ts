@@ -1,9 +1,10 @@
+import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { AuthService } from '../../../core/auth/auth.service';
 import { fadeIn, fadeOut, scaleFadeInFromTop } from '../../../shared/animations';
@@ -32,8 +33,10 @@ interface IPostReplyForm {
 export class PostPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly location = inject(Location);
   private readonly postReplyService = inject(PostReplyService);
   private readonly postService = inject(PostService);
+  private readonly router = inject(Router);
   protected readonly post = signal<IPost | null>(null);
   protected readonly postReplies = signal<IPostReply[] | null>(null);
   protected readonly dynamicPostReplyCount = signal<number>(0);
@@ -88,5 +91,11 @@ export class PostPageComponent implements OnInit {
         },
         error: error => window.alert(`Could not create post reply: ${error.message}`)
       });
+  }
+
+  protected onDeletePost() {
+    const { navigationId } = this.location.getState() as any;
+    if (navigationId > 1) return this.location.back();
+    this.router.navigate(['/posts']);
   }
 }

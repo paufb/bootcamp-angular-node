@@ -1,25 +1,23 @@
 @if (posts()) {
-  @if (posts()?.length === 0 && newlyCreatedPosts().length === 0) {
-    <div class="no-posts">No posts to display...</div>
-  } @else {
-    <div
-      class="posts"
-      infiniteScroll
-      [infiniteScrollDistance]="2"
-      [infiniteScrollUpDistance]="2"
-      [infiniteScrollThrottle]="50"
-      (scrolled)="onScroll()"
-    >
-      @for (post of newlyCreatedPosts(); track post._id) {
-        <app-post-card [post]="post" @scaleFadeInFromTop />
-      }
+  <div
+    @fadeIn
+    class="posts"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    @if (posts()?.length === 0) {
+      <div class="no-posts">No posts to display...</div>
+    } @else {
       @for (post of posts(); track post._id) {
-        <app-post-card [post]="post" @fadeIn />
+        <app-post-card @scaleFadeInFromTop [post]="post" (delete)="onDeletePost($event)" />
       }
-    </div>
-  }
+    }
+  </div>
 } @else {
-  <div class="posts" @fadeOut>
+  <div @fadeOut class="posts">
     <app-post-card-skeleton />
     <app-post-card-skeleton />
     <app-post-card-skeleton />

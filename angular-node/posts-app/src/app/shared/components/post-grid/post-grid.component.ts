@@ -14,10 +14,14 @@ import { IPost } from '../../interfaces/post.interface';
 })
 export class PostGridComponent {
   readonly posts = input.required<IPost[] | null>();
-  readonly newlyCreatedPosts = input<IPost[]>([]);
   readonly loadMorePosts = output();
+  readonly deletePost = output<IPost['_id']>();
 
   protected onScroll() {
     this.loadMorePosts.emit();
+  }
+
+  protected onDeletePost(postId: IPost['_id']) {
+    this.deletePost.emit(postId);
   }
 }

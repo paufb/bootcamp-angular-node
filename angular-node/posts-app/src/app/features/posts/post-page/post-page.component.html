@@ -1,6 +1,6 @@
 @if (post()) {
   <div @fadeIn class="page">
-    <app-post-card [post]="post()!" [dynamicReplyCount]="dynamicPostReplyCount()" />
+    <app-post-card [post]="post()!" [dynamicReplyCount]="dynamicPostReplyCount()" (delete)="onDeletePost()" />
     <form [formGroup]="formGroup" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
       <div>
         <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="36px" height="36px" />

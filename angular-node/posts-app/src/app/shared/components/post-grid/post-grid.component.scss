@@ -7,13 +7,20 @@
   }
 }
 
-.no-posts {
-  text-align: center;
-  font-size: 1.25rem;
-}
-
 .posts {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  &:has(.no-posts) {
+    position: relative;
+  }
+
+  .no-posts {
+    position: absolute;
+    inset: 0;
+    font-size: 1.25rem;
+    color: #717c85;
+    text-align: center;
+  }
 }
