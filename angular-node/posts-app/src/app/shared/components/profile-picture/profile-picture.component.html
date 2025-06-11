@@ -1,8 +1,10 @@
 @defer (when src() !== undefined) {
   <img
     @fadeIn
+    [class.openable]="openable()"
     [src]="imgSrc()"
     alt="Profile picture"
+    (click)="openable() && openImageDialog()"
   />
 } @placeholder {
   <div @fadeOut class="placeholder"></div>
