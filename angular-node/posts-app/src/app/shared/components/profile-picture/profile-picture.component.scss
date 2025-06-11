@@ -10,8 +10,8 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  aspect-ratio: 1 / 1;
   background-color: #faf9fd;
+  object-fit: cover;
 }
 
 .placeholder {
