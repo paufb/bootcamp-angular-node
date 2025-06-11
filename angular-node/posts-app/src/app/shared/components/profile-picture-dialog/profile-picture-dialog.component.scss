@@ -1,5 +1,6 @@
 img {
-  border-radius: 50%;
+  max-width: 100%;
   background-color: #faf9fd;
   object-fit: cover;
+  clip-path: circle();
 }
