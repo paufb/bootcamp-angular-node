@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +23,12 @@ interface IPostReplyForm {
   body: FormControl<ICreatePostReplyDTO['body']>;
 }
 
+class NoErrorErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    return false;
+  }
+}
+
 @Component({
   selector: 'app-post-page',
   imports: [FormsModule, InfiniteScrollDirective, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostCardSkeletonComponent, PostReplyComponent, ProfilePictureComponent, ReactiveFormsModule],
@@ -37,6 +44,7 @@ export class PostPageComponent implements OnInit {
   private readonly postReplyService = inject(PostReplyService);
   private readonly postService = inject(PostService);
   private readonly router = inject(Router);
+  protected readonly noErrorErrorStateMatcher = new NoErrorErrorStateMatcher();
   protected readonly post = signal<IPost | null>(null);
   protected readonly postReplies = signal<IPostReply[] | null>(null);
   protected readonly dynamicPostReplyCount = signal<number>(0);

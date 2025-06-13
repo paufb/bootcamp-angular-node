@@ -1,9 +1,16 @@
+@use '@angular/material' as mat;
+
 :host {
   display: grid;
 
   > ::ng-deep * {
     grid-area: 1 / 1;
   }
+
+  @include mat.button-overrides((
+    filled-disabled-container-color: #538cc6,
+    filled-disabled-label-text-color: #f2f2f2
+  ));
 }
 
 .page {

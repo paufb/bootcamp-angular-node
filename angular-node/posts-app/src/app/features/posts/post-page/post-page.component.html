@@ -6,11 +6,11 @@
         <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="36px" height="36px" />
         <mat-form-field appearance="outline" hideRequiredMarker subscriptSizing="dynamic">
           <mat-label>Reply to {{`@${post()?.user?.username}`}}</mat-label>
-          <textarea matInput formControlName="body" autocomplete="off"></textarea>
+          <textarea matInput formControlName="body" autocomplete="off" [errorStateMatcher]="noErrorErrorStateMatcher"></textarea>
         </mat-form-field>
       </div>
       <div class="actions">
-        <button mat-flat-button type="submit" [disabled]="!post()">Reply</button>
+        <button mat-flat-button type="submit" [disabled]="!formGroup.valid">Reply</button>
       </div>
     </form>
     <div
