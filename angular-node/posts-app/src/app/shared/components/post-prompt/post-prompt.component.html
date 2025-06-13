@@ -3,14 +3,14 @@
     <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="48px" height="48px" />
     <mat-form-field appearance="outline" hideRequiredMarker subscriptSizing="dynamic">
       <mat-label>What's happening?</mat-label>
-      <textarea matInput formControlName="body" autocomplete="off"></textarea>
+      <textarea matInput formControlName="body" autocomplete="off" [errorStateMatcher]="noErrorErrorStateMatcher"></textarea>
     </mat-form-field>
   </div>
   <div class="actions">
     @if (cancellable()) {
       <button mat-button (click)="onCancel()">Cancel</button>
     }
-    <button mat-flat-button type="submit">
+    <button mat-flat-button type="submit" [disabled]="!formGroup.valid">
       @if (isSubmitting()) {
         <mat-spinner diameter="24" />
       } @else {

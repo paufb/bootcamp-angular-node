@@ -1,8 +1,12 @@
 @use '@angular/material' as mat;
 
 :host {
+  @include mat.button-overrides((
+    filled-disabled-container-color: #538cc6,
+    filled-disabled-label-text-color: #f2f2f2
+  ));
   @include mat.progress-spinner-overrides((
-    active-indicator-color: var(--mat-sys-on-primary),
+    active-indicator-color: var(--mat-sys-on-primary)
   ));
 }
 
