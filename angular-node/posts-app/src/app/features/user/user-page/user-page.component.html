@@ -1,2 +1,10 @@
 <app-user-page-header [user]="user()" [isOwn]="isOwnProfile()" />
-<app-post-grid [posts]="posts()" (loadMorePosts)="fetchMorePosts()" (deletePost)="deletePost($event)" />
+<mat-tab-group (selectedTabChange)="onTabChange($event)">
+  @for (tab of tabs(); track tab.label) {
+    <mat-tab [label]="tab.label">
+      @if (tab.isSelected) {
+        <app-post-grid @fadeOut [posts]="posts()" (loadMorePosts)="tab.fetchFn()" (deletePost)="deletePost($event)" />
+      }
+    </mat-tab>
+  }
+</mat-tab-group>

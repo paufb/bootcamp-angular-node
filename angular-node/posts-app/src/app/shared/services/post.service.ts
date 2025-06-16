@@ -41,6 +41,11 @@ export class PostService {
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`, { params: queryParams });
   }
 
+  getLikedPostsByUsername(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
+    const queryParams = this.constructQueryParams(params);
+    return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/liked-posts`, { params: queryParams });
+  }
+
   getFollowingUsersPosts(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
     const queryParams = this.constructQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, { params: queryParams });
