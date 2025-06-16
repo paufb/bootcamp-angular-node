@@ -9,6 +9,6 @@ a.mdc-list-item--activated {
     content: '';
     position: absolute;
     inset: 0;
-    border-left: .3rem solid #00458f;
+    border-left: .3rem solid var(--mat-sys-primary);
   }
 }

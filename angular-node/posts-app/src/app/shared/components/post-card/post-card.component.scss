@@ -4,6 +4,7 @@ app-profile-picture {
 
 mat-card {
   cursor: pointer;
+  color: var(--mat-sys-on-surface);
 }
 
 mat-card-header {
@@ -24,7 +25,7 @@ mat-card-header {
   padding: .5rem;
 
   &:hover {
-    background-color: #e8e7eb;
+    background-color: color-mix(in srgb, var(--mat-sys-on-background) 10%, transparent);
   }
 }
 

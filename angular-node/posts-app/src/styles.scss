@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @use 'roboto-fontface/css/roboto/sass/roboto-fontface' with (
   $roboto-font-path: 'roboto-fontface/fonts'
 );
@@ -6,6 +8,28 @@
   $material-icons-font-path: 'material-icons/iconfont/'
 );
 
+@mixin light-theme() {
+  --app-background-color: #fcfcf9;
+  --app-toolbar-color: #f3f3ee;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      theme-type: light
+    )
+  ));
+}
+
+@mixin dark-theme() {
+  --app-background-color: #222831;
+  --app-toolbar-color: #393E46;
+  @include mat.theme((
+    color: (
+      primary: mat.$cyan-palette,
+      theme-type: dark
+    )
+  ));
+}
+
 :root {
   --app-max-width: 90rem;
   --app-padding: 1rem;
@@ -13,8 +37,14 @@
   --app-slid-up-box-shadow: rgba(0, 0, 0, .16) 0 -3px 6px, rgba(0, 0, 0, .23) 0 -3px 6px;
   --app-slid-up-border-radius: 1rem 1rem 0 0;
   --app-sidenav-transition: .4s cubic-bezier(.25, .8, .25, 1);
-  --app-background-color: #fcfcf9;
-  --app-toolbar-color: #f3f3ee;
+
+  &[data-theme="light"] {
+    @include light-theme();
+  }
+
+  &[data-theme="dark"] {
+    @include dark-theme();
+  }
 }
 
 body {

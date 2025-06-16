@@ -2,7 +2,7 @@
 
 :host {
   @include mat.button-overrides((
-    filled-disabled-container-color: #538cc6,
+    filled-disabled-container-color: color-mix(in srgb, var(--mat-sys-primary) 38%, transparent),
     filled-disabled-label-text-color: #f2f2f2
   ));
   @include mat.progress-spinner-overrides((

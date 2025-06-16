@@ -4,7 +4,8 @@
       <mat-icon>menu</mat-icon>
     </button>
     <div class="session-actions">
-      <span class="username">{{`@${authenticatedUser()?.username}`}}</span>
+      <span>{{`@${authenticatedUser()?.username}`}}</span>
+      <app-app-theme-toggle />
       <button mat-icon-button (click)="onLogOut()">
         <mat-icon>logout</mat-icon>
       </button>
