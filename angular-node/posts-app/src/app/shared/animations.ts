@@ -40,6 +40,22 @@ export const pageLeaveSlideDownAnimationGroup = group([
   query(':enter', style({ 'z-index': 0 }))
 ]);
 
+export const pushDownPageAnimationGroup = group([
+  query(':leave', animate('.3s ease-in', style({ transform: 'translateY(100dvh)' }))),
+  query(':enter', [
+    style({ transform: 'translateY(-100dvh)' }),
+    animate('.3s ease-out', style({ transform: 'translateY(0)' }))
+  ])
+]);
+
+export const pushUpPageAnimationGroup = group([
+  query(':leave', animate('.3s ease-in', style({ transform: 'translateY(-100dvh)' }))),
+  query(':enter', [
+    style({ transform: 'translateY(100dvh)' }),
+    animate('.3s ease-out', style({ transform: 'translateY(0)' }))
+  ])
+]);
+
 export const toPostPageAnimationGroup = group([
   query(':leave', animate('.2s ease-in', style({ opacity: 0, scale: .975 })), { optional: true }),
   query('router-outlet ~ *', animate('.2s', style({})), { optional: true }),
