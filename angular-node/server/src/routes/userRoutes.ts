@@ -10,6 +10,7 @@ router.get('/:userId', requireAuthentication, userController.getUser);
 router.get('/:username/followers', requireAuthentication, userController.getFollowersUsers);
 router.get('/:username/following', requireAuthentication, userController.getFollowingUsers);
 router.get('/:username/following/posts', requireAuthentication, postController.getFollowingUsersPosts);
+router.get('/:username/liked-posts', requireAuthentication, postController.getLikedPostsByUsername);
 router.get('/:username/posts', requireAuthentication, postController.getPostsByUsername);
 router.get('/username/:username', requireAuthentication, userController.getUserByUsername);
 router.post('/', uploadProfilePictures.single('profile-picture'), userController.createUser);

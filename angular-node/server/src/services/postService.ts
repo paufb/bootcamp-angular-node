@@ -4,6 +4,7 @@ import type { IPost } from '../interfaces/post';
 import { Post } from '../models/post';
 import { User } from '../models/user';
 import { addPaginationToQuery } from '../utils/paginationUtils';
+import mongoose from 'mongoose';
 
 const createPost = ({ body, userId }: { body: string; userId: string }): Promise<HydratedDocument<IPost>> => {
   return Post.create({ body, user: userId });
@@ -22,6 +23,17 @@ const findPostsByUsername = async (username: string, options?: PostQueryOptions)
   const user = await User.findOne({ username }, '_id');
   if (!user) throw new Error('User not found');
   let query = Post.find({ user: user._id });
+  if (options?.select) query.select(options.select);
+  if (options?.populate) query.populate(options.populate);
+  if (options?.sort) query.sort(options.sort);
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
+  return query;
+}
+
+const findLikedPostsByUsername = async (username: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
+  const user = await User.findOne({ username }, '_id');
+  if (!user) throw new Error('User not found');
+  let query = Post.find({ 'likes.users': user._id });
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
@@ -66,6 +78,7 @@ export default {
   createPost,
   findPosts,
   findPostsByUsername,
+  findLikedPostsByUsername,
   findPost,
   findFollowingUsersPosts,
   deletePost,

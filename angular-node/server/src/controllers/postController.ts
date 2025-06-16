@@ -55,6 +55,25 @@ const getPostsByUsername = async (req: Request, res: Response): Promise<void> =>
   }
 }
 
+const getLikedPostsByUsername = async (req: Request, res: Response): Promise<void> => {
+  const { username } = req.params;
+  try {
+    const posts = await postService.findLikedPostsByUsername(username, {
+      select: ['+likes.users'],
+      populate: ['user'],
+      sort: [['createdAt', 'desc']],
+      pagination: constructPaginationOptions(req.query)
+    });
+    const response = posts.map(post => ({
+      isLikedByUser: postService.isPostLikedBy(post, req.userId),
+      ...post.toObject()
+    }));
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 const getFollowingUsersPosts = async (req: Request, res: Response): Promise<void> => {
   const { username } = req.params;
   try {
@@ -110,6 +129,7 @@ export default {
   getPost,
   getPosts,
   getPostsByUsername,
+  getLikedPostsByUsername,
   getFollowingUsersPosts,
   createPost,
   deletePost,
