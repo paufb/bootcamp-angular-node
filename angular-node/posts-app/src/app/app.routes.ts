@@ -50,9 +50,20 @@ export const routes: Routes = [
         data: { animationState: 'UserPage' }
       },
       {
-        path: 'settings/profile',
-        loadComponent: () => import('./features/settings/profile-settings/profile-settings.component').then(m => m.ProfileSettingsComponent),
-        data: { animationState: 'ProfileSettingsPage' }
+        path: 'settings',
+        loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'general' },
+          {
+            path: 'general',
+            loadComponent: () => import('./features/settings/general-settings/general-settings.component').then(m => m.GeneralSettingsComponent)
+          },
+          {
+            path: 'profile',
+            loadComponent: () => import('./features/settings/profile-settings/profile-settings.component').then(m => m.ProfileSettingsComponent)
+          }
+        ],
+        data: { animationState: 'AnySettingsChildrenPage' }
       }
     ]
   },

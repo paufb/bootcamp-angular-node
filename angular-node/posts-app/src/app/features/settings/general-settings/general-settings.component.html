@@ -1,0 +1,17 @@
+<section class="theme-section">
+  <h4>Theme</h4>
+  <mat-radio-group (change)="selectAppTheme($event)">
+    <mat-radio-button value="light" [checked]="currentTheme() === 'light'">
+      <div class="theme-preview-wrapper">
+        <div class="light-theme-preview"></div>
+        Light
+      </div>
+    </mat-radio-button>
+    <mat-radio-button value="dark" [checked]="currentTheme() === 'dark'">
+      <div class="theme-preview-wrapper">
+        <div class="dark-theme-preview"></div>
+        Dark
+      </div>
+    </mat-radio-button>
+  </mat-radio-group>
+</section>

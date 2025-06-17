@@ -1,0 +1,16 @@
+<nav mat-tab-nav-bar>
+  @for (link of navLinks; track link.href) {
+    <a
+      mat-tab-link
+      [active]="rla.isActive"
+      [routerLink]="link.href"
+      routerLinkActive
+      #rla="routerLinkActive"
+    >
+      {{link.name}}
+    </a>
+  }
+</nav>
+<div class="router-outlet-wrapper">
+  <router-outlet />
+</div>

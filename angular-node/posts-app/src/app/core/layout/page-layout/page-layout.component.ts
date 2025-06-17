@@ -21,8 +21,8 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
     trigger('routeAnimations', [
       transition('AnyPostsChildrenPage => PostCreatePage', pageEnterSlideUpAnimationGroup),
       transition('PostCreatePage => AnyPostsChildrenPage', pageLeaveSlideDownAnimationGroup),
-      transition('UserPage => ProfileSettingsPage', pageEnterSlideUpAnimationGroup),
-      transition('ProfileSettingsPage => UserPage', pageLeaveSlideDownAnimationGroup),
+      transition('* => AnySettingsChildrenPage', pageEnterSlideUpAnimationGroup),
+      transition('AnySettingsChildrenPage => *', pageLeaveSlideDownAnimationGroup),
       transition('* => PostPage', toPostPageAnimationGroup),
       transition('PostPage => *', backFromPostPageAnimationGroup),
     ]),

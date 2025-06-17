@@ -14,6 +14,7 @@ $background-height: max(7.5rem, 20dvh);
   $half-profile-picture-size: calc($profile-picture-size / 2);
   position: relative;
   background-color: lightblue;
+  border-radius: 12px;
   height: $background-height;
   margin-bottom: calc($half-profile-picture-size + $gap);
 
@@ -50,7 +51,7 @@ label {
 .profile-picture-field {
   display: grid;
   gap: .25rem;
-  color: #44474e;
+  color: var(--mat-sys-on-surface);
   margin-bottom: 1.25rem !important;
   padding: 1rem;
   border: 1px solid #74777f;

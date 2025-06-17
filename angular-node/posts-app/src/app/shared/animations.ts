@@ -37,6 +37,7 @@ export const pageLeaveSlideDownAnimationGroup = group([
     style({ 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
     animate('.3s ease-in', style({ transform: 'translateY(100dvh)' }))
   ]),
+  query('router-outlet ~ *', animate('.2s', style({})), { optional: true }),
   query(':enter', style({ 'z-index': 0 }))
 ]);
 
