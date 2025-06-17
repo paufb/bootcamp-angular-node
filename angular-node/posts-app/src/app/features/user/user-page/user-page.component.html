@@ -1,10 +1,18 @@
 <app-user-page-header [user]="user()" [isOwn]="isOwnProfile()" />
 <mat-tab-group (selectedTabChange)="onTabChange($event)">
-  @for (tab of tabs(); track tab.label) {
-    <mat-tab [label]="tab.label">
-      @if (tab.isSelected) {
-        <app-post-grid @fadeOut [posts]="posts()" (loadMorePosts)="tab.fetchFn()" (deletePost)="deletePost($event)" />
-      }
-    </mat-tab>
-  }
+  <mat-tab label="Posts">
+    @if (tabs()[0].isSelected) {
+      <app-post-grid @fadeOut [posts]="posts()" (loadMorePosts)="fetchMorePosts()" (deletePost)="deletePost($event)" />
+    }
+  </mat-tab>
+  <mat-tab label="Replies">
+    @if (tabs()[1].isSelected) {
+      <app-post-reply-grid @fadeOut [postReplies]="postReplies()" (loadMorePostReplies)="fetchMoreReplies()" />
+    }
+  </mat-tab>
+  <mat-tab label="Liked posts">
+    @if (tabs()[2].isSelected) {
+      <app-post-grid @fadeOut [posts]="posts()" (loadMorePosts)="fetchMoreLikedPosts()" (deletePost)="deletePost($event)" />
+    }
+  </mat-tab>
 </mat-tab-group>

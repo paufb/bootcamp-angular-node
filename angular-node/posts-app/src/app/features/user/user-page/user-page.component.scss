@@ -4,7 +4,8 @@
   gap: 1rem;
 }
 
-app-post-grid {
+app-post-grid,
+app-post-reply-grid {
   $reduced-padding: calc(var(--app-padding) / 4);
   margin: var(--app-padding) $reduced-padding $reduced-padding $reduced-padding;
 }

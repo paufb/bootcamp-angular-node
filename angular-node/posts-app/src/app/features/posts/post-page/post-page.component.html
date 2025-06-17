@@ -13,20 +13,7 @@
         <button mat-flat-button type="submit" [disabled]="!formGroup.valid">Reply</button>
       </div>
     </form>
-    <div
-      class="replies"
-      infiniteScroll
-      [infiniteScrollDistance]="2"
-      [infiniteScrollThrottle]="50"
-      (scrolled)="fetchMoreReplies()"
-    >
-      @for (reply of newlyCreatedPostReplies(); track reply._id) {
-        <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
-      }
-      @for (reply of postReplies(); track reply._id) {
-        <app-post-reply [postReply]="reply" />
-      }
-    </div>
+    <app-post-reply-grid [postReplies]="postReplies()" (loadMorePostReplies)="fetchMoreReplies()" />
   </div>
 } @else {
   <app-post-card-skeleton @fadeOut />

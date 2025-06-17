@@ -6,18 +6,18 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { AuthService } from '../../../core/auth/auth.service';
 import { fadeIn, fadeOut, scaleFadeInFromTop } from '../../../shared/animations';
 import { PostCardSkeletonComponent } from '../../../shared/components/post-card-skeleton/post-card-skeleton.component';
 import { PostCardComponent } from '../../../shared/components/post-card/post-card.component';
-import { PostReplyComponent } from '../../../shared/components/post-reply/post-reply.component';
+import { PostReplyGridComponent } from '../../../shared/components/post-reply-grid/post-reply-grid.component';
 import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
 import { ICreatePostReplyDTO } from '../../../shared/interfaces/create-post-reply-dto.interface';
 import { IPost } from '../../../shared/interfaces/post.interface';
 import { IPostReply } from '../../../shared/interfaces/post-reply.interface';
 import { PostService } from '../../../shared/services/post.service';
 import { PostReplyService } from '../../../shared/services/post-reply.service';
+
 
 interface IPostReplyForm {
   body: FormControl<ICreatePostReplyDTO['body']>;
@@ -31,7 +31,7 @@ class NoErrorErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-post-page',
-  imports: [FormsModule, InfiniteScrollDirective, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostCardSkeletonComponent, PostReplyComponent, ProfilePictureComponent, ReactiveFormsModule],
+  imports: [FormsModule, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostReplyGridComponent, PostCardSkeletonComponent, ProfilePictureComponent, ReactiveFormsModule],
   templateUrl: './post-page.component.html',
   styleUrl: './post-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,7 +48,6 @@ export class PostPageComponent implements OnInit {
   protected readonly post = signal<IPost | null>(null);
   protected readonly postReplies = signal<IPostReply[] | null>(null);
   protected readonly dynamicPostReplyCount = signal<number>(0);
-  protected readonly newlyCreatedPostReplies = signal<IPostReply[]>([]);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly formGroup = new FormGroup<IPostReplyForm>({
     body: new FormControl('', { nonNullable: true, validators: [Validators.required] })
@@ -93,8 +92,8 @@ export class PostPageComponent implements OnInit {
     this.postReplyService.createPostReply(this.postId, formData)
       .subscribe({
         next: postReply => {
-          this.dynamicPostReplyCount.update(v => v + 1);
-          this.newlyCreatedPostReplies.update(prev => [postReply, ...prev]);
+          this.dynamicPostReplyCount.update(prev => prev + 1);
+          this.postReplies.update(prev => [postReply, ...(prev ?? [])]);
           formGroupDirective.resetForm();
         },
         error: error => window.alert(`Could not create post reply: ${error.message}`)

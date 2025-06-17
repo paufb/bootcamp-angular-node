@@ -1,8 +1,9 @@
+import type { IPost } from '../interfaces/post.interface';
+import type { IPostReply } from '../interfaces/post-reply.interface';
+import type { IUser } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPost } from '../interfaces/post.interface';
-import { IPostReply } from '../interfaces/post-reply.interface';
 
 interface PostReplyRequestQueryParams {
   pageSize: number;
@@ -15,6 +16,7 @@ interface PostReplyRequestQueryParams {
 })
 export class PostReplyService {
   private readonly POSTS_URL = '/api/posts';
+  private readonly USERS_URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
   private constructQueryParams(params: PostReplyRequestQueryParams): Record<string, string | number | boolean> {
@@ -28,6 +30,11 @@ export class PostReplyService {
   getPostReplies(postId: IPost['_id'], params: PostReplyRequestQueryParams): Observable<IPostReply[]> {
     const queryParams = this.constructQueryParams(params);
     return this.httpClient.get<IPostReply[]>(`${this.POSTS_URL}/${postId}/replies`, { params: queryParams });
+  }
+
+  getUserPostReplies(userId: IUser['_id'], params: PostReplyRequestQueryParams): Observable<IPostReply[]> {
+    const queryParams = this.constructQueryParams(params);
+    return this.httpClient.get<IPostReply[]>(`${this.USERS_URL}/${userId}/replies`, { params: queryParams });
   }
 
   createPostReply(postId: IPost['_id'], dto: Pick<IPostReply, 'body'>) {

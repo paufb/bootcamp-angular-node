@@ -1,0 +1,25 @@
+@if (postReplies()) {
+  <div
+    @fadeIn
+    class="post-replies"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    @if (postReplies()?.length === 0) {
+      <div class="no-replies">No replies to display...</div>
+    } @else {
+      @for (reply of postReplies(); track reply._id) {
+        <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
+      }
+    }
+  </div>
+} @else {
+  <div @fadeOut class="post-replies">
+    <app-post-card-skeleton />
+    <app-post-card-skeleton />
+    <app-post-card-skeleton />
+  </div>
+}
