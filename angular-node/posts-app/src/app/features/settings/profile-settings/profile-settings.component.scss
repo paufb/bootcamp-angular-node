@@ -33,6 +33,16 @@ $background-height: max(7.5rem, 20dvh);
   padding-inline: $padding;
 }
 
+mat-form-field {
+  --mb: 0;
+  margin-bottom: var(--mb);
+  transition: margin-bottom .2s ease-out;
+
+  &:has(mat-error) {
+    --mb: .5rem;
+  }
+}
+
 label {
   align-self: center;
 }
