@@ -5,8 +5,16 @@ import { PostReply } from '../models/post-reply';
 import { IPostReply } from '../interfaces/post-reply';
 import { addPaginationToQuery } from '../utils/paginationUtils';
 
-const findPostReplies = (postId: string, options?: IPostReplyQueryOptions): Promise<HydratedDocument<IPostReply>[]> => {
+const findPostRepliesByPostId = (postId: string, options?: IPostReplyQueryOptions): Promise<HydratedDocument<IPostReply>[]> => {
   const query = PostReply.find({ post: postId });
+  if (options?.populate) query.populate(options.populate);
+  if (options?.sort) query.sort(options.sort);
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
+  return query;
+}
+
+const findPostRepliesByUserId = (userId: string, options?: IPostReplyQueryOptions): Promise<HydratedDocument<IPostReply>[]> => {
+  const query = PostReply.find({ user: userId });
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
   if (options?.pagination) addPaginationToQuery(query, options.pagination);
@@ -25,7 +33,8 @@ const createPostReply = async ({ body, userId, postId }: { body: string; userId:
 }
 
 export default {
-  findPostReplies,
+  findPostRepliesByPostId,
+  findPostRepliesByUserId,
   findPostReply,
-  createPostReply
+  createPostReply,
 };

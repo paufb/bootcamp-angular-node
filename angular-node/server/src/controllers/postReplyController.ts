@@ -8,7 +8,7 @@ import { constructPaginationOptions } from '../utils/paginationUtils';
 const getPostReplies = async (req: Request, res: Response) => {
   const { postId } = req.params;
   try {
-    const postReplies = await postReplyService.findPostReplies(postId, {
+    const postReplies = await postReplyService.findPostRepliesByPostId(postId, {
       populate: ['user'],
       sort: [['createdAt', 'desc']],
       pagination: constructPaginationOptions(req.query)
@@ -31,7 +31,22 @@ const createPostReply = async (req: Request<ParamsDictionary, any, DTO.ICreatePo
   }
 }
 
+const getUserPostReplies = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const postReplies = await postReplyService.findPostRepliesByUserId(userId, {
+      populate: ['user'],
+      sort: [['createdAt', 'desc']],
+      pagination: constructPaginationOptions(req.query)
+    });
+    res.status(200).json(postReplies);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+}
+
 export default {
   getPostReplies,
-  createPostReply
+  createPostReply,
+  getUserPostReplies
 };

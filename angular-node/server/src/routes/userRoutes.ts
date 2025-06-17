@@ -1,5 +1,6 @@
 import express from 'express';
 import postController from '../controllers/postController';
+import postReplyController from '../controllers/postReplyController';
 import userController from '../controllers/userController';
 import { requireAuthentication } from '../middlewares/authMiddleware';
 import { uploadProfilePictures } from '../middlewares/profilePicturesMiddleware';
@@ -15,6 +16,7 @@ router.get('/:username/posts', requireAuthentication, postController.getPostsByU
 router.get('/username/:username', requireAuthentication, userController.getUserByUsername);
 router.post('/', uploadProfilePictures.single('profile-picture'), userController.createUser);
 router.put('/:userId/follow', requireAuthentication, userController.followUser);
+router.get('/:userId/replies', requireAuthentication, postReplyController.getUserPostReplies);
 router.patch('/:userId', uploadProfilePictures.single('profile-picture'), requireAuthentication, userController.editUser);
 
 export default router;
