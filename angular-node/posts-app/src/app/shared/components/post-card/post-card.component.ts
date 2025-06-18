@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, ou
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
@@ -14,7 +13,7 @@ import { ProfilePictureComponent } from '../profile-picture/profile-picture.comp
 
 @Component({
   selector: 'app-post-card',
-  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatMenu, MatMenuItem, MatMenuTrigger, MatRippleModule, ProfilePictureComponent, RouterLink],
+  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatMenu, MatMenuItem, MatMenuTrigger, ProfilePictureComponent, RouterLink],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

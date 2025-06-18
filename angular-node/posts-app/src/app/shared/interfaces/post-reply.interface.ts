@@ -5,7 +5,7 @@ export interface IPostReply {
   _id: string;
   body: string;
   user: IUser;
-  post: IPost['_id'];
+  post?: IPost;
   createdAt: string;
   updatedAt: string;
 }

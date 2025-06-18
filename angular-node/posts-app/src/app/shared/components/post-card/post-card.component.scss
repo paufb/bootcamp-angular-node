@@ -1,32 +1,21 @@
-app-profile-picture {
-  margin-right: .5rem;
-}
+$card-padding: var(--app-padding);
 
 mat-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: $card-padding;
+  padding: calc($card-padding / 2) $card-padding;
   cursor: pointer;
   color: var(--mat-sys-on-surface);
 }
 
-mat-card-header {
-  $padding: .5rem;
-  padding: $padding $padding 0;
-
-  .menu-btn {
-    position: absolute;
-    inset: $padding $padding auto auto;
-  }
+a {
+  align-self: start;
 }
 
-.user-anchor {
-  display: flex;
-  text-decoration: none;
-  color: inherit;
-  border-radius: 8px;
-  padding: .5rem;
-
-  &:hover {
-    background-color: color-mix(in srgb, var(--mat-sys-on-background) 10%, transparent);
-  }
+.menu-btn {
+  position: absolute;
+  inset: $card-padding $card-padding auto auto;
 }
 
 .user-info {
@@ -48,7 +37,6 @@ mat-card-header {
   align-items: center;
   justify-content: space-between;
   margin-top: .5rem;
-  padding: .5rem;
 
   div {
     display: flex;

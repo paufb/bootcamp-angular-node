@@ -1,10 +1,13 @@
 $lighter-text-color: #717c85;
+$profile-picture-size: 2lh;
+$reply-chain-line-width: .25rem;
 
 mat-card-content {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: .5rem;
   color: var(--mat-sys-on-surface);
+  padding: 1rem calc(2.375rem - calc($profile-picture-size / 2) + calc($reply-chain-line-width / 2));
 }
 
 .column {

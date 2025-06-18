@@ -1,17 +1,15 @@
 <mat-card (click)="navigateToPostPage()">
-  <mat-card-header>
-    <a
-      class="user-anchor"
-      matRipple
-      [routerLink]="['/user', post().user?.username]"
-      (click)="stopPropagation($event)"
-    >
-      <app-profile-picture [src]="post().user?.imageUrl" />
-      <div class="user-info">
-        <span class="profile-name">{{post().user?.name}}</span>
-        <span class="user-name">{{`@${post().user?.username}`}}</span>
-      </div>
-    </a>
+  <a
+    [routerLink]="['/user', post().user?.username]"
+    (click)="stopPropagation($event)"
+  >
+    <app-profile-picture [src]="post().user?.imageUrl" />
+  </a>
+  <div>
+    <div class="user-info">
+      <span class="profile-name">{{post().user?.name}}</span>
+      <span class="user-name">{{`@${post().user?.username}`}}</span>
+    </div>
     @if (isOwn()) {
       <button
         class="menu-btn"
@@ -25,31 +23,29 @@
         <button mat-menu-item (click)="deletePost()">Delete</button>
       </mat-menu>
     }
-  </mat-card-header>
-  <mat-card-content>
     <p>
       {{post().body}}
     </p>
-  </mat-card-content>
-  <div class="card-footer">
-    <mat-chip disableRipple highlighted>{{post().createdAt | date}}</mat-chip>
-    <div>
-      <button
-        mat-fab extended
-        class="action-btn replies-btn"
-      >
-        <mat-icon>chat</mat-icon>
-        {{dynamicReplyCount() || post().replies.count}}
-      </button>
-      <button
-        mat-fab extended
-        class="action-btn like-btn"
-        [class.liked]="hasBeenLiked()"
-        (click)="likePost($event)"
-      >
-        <mat-icon>favorite</mat-icon>
-        {{likeCount()}}
-      </button>
+    <div class="card-footer">
+      <mat-chip disableRipple highlighted>{{post().createdAt | date}}</mat-chip>
+      <div>
+        <button
+          mat-fab extended
+          class="action-btn replies-btn"
+        >
+          <mat-icon>chat</mat-icon>
+          {{dynamicReplyCount() || post().replies.count}}
+        </button>
+        <button
+          mat-fab extended
+          class="action-btn like-btn"
+          [class.liked]="hasBeenLiked()"
+          (click)="likePost($event)"
+        >
+          <mat-icon>favorite</mat-icon>
+          {{likeCount()}}
+        </button>
+      </div>
     </div>
   </div>
 </mat-card>

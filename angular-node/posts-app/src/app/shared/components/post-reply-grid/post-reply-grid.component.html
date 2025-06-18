@@ -12,7 +12,14 @@
       <div class="no-replies">No replies to display...</div>
     } @else {
       @for (reply of postReplies(); track reply._id) {
-        <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
+        @if (displayPostRepliedTo()) {
+          <div @scaleFadeInFromTop class="post-and-reply">
+            <app-post-card [post]="reply.post!" />
+            <app-post-reply [postReply]="reply" />
+          </div>
+        } @else {
+          <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
+        }
       }
     }
   </div>
