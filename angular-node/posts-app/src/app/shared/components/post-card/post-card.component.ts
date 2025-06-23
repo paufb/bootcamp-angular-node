@@ -1,11 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatCard } from '@angular/material/card';
+import { MatChip } from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { IPost } from '../../interfaces/post.interface';
 import { PostService } from '../../services/post.service';
@@ -13,7 +13,7 @@ import { ProfilePictureComponent } from '../profile-picture/profile-picture.comp
 
 @Component({
   selector: 'app-post-card',
-  imports: [DatePipe, MatButtonModule, MatCardModule, MatChipsModule, MatIconModule, MatMenu, MatMenuItem, MatMenuTrigger, ProfilePictureComponent, RouterLink],
+  imports: [DatePipe, MatCard, MatChip, MatFabButton, MatIcon, MatIconButton, MatMenu, MatMenuItem, MatMenuTrigger, ProfilePictureComponent, RouterLink],
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

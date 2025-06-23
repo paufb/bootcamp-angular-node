@@ -7,8 +7,8 @@
   </a>
   <div>
     <div class="user-info">
-      <span class="profile-name">{{post().user?.name}}</span>
-      <span class="user-name">{{`@${post().user?.username}`}}</span>
+      <span>{{post().user?.name}}</span>
+      <span>{{`@${post().user?.username}`}}</span>
     </div>
     @if (isOwn()) {
       <button

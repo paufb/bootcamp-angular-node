@@ -7,10 +7,7 @@ mat-card {
   padding: calc($card-padding / 2) $card-padding;
   cursor: pointer;
   color: var(--mat-sys-on-surface);
-}
-
-a {
-  align-self: start;
+  overflow-wrap: anywhere;
 }
 
 .menu-btn {
@@ -19,28 +16,29 @@ a {
 }
 
 .user-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  height: 3rem;
 
-  .profile-name {
+  > :first-child {
     font-size: 1.25rem;
   }
 
-  .user-name {
+  > :last-child {
     color: #717c85;
   }
 }
 
 .card-footer {
+  $gap: .25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: $gap;
   margin-top: .5rem;
 
   div {
     display: flex;
-    gap: .25rem;
+    gap: $gap;
   }
 }
 
