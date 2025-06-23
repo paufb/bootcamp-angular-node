@@ -13,16 +13,14 @@
   </div>
 </mat-toolbar>
 <div class="wrapper">
-  <div class="wrapper-content">
-    <mat-sidenav
-      opened
-      [autoFocus]="false"
-      [class.collapsed]="isSidenavCollapsed()"
-    >
-      <app-sidenav />
-    </mat-sidenav>
-    <div class="route" [@routeAnimations]="getRouteAnimationState(outlet)">
-      <router-outlet #outlet="outlet" />
-    </div>
+  <mat-sidenav
+    opened
+    [autoFocus]="false"
+    [class.collapsed]="isSidenavCollapsed()"
+  >
+    <app-sidenav />
+  </mat-sidenav>
+  <div class="route" [@routeAnimations]="getRouteAnimationState(outlet)">
+    <router-outlet #outlet="outlet" />
   </div>
 </div>

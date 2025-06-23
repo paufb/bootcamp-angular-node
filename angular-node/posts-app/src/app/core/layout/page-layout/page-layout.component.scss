@@ -1,7 +1,6 @@
 :host {
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: min-content auto;
+  grid-template-rows: auto 1fr;
   min-height: 100dvh;
 }
 
@@ -16,23 +15,14 @@ mat-toolbar {
 
 .toolbar-content {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: var(--app-max-width);
-  height: 100%;
-  margin: 0 auto;
+  width: min(100%, var(--app-max-width));
 }
 
 .wrapper {
   display: flex;
-  justify-content: center;
-}
-
-.wrapper-content {
-  display: flex;
-  max-width: var(--app-max-width);
-  flex-grow: 1;
+  justify-self: center;
+  width: min(100%, var(--app-max-width));
 }
 
 .route {
@@ -41,8 +31,7 @@ mat-toolbar {
   padding: var(--app-padding);
 
   > ::ng-deep * {
-    grid-column-start: 1;
-    grid-row-start: 1;
+    grid-area: 1 / 1;
   }
 }
 
