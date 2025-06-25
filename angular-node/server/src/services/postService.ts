@@ -1,10 +1,10 @@
-import type { HydratedDocument, Query } from 'mongoose';
+import type { HydratedDocument } from 'mongoose';
 import type { PostQueryOptions } from '../interfaces/post-query-options.interface';
 import type { IPost } from '../interfaces/post';
 import { Post } from '../models/post';
+import { PostReply } from '../models/post-reply';
 import { User } from '../models/user';
 import { addPaginationToQuery } from '../utils/paginationUtils';
-import mongoose from 'mongoose';
 
 const createPost = ({ body, userId }: { body: string; userId: string }): Promise<HydratedDocument<IPost>> => {
   return Post.create({ body, user: userId });
@@ -59,7 +59,10 @@ const findFollowingUsersPosts = async (username: string, options?: PostQueryOpti
   return query;
 }
 
-const deletePost = (postId: string) => {
+const deletePost = async (postId: string): Promise<HydratedDocument<IPost> | null> => {
+  const post = await Post.findById(postId);
+  if (!post) throw new Error('Post not found');
+  await PostReply.updateMany({ post: postId }, { post: null });
   return Post.findByIdAndDelete(postId);
 }
 

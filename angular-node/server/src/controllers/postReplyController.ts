@@ -1,8 +1,10 @@
 import type { Request, Response } from 'express';
 import type { ParamsDictionary } from 'express-serve-static-core';
-import type { Error } from 'mongoose';
+import type { Error, HydratedDocument } from 'mongoose';
 import type { DTO } from '../interfaces/dto';
+import type { IPost } from '../interfaces/post';
 import postReplyService from '../services/postReplyService';
+import postService from '../services/postService';
 import { constructPaginationOptions } from '../utils/paginationUtils';
 
 const getPostReplies = async (req: Request, res: Response) => {
@@ -37,12 +39,32 @@ const getUserPostReplies = async (req: Request, res: Response) => {
     const postReplies = await postReplyService.findPostRepliesByUserId(userId, {
       populate: [
         { path: 'user' },
-        { path: 'post', populate: [{ path: 'user' }] }
+        { path: 'post', populate: [{ path: 'user' }, { path: 'likes.users' }] }
       ],
       sort: [['createdAt', 'desc']],
       pagination: constructPaginationOptions(req.query)
     });
-    res.status(200).json(postReplies);
+    const response = postReplies.map(postReply => {
+      const post = postReply.post as HydratedDocument<IPost>;
+      return {
+        ...postReply.toObject(),
+        post: {
+          ...post.toObject(),
+          isLikedByUser: postService.isPostLikedBy(post, req.userId)
+        }
+      };
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+}
+
+const deletePostReply = async (req: Request, res: Response) => {
+  const { postReplyId } = req.params;
+  try {
+    await postReplyService.deletePostReply(postReplyId);
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
@@ -51,5 +73,6 @@ const getUserPostReplies = async (req: Request, res: Response) => {
 export default {
   getPostReplies,
   createPostReply,
-  getUserPostReplies
+  getUserPostReplies,
+  deletePostReply
 };

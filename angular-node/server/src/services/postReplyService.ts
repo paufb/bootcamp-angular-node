@@ -32,9 +32,14 @@ const createPostReply = async ({ body, userId, postId }: { body: string; userId:
   return PostReply.create({ body, user: userId, post: postId });
 }
 
+const deletePostReply = async (postReplyId: string): Promise<HydratedDocument<IPostReply> | null> => {
+  return PostReply.findByIdAndDelete(postReplyId);
+}
+
 export default {
   findPostRepliesByPostId,
   findPostRepliesByUserId,
   findPostReply,
   createPostReply,
+  deletePostReply
 };
