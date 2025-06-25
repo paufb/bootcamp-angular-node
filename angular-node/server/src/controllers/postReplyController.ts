@@ -48,10 +48,9 @@ const getUserPostReplies = async (req: Request, res: Response) => {
       const post = postReply.post as HydratedDocument<IPost>;
       return {
         ...postReply.toObject(),
-        post: {
-          ...post.toObject(),
-          isLikedByUser: postService.isPostLikedBy(post, req.userId)
-        }
+        post: post
+          ? { ...post.toObject(), isLikedByUser: postService.isPostLikedBy(post, req.userId) }
+          : null
       };
     });
     res.status(200).json(response);
