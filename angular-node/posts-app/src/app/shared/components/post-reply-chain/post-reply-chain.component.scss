@@ -1,0 +1,39 @@
+$chain-line-color: color-mix(in srgb, var(--mat-sys-primary) 25%, #d9d9d9);
+
+:host {
+  display: grid;
+  gap: 1rem;
+}
+
+app-post-card {
+  position: relative;
+
+  &::after {
+    $gap-from-picture: .1rem;
+    position: absolute;
+    content: '';
+    inset: calc(3.5rem + $gap-from-picture) auto auto 2.375rem;
+    width: .25rem;
+    height: calc(100% - calc(1.85rem + $gap-from-picture * 2));
+    background-color: $chain-line-color;
+    z-index: 1;
+  }
+}
+
+mat-card {
+  position: relative;
+  font-style: italic;
+  padding: calc(var(--app-padding) / 2) var(--app-padding);
+
+  &::after {
+    $gap-from-picture: .1rem;
+    position: absolute;
+    content: '';
+    inset: 100% auto auto 2.375rem;
+    width: .25rem;
+    height: calc(100% - calc(.55rem + $gap-from-picture));
+    background-color: $chain-line-color;
+    z-index: 1;
+    border-radius: 0;
+  }
+}

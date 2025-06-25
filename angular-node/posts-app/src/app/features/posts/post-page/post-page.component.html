@@ -13,7 +13,11 @@
         <button mat-flat-button type="submit" [disabled]="!formGroup.valid">Reply</button>
       </div>
     </form>
-    <app-post-reply-grid [postReplies]="postReplies()" (loadMorePostReplies)="fetchMoreReplies()" />
+    <app-post-reply-grid
+      [postReplies]="postReplies()"
+      (loadMorePostReplies)="fetchMoreReplies()"
+      (deletedPostReply)="onDeletedPostReply($event)"
+    />
   </div>
 } @else {
   <app-post-card-skeleton @fadeOut />

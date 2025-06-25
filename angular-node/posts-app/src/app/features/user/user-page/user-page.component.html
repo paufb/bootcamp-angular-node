@@ -7,7 +7,13 @@
   </mat-tab>
   <mat-tab label="Replies">
     @if (tabs()[1].isSelected) {
-      <app-post-reply-grid displayPostRepliedTo @fadeOut [postReplies]="postReplies()" (loadMorePostReplies)="fetchMoreReplies()" />
+      <app-post-reply-grid
+        @fadeOut
+        displayPostRepliedTo
+        [postReplies]="postReplies()"
+        (loadMorePostReplies)="fetchMoreReplies()"
+        (deletedPostReply)="onDeletedPostReply($event)"
+      />
     }
   </mat-tab>
   <mat-tab label="Liked posts">

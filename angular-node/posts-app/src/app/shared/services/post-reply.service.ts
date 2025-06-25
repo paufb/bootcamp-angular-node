@@ -37,7 +37,11 @@ export class PostReplyService {
     return this.httpClient.get<IPostReply[]>(`${this.USERS_URL}/${userId}/replies`, { params: queryParams });
   }
 
-  createPostReply(postId: IPost['_id'], dto: Pick<IPostReply, 'body'>) {
+  createPostReply(postId: IPost['_id'], dto: Pick<IPostReply, 'body'>): Observable<IPostReply> {
     return this.httpClient.post<IPostReply>(`${this.POSTS_URL}/${postId}/replies`, dto);
+  }
+
+  deletePostReply(postReplyId: IPostReply['_id']): Observable<null> {
+    return this.httpClient.delete<null>(`${this.POSTS_URL}/replies/${postReplyId}`);
   }
 }

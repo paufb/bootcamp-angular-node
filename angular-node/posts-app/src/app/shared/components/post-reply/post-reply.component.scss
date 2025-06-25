@@ -3,16 +3,26 @@ $profile-picture-size: 2lh;
 $reply-chain-line-width: .25rem;
 
 mat-card {
+  $inline-padding: calc(2.375rem - calc($profile-picture-size / 2) + calc($reply-chain-line-width / 2));
   display: grid;
   grid-template-columns: auto 1fr;
   gap: .5rem;
   color: var(--mat-sys-on-surface);
-  padding: 1rem calc(2.375rem - calc($profile-picture-size / 2) + calc($reply-chain-line-width / 2));
+  padding: calc($inline-padding / 2) $inline-padding;
   overflow-wrap: anywhere;
-}
 
-.column {
-  display: grid;
+  > div {
+    display: grid;
+  }
+
+  .menu-btn {
+    position: absolute;
+    inset: 0 $inline-padding auto auto;
+  }
+
+  :has(.menu-btn) .created-at {
+    margin-right: calc($inline-padding + 1rem);
+  }
 }
 
 .user-info {

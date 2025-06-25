@@ -2,15 +2,29 @@
   <a [routerLink]="['/user', postReply().user.username]">
     <app-profile-picture [src]="postReply().user.imageUrl" width="2lh" height="2lh" />
   </a>
-  <div class="column">
+  <div>
     <div class="user-info">
       <a class="user-anchor" [routerLink]="['/user', postReply().user.username]">
         <span>{{postReply().user.name}}</span> <span>{{`@${postReply().user.username}`}}</span>
       </a>
-      <span>{{postReply().createdAt | timeAgo}}</span>
+      <span class="created-at">{{postReply().createdAt | timeAgo}}</span>
     </div>
-    <p>
-      {{postReply().body}}
-    </p>
+    <div>
+      <p>
+        {{postReply().body}}
+      </p>
+      @if (isOwn()) {
+        <button
+          class="menu-btn"
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="deleteReply()">Delete</button>
+        </mat-menu>
+      }
+    </div>
   </div>
 </mat-card>

@@ -1,9 +1,12 @@
+import type { ICreatePostReplyDTO } from '../../../shared/interfaces/create-post-reply-dto.interface';
+import type { IPost } from '../../../shared/interfaces/post.interface';
+import type { IPostReply } from '../../../shared/interfaces/post-reply.interface';
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -12,9 +15,6 @@ import { PostCardSkeletonComponent } from '../../../shared/components/post-card-
 import { PostCardComponent } from '../../../shared/components/post-card/post-card.component';
 import { PostReplyGridComponent } from '../../../shared/components/post-reply-grid/post-reply-grid.component';
 import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
-import { ICreatePostReplyDTO } from '../../../shared/interfaces/create-post-reply-dto.interface';
-import { IPost } from '../../../shared/interfaces/post.interface';
-import { IPostReply } from '../../../shared/interfaces/post-reply.interface';
 import { PostService } from '../../../shared/services/post.service';
 import { PostReplyService } from '../../../shared/services/post-reply.service';
 
@@ -31,7 +31,7 @@ class NoErrorErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-post-page',
-  imports: [FormsModule, MatButton, MatFormFieldModule, MatInput, PostCardComponent, PostReplyGridComponent, PostCardSkeletonComponent, ProfilePictureComponent, ReactiveFormsModule],
+  imports: [MatButton, MatFormField, MatInput, MatLabel, PostCardComponent, PostReplyGridComponent, PostCardSkeletonComponent, ProfilePictureComponent, ReactiveFormsModule],
   templateUrl: './post-page.component.html',
   styleUrl: './post-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -104,5 +104,9 @@ export class PostPageComponent implements OnInit {
     const { navigationId } = this.location.getState() as any;
     if (navigationId > 1) return this.location.back();
     this.router.navigate(['/posts']);
+  }
+
+  protected onDeletedPostReply(postReplyId: IPostReply['_id']) {
+    this.postReplies.update(prev => prev!.filter(pR => pR._id !== postReplyId));
   }
 }

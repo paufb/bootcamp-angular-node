@@ -1,0 +1,8 @@
+@if (postReply().post) {
+  <app-post-card [post]="postReply().post!" (delete)="onDeletedPost($event)" />
+} @else {
+  <mat-card>
+    (deleted post)
+  </mat-card>
+}
+<app-post-reply [postReply]="postReply()" (deleted)="onDeletedPostReply($event)" />

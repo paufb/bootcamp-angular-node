@@ -13,12 +13,18 @@
     } @else {
       @for (reply of postReplies(); track reply._id) {
         @if (displayPostRepliedTo()) {
-          <div @scaleFadeInFromTop class="post-and-reply">
-            <app-post-card [post]="reply.post!" />
-            <app-post-reply [postReply]="reply" />
-          </div>
+          <app-post-reply-chain
+            @scaleFadeInFromTop
+            [postReply]="reply"
+            (deletedPost)="onDeletedPost($event)"
+            (deletedPostReply)="onDeletedPostReply($event)"
+          />
         } @else {
-          <app-post-reply @scaleFadeInFromTop [postReply]="reply" />
+          <app-post-reply
+            @scaleFadeInFromTop
+            [postReply]="reply"
+            (deleted)="onDeletedPostReply($event)"
+          />
         }
       }
     }

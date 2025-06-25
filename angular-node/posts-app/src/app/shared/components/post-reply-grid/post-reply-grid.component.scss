@@ -18,23 +18,3 @@
   text-align: center;
   margin-block: 1lh;
 }
-
-.post-and-reply {
-  display: grid;
-  gap: 1rem;
-
-  > app-post-card {
-    position: relative;
-
-    &::after {
-      $gap-from-picture: .1rem;
-      position: absolute;
-      content: '';
-      inset: calc(3.5rem + $gap-from-picture) auto auto 2.375rem;
-      width: .25rem;
-      height: calc(100% - calc(1.6rem + $gap-from-picture));
-      background-color: color-mix(in srgb, var(--mat-sys-primary) 25%, #d9d9d9);
-      z-index: 1;
-    }
-  }
-}

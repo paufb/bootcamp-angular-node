@@ -116,4 +116,8 @@ export class UserPageComponent implements OnInit {
   protected deletePost(postId: IPost['_id']) {
     this.postFeedService.removePost(postId);
   }
+
+  protected onDeletedPostReply(postReplyId: IPostReply['_id']) {
+    this.postReplies.update(prev => prev!.filter(pR => pR._id !== postReplyId));
+  }
 }
