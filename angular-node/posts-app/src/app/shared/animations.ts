@@ -24,7 +24,7 @@ export const scaleFadeInFromTop = trigger('scaleFadeInFromTop', [
 ]);
 
 export const pageEnterSlideUpAnimationGroup = group([
-  query(':leave', style({ 'z-index': 0 })),
+  query(':leave', style({ 'z-index': 0 }), { optional: true }),
   query('router-outlet ~ *', animate('.2s', style({})), { optional: true }),
   query(':enter', [
     style({ transform: 'translateY(100dvh)', 'z-index': 1, 'background-color': 'var(--app-background-color)' }),
