@@ -7,20 +7,14 @@
       routerLinkActive
       #rla="routerLinkActive"
     >
-      <mat-icon matListItemIcon>{{item.matIcon}}</mat-icon>
+      <mat-icon matListItemIcon>
+        @if (item.matIcon) {
+          {{item.matIcon}}
+        } @else {
+          <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="24px" height="24px" />
+        }
+      </mat-icon>
       <span matListItemTitle>{{item.title}}</span>
     </a>
   }
-  <a
-    mat-list-item
-    [activated]="rla.isActive"
-    [routerLink]="['/user', authenticatedUser()?.username]"
-    routerLinkActive
-    #rla="routerLinkActive"
-  >
-    <mat-icon matListItemIcon>
-      <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="24px" height="24px" />
-    </mat-icon>
-    <span matListItemTitle>{{`@${authenticatedUser()?.username}`}}</span>
-  </a>
 </mat-nav-list>

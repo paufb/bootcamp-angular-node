@@ -16,7 +16,8 @@ export class SidenavComponent {
   private readonly authService = inject(AuthService);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly navListItems = [
-    { href: '/posts', title: 'Home', matIcon: 'home' },
-    { href: '/settings', title: 'Settings', matIcon: 'settings' }
+    { href: ['/'], title: 'Home', matIcon: 'home' },
+    { href: ['/user', this.authenticatedUser()?.username], title: `@${this.authenticatedUser()?.username}` },
+    { href: ['/settings'], title: 'Settings', matIcon: 'settings' }
   ];
 }
