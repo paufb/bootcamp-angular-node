@@ -104,7 +104,7 @@ const createPost = async (req: Request<ParamsDictionary, any, DTO.ICreatePostDTO
   }
 }
 
-const deletePost = async (req: Request, res: Response) => {
+const deletePost = async (req: Request, res: Response): Promise<void> => {
   const { postId } = req.params;
   try {
     await postService.deletePost(postId);
@@ -125,6 +125,25 @@ const likePost = async (req: Request<ParamsDictionary, any, DTO.ILikePostDTO>, r
   }
 }
 
+const searchPosts = async (req: Request, res: Response): Promise<void> => {
+  const { q } = req.query;
+  try {
+    const posts = await postService.searchPosts(String(q), {
+      select: ['+likes.users'],
+      populate: ['user'],
+      sort: [[ 'createdAt', 'desc' ]],
+      pagination: constructPaginationOptions(req.query)
+    });
+    const response = posts.map(post => ({
+      isLikedByUser: postService.isPostLikedBy(post, req.userId),
+      ...post.toObject()
+    }));
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 export default {
   getPost,
   getPosts,
@@ -133,5 +152,6 @@ export default {
   getFollowingUsersPosts,
   createPost,
   deletePost,
-  likePost
+  likePost,
+  searchPosts
 };

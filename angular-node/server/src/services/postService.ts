@@ -33,7 +33,7 @@ const findPostsByUsername = async (username: string, options?: PostQueryOptions)
 const findLikedPostsByUsername = async (username: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
   const user = await User.findOne({ username }, '_id');
   if (!user) throw new Error('User not found');
-  let query = Post.find({ 'likes.users': user._id });
+  const query = Post.find({ 'likes.users': user._id });
   if (options?.select) query.select(options.select);
   if (options?.populate) query.populate(options.populate);
   if (options?.sort) query.sort(options.sort);
@@ -77,6 +77,15 @@ const isPostLikedBy = (post: HydratedDocument<IPost>, userId: string) => {
   return !!post.likes.users?.some(userObjectId => userObjectId.equals(userId));
 }
 
+const searchPosts = (bodyQuery: string, options?: PostQueryOptions): Promise<HydratedDocument<IPost>[]> => {
+  const query = Post.find({ body: { $regex: bodyQuery, $options: 'i' } });
+  if (options?.select) query.select(options.select);
+  if (options?.populate) query.populate(options.populate);
+  if (options?.sort) query.sort(options.sort);
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
+  return query;
+}
+
 export default {
   createPost,
   findPosts,
@@ -86,5 +95,6 @@ export default {
   findFollowingUsersPosts,
   deletePost,
   likePost,
-  isPostLikedBy
+  isPostLikedBy,
+  searchPosts
 };

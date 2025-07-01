@@ -6,6 +6,7 @@ import postReplyController from '../controllers/postReplyController';
 const router = express.Router();
 
 router.get('/', requireAuthentication, postController.getPosts);
+router.get('/search', requireAuthentication, postController.searchPosts);
 router.get('/:postId', requireAuthentication, postController.getPost);
 router.get('/:postId/replies', requireAuthentication, postReplyController.getPostReplies);
 router.post('/', requireAuthentication, postController.createPost);
