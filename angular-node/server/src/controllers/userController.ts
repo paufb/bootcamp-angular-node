@@ -98,6 +98,20 @@ const followUser = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
+const searchUsers = async (req: Request, res: Response): Promise<void> => {
+  const { q } = req.query;
+  try {
+    const users = await userService.searchUsers(String(q), { select: ['+followers.users'] });
+    const response = users.map(user => ({
+      isFollowedByUser: userService.isUserFollowedBy(user, req.userId),
+      ...user.toObject()
+    }));
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+}
+
 export default {
   getUser,
   getUserByUsername,
@@ -105,5 +119,6 @@ export default {
   getFollowersUsers,
   getFollowingUsers,
   editUser,
-  followUser
+  followUser,
+  searchUsers
 };

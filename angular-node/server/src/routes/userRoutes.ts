@@ -7,6 +7,7 @@ import { uploadProfilePictures } from '../middlewares/profilePicturesMiddleware'
 
 const router = express.Router();
 
+router.get('/search', requireAuthentication, userController.searchUsers);
 router.get('/:userId', requireAuthentication, userController.getUser);
 router.get('/:username/followers', requireAuthentication, userController.getFollowersUsers);
 router.get('/:username/following', requireAuthentication, userController.getFollowingUsers);

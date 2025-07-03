@@ -1,10 +1,13 @@
 import type { HydratedDocument, Types } from 'mongoose';
 import type { DTO } from '../interfaces/dto';
+import type { IPaginationOptions } from '../interfaces/pagination-options.interface';
 import type { IUser } from '../interfaces/user';
-import { User } from '../models/user'
+import { User } from '../models/user';
+import { addPaginationToQuery } from '../utils/paginationUtils';
 
 interface UserQueryOptions {
   select?: ('+following.users' | '+followers.users')[];
+  pagination?: IPaginationOptions;
 }
 
 const createUser = (data: DTO.ICreateUserDTO & { imageFilename?: string; }): Promise<HydratedDocument<IUser>> => {
@@ -20,7 +23,7 @@ const findUser = (userId: string): Promise<HydratedDocument<IUser> | null> => {
 }
 
 const findUserByUsername = (username: string, options?: UserQueryOptions): Promise<HydratedDocument<IUser> | null> => {
-  let query = User.findOne({ username });
+  const query = User.findOne({ username });
   if (options?.select) query.select(options.select);
   return query;
 }
@@ -60,6 +63,16 @@ const isUserFollowedBy = (currentUser: HydratedDocument<IUser>, userId: string):
   return !!currentUser.followers.users?.some(userObjectId => userObjectId.equals(userId));
 }
 
+const searchUsers = (nameOrUsernameQuery: string, options?: UserQueryOptions) => {
+  const query = User.find({ $or: [
+    { name: { $regex: nameOrUsernameQuery, $options: 'i' } },
+    { username: { $regex: nameOrUsernameQuery, $options: 'i' } }
+  ]});
+  if (options?.select) query.select(options.select);
+  if (options?.pagination) addPaginationToQuery(query, options.pagination);
+  return query;
+}
+
 export default {
   createUser,
   findUser,
@@ -68,5 +81,6 @@ export default {
   findFollowingUsers,
   updateUser,
   followUser,
-  isUserFollowedBy
+  isUserFollowedBy,
+  searchUsers
 };
