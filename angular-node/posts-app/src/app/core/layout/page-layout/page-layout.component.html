@@ -20,7 +20,10 @@
   >
     <app-sidenav />
   </mat-sidenav>
-  <div class="route" [@routeAnimations]="getRouteAnimationState(outlet)">
-    <router-outlet #outlet="outlet" />
+  <div class="content">
+    <div class="route" [@routeAnimations]="getRouteAnimationState(outlet)">
+      <router-outlet #outlet="outlet" />
+    </div>
+    <app-search-prompt />
   </div>
 </div>

@@ -1,0 +1,46 @@
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+mat-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--app-padding);
+  padding: calc(var(--app-padding) / 2) var(--app-padding);
+
+  > div {
+    display: grid;
+    height: 3rem;
+
+    > :first-child {
+      font-size: 1.25rem;
+    }
+
+    > :last-child {
+      color: #717c85;
+    }
+  }
+}
+
+.skeleton-text {
+  $color: #ccc;
+  display: block;
+  height: 1lh;
+  background: linear-gradient(90deg, $color 25%, white 50%, $color 75%);
+  background-size: 400% 100%;
+  animation: shimmer 2s infinite linear;
+
+  &.line-1 {
+    width: 5rem;
+  }
+
+  &.line-2 {
+    width: 3rem;
+  }
+}

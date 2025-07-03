@@ -10,11 +10,12 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { backFromPostPageAnimationGroup, pageEnterSlideUpAnimationGroup, pageLeaveSlideDownAnimationGroup, toPostPageAnimationGroup } from '../../../shared/animations';
 import { AppThemeToggleComponent } from '../../../shared/components/app-theme-toggle/app-theme-toggle.component';
 import { AuthService } from '../../auth/auth.service';
+import { SearchPromptComponent } from '../search-prompt/search-prompt.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-page-layout',
-  imports: [AppThemeToggleComponent, MatIcon, MatIconButton, MatSidenav, MatToolbar, RouterOutlet, SidenavComponent],
+  imports: [AppThemeToggleComponent, MatIcon, MatIconButton, MatSidenav, MatToolbar, RouterOutlet, SearchPromptComponent, SidenavComponent],
   templateUrl: './page-layout.component.html',
   styleUrl: './page-layout.component.scss',
   animations: [

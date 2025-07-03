@@ -1,22 +1,16 @@
 import { Location } from '@angular/common';
 import { booleanAttribute, ChangeDetectionStrategy, Component, inject, input, output, signal, viewChild } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/auth/auth.service';
+import { NoErrorStateMatcher } from '../../classes/no-error-state-matcher';
 import { IPost } from '../../interfaces/post.interface';
 import { PostService } from '../../services/post.service';
 import { ProfilePictureComponent } from '../profile-picture/profile-picture.component';
-
-class NoErrorErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return false;
-  }
-}
 
 @Component({
   selector: 'app-post-prompt',
@@ -33,7 +27,7 @@ export class PostPromptComponent {
   private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly formDirective = viewChild.required(FormGroupDirective);
-  protected readonly noErrorErrorStateMatcher = new NoErrorErrorStateMatcher();
+  protected readonly noErrorStateMatcher = new NoErrorStateMatcher();
   protected readonly isSubmitting = signal(false);
   protected readonly authenticatedUser = this.authService.authenticatedUser;
   protected readonly formGroup = new FormGroup({

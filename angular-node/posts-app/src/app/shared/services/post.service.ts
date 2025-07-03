@@ -19,7 +19,7 @@ export class PostService {
   private readonly USERS_URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
 
-  private constructQueryParams(params: PostRequestQueryParams): Record<string, string | number | boolean> {
+  private constructPaginationQueryParams(params: PostRequestQueryParams): Record<string, string | number | boolean> {
     const queryParams: Record<string, string | number | boolean> = {};
     if (params.pageSize) queryParams['page_size'] = params.pageSize;
     if (params.page) queryParams['page'] = params.page;
@@ -32,22 +32,22 @@ export class PostService {
   }
 
   getPosts(params: PostRequestQueryParams): Observable<IPost[]> {
-    const queryParams = this.constructQueryParams(params);
+    const queryParams = this.constructPaginationQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.POSTS_URL}`, { params: queryParams });
   }
 
   getPostsByUsername(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
-    const queryParams = this.constructQueryParams(params);
+    const queryParams = this.constructPaginationQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/posts`, { params: queryParams });
   }
 
   getLikedPostsByUsername(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
-    const queryParams = this.constructQueryParams(params);
+    const queryParams = this.constructPaginationQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/liked-posts`, { params: queryParams });
   }
 
   getFollowingUsersPosts(username: IUser['username'], params: PostRequestQueryParams): Observable<IPost[]> {
-    const queryParams = this.constructQueryParams(params);
+    const queryParams = this.constructPaginationQueryParams(params);
     return this.httpClient.get<IPost[]>(`${this.USERS_URL}/${username}/following/posts`, { params: queryParams });
   }
 
@@ -62,5 +62,13 @@ export class PostService {
   likePost(like: boolean, postId: IPost['_id']): Observable<null> {
     const requestBody = { like };
     return this.httpClient.put<null>(`${this.POSTS_URL}/${postId}/like`, requestBody);
+  }
+
+  searchPosts(query: string, params: PostRequestQueryParams): Observable<IPost[]> {
+    const queryParams = {
+      ...this.constructPaginationQueryParams(params),
+      q: query
+    };
+    return this.httpClient.get<IPost[]>(`${this.POSTS_URL}/search`, { params: queryParams });
   }
 }

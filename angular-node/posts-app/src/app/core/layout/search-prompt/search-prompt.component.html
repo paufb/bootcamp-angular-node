@@ -1,0 +1,7 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" hideRequiredMarker>
+    <mat-label>Search PostsApp...</mat-label>
+    <input matInput [formControl]="formGroup.controls.query" type="text" [errorStateMatcher]="noErrorStateMatcher" />
+    <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+</form>

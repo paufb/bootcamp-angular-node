@@ -1,0 +1,19 @@
+@if (user()) {
+  <a [routerLink]="['/user', user()!.username]">
+    <mat-card matRipple>
+      <app-profile-picture [src]="user()!.imageUrl" />
+      <div>
+        <span>{{user()!.name}}</span>
+        <span>{{`@${user()!.username}`}}</span>
+      </div>
+    </mat-card>
+  </a>
+} @else {
+  <mat-card>
+    <app-profile-picture [src]="undefined" />
+    <div>
+      <span class="skeleton-text line-1"></span>
+      <span class="skeleton-text line-2"></span>
+    </div>
+  </mat-card>
+}

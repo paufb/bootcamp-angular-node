@@ -1,0 +1,23 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" hideRequiredMarker>
+    <mat-label>Search PostsApp...</mat-label>
+    <input matInput [(ngModel)]="query" [formControl]="formGroup.controls.query" type="text" [errorStateMatcher]="noErrorStateMatcher" />
+    <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+</form>
+<nav mat-tab-nav-bar>
+  @for (link of navLinks; track link.href) {
+    <a
+      mat-tab-link
+      [active]="rla.isActive"
+      [routerLink]="link.href"
+      routerLinkActive
+      #rla="routerLinkActive"
+    >
+      {{link.name}}
+    </a>
+  }
+</nav>
+<div class="router-wrapper">
+  <router-outlet [routerOutletData]="routerOutletData()" />
+</div>

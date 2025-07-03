@@ -1,0 +1,25 @@
+@if (users()) {
+  <div
+    @fadeIn
+    class="users"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollUpDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  >
+    @if (users()?.length === 0) {
+      <div class="no-users">No users to display...</div>
+    } @else {
+      @for (user of users(); track user._id) {
+        <app-user-card [user]="user" />
+      }
+    }
+  </div>
+} @else {
+  <div @fadeOut class="users">
+    <app-user-card [user]="null" />
+    <app-user-card [user]="null" />
+    <app-user-card [user]="null" />
+  </div>
+}

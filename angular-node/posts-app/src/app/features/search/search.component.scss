@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+:host {
+  @include mat.form-field-overrides((
+    outlined-container-shape: var(--mat-sys-corner-extra-large)
+  ));
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    --mat-mdc-form-field-label-offset-x: -32px !important;
+  }
+}
+
+form {
+  margin-bottom: var(--app-padding);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.router-wrapper {
+  display: grid;
+  padding-block: var(--app-padding);
+
+  > ::ng-deep * {
+    grid-area: 1 / 1;
+  }
+}

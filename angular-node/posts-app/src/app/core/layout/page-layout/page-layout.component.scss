@@ -16,6 +16,7 @@ mat-toolbar {
 .toolbar-content {
   display: flex;
   justify-content: space-between;
+  margin-inline: auto;
   width: min(100%, var(--app-max-width));
 }
 
@@ -23,16 +24,6 @@ mat-toolbar {
   display: flex;
   justify-self: center;
   width: min(100%, var(--app-max-width));
-}
-
-.route {
-  display: grid;
-  flex-grow: 1;
-  padding: var(--app-padding);
-
-  > ::ng-deep * {
-    grid-area: 1 / 1;
-  }
 }
 
 .session-actions {
@@ -56,5 +47,31 @@ mat-sidenav {
   > ::ng-deep :first-child {
     position: sticky;
     top: 64px;
+  }
+}
+
+.content {
+  --grid-template-columns: 1fr minmax(10rem, 25%);
+  display: grid;
+  grid-template-columns: var(--grid-template-columns);
+  padding: var(--app-padding);
+  gap: var(--app-padding);
+  width: 0;
+  flex-grow: 1;
+
+  .route {
+    display: grid;
+
+    > ::ng-deep * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  @media (width < 40rem) {
+    --grid-template-columns: 1fr;
+
+    app-search-prompt {
+      display: none;
+    }
   }
 }

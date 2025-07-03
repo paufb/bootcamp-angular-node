@@ -5,12 +5,24 @@ import { IEditUserFormData } from '../interfaces/edit-user-form-data.interface';
 import { ISignupFormData } from '../interfaces/signup-form-data.interface';
 import { IUser } from '../interfaces/user.interface';
 
+interface UserRequestQueryParams {
+  pageSize: number;
+  page?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private readonly URL = '/api/users';
   private readonly httpClient = inject(HttpClient);
+
+  private constructPaginationQueryParams(params: UserRequestQueryParams): Record<string, string | number | boolean> {
+    const queryParams: Record<string, string | number | boolean> = {};
+    if (params.pageSize) queryParams['page_size'] = params.pageSize;
+    if (params.page) queryParams['page'] = params.page;
+    return queryParams;
+  }
 
   getUser(userId: IUser['_id']): Observable<IUser> {
     return this.httpClient.get<IUser>(`${this.URL}/${userId}`);
@@ -49,5 +61,13 @@ export class UserService {
   followUser(follow: boolean, userId: IUser['_id']): Observable<null> {
     const requestBody = { follow };
     return this.httpClient.put<null>(`${this.URL}/${userId}/follow`, requestBody);
+  }
+
+  searchUsers(query: string, params: UserRequestQueryParams) {
+    const queryParams = {
+      ...this.constructPaginationQueryParams(params),
+      q: query
+    };
+    return this.httpClient.get<IUser[]>(`${this.URL}/search`, { params: queryParams });
   }
 }

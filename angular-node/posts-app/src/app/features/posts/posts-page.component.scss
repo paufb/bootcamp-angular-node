@@ -5,11 +5,10 @@ app-post-prompt {
 
 .router-wrapper {
   display: grid;
-  padding-top: 1rem;
+  padding-block: var(--app-padding);
 
   > ::ng-deep * {
-    grid-column-start: 1;
-    grid-row-start: 1;
+    grid-area: 1 / 1;
   }
 }
 

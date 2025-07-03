@@ -6,7 +6,7 @@
         <app-profile-picture [src]="authenticatedUser()?.imageUrl" width="36px" height="36px" />
         <mat-form-field appearance="outline" hideRequiredMarker subscriptSizing="dynamic">
           <mat-label>Reply to {{`@${post()?.user?.username}`}}</mat-label>
-          <textarea matInput formControlName="body" autocomplete="off" [errorStateMatcher]="noErrorErrorStateMatcher"></textarea>
+          <textarea matInput formControlName="body" autocomplete="off" [errorStateMatcher]="noErrorStateMatcher"></textarea>
         </mat-form-field>
       </div>
       <div class="actions">

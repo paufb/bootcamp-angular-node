@@ -21,6 +21,7 @@ export const routes: Routes = [
       {
         path: 'posts',
         loadComponent: () => import('./features/posts/posts-page.component').then(m => m.PostsPageComponent),
+        data: { animationState: 'AnyPostsChildrenPage' },
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'all' },
           {
@@ -31,8 +32,7 @@ export const routes: Routes = [
             path: 'following',
             loadComponent: () => import('./features/posts/following/posts-following.component').then(m => m.PostsFollowingComponent)
           }
-        ],
-        data: { animationState: 'AnyPostsChildrenPage' }
+        ]
       },
       {
         path: 'posts/new',
@@ -50,8 +50,25 @@ export const routes: Routes = [
         data: { animationState: 'UserPage' }
       },
       {
+        path: 'search',
+        loadComponent: () => import('./features/search/search.component').then(m => m.SearchComponent),
+        data: { animationState: 'SearchPage' },
+        children: [
+          { path: '', pathMatch: 'full', redirectTo: 'posts' },
+          {
+            path: 'posts',
+            loadComponent: () => import('./features/search/posts/posts.component').then(m => m.PostsComponent)
+          },
+          {
+            path: 'users',
+            loadComponent: () => import('./features/search/users/users.component').then(m => m.UsersComponent)
+          }
+        ]
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
+        data: { animationState: 'AnySettingsChildrenPage' },
         children: [
           { path: '', pathMatch: 'full', redirectTo: 'general' },
           {
@@ -62,8 +79,7 @@ export const routes: Routes = [
             path: 'profile',
             loadComponent: () => import('./features/settings/profile-settings/profile-settings.component').then(m => m.ProfileSettingsComponent)
           }
-        ],
-        data: { animationState: 'AnySettingsChildrenPage' }
+        ]
       }
     ]
   },
